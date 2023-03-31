@@ -13,16 +13,6 @@ import SearchBar from '../components/SearchBar.vue';
   </main>
 </template>
 
-<script>
-export default {
-  methods: {
-    onSearch: (searchText) => {
-      
-    }
-  }
-}
-</script>
-
 <style scoped>
 .main-container {
   width: 100%;

@@ -24,22 +24,28 @@
     </div>
 </template>
 <script>
+import { APIS } from '../common/constants';
+import axios from "axios";
 
 const RESPONSES = {
-    SUCCESS: {
+    SUCCESS: (name) => ({
         type: "success",
-        text: "Document uploaded successfully!"
-    },
-    FAILURE: {
+        text: `${name} uploaded successfully!`
+    }),
+    FAILURE: (err) => ({
         type: "error",
-        text: "Failed to upload document"
-    }
+        text: `Failed to upload document. ${err ? err : ''}`
+    })
 }
+
+const FEEDBACK_TIMER = 5000;
+
 export default {
     data: () => ({
         file: null,
         uploading: false,
-        response: null
+        response: null,
+        tags: ['test', 'tag0']
     }),
 
     methods: {
@@ -47,15 +53,27 @@ export default {
             if (!this.uploading && this.file) {
                 this.uploading = true;
                 this.response = null;
-                console.log("Upload file to server...");
-                setTimeout(() => {
+                axios.post(APIS.UPLOAD, {
+                    file: this.file[0],
+                    tags: this.tags.join()
+                }, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then((resp) => {
                     this.uploading = false;
                     this.file = null;
-                    this.response = RESPONSES.SUCCESS
+                    this.response = RESPONSES.SUCCESS(resp.name);
                     setTimeout(() => {
                         this.response = null;
-                    }, 3000)
-                }, 4000)
+                    }, FEEDBACK_TIMER)
+                }).catch((err) => {
+                    this.uploading = false;
+                    this.response = RESPONSES.FAILURE(err?.response?.data?.detail);
+                    setTimeout(() => {
+                        this.response = null;
+                    }, FEEDBACK_TIMER)
+                });
             }
         },
     },

@@ -1,0 +1,20 @@
+{
+    "id": 8,
+    "name": "45Pager.PDF",
+    "path": "repository/45Pager.PDF",
+    "type": "application/pdf",
+    "size": 7058340,
+    "author": "test@user",
+    "tags": [
+        {
+            "id": 15,
+            "name": "PMC",
+            "createdAt": "2023-03-31T04:20:25.590+00:00"
+        },
+        {
+            "id": 16,
+            "name": "PUNE",
+            "createdAt": "2023-03-31T04:20:25.590+00:00"
+        }
+    ]
+}

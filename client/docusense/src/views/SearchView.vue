@@ -31,3 +31,9 @@ export default {
 }
 
 </script>
+
+<style scoped>
+.sr-bar-wrapper {
+    background-color: #424242;
+}
+</style>
