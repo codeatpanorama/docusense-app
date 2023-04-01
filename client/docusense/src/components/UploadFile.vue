@@ -11,6 +11,32 @@
                     v-model="file"
                 ></v-file-input>
             </div>
+            <div class="up-tags">
+                <v-text-field
+                    label="Tags"
+                    v-model="tag"
+                    append-icon="mdi-plus-circle-outline"
+                    prepend-icon="mdi-tag"
+                    @click:append="addTag"
+                    @keyup.enter="addTag"
+                ></v-text-field>
+            </div>
+            <div class="up-tag-view">
+                <v-chip
+                    v-for="(sTag, idx) in tags"
+                    class="ma-2"
+                    color="teal"
+                    text-color="white"
+                    append-icon="mdi-close-circle"
+                    @click="(evt) => {
+                        if (evt.target.classList.contains('v-icon')) {
+                            deleteTag(idx)
+                        }
+                    }"
+                >
+                    {{sTag}}
+                </v-chip>
+            </div>
             <div class="up-btn">
                 <v-btn density="default" @click="onUpload">
                     Upload
@@ -21,6 +47,12 @@
                 <v-alert :text="response.text" :type="response.type" closable></v-alert>
             </div>
         </div>
+        <v-snackbar
+            v-model="duplicateTag"
+            :timeout="2000"
+            >
+            Duplicate tag
+        </v-snackbar>
     </div>
 </template>
 <script>
@@ -45,10 +77,25 @@ export default {
         file: null,
         uploading: false,
         response: null,
-        tags: ['test', 'tag0']
+        tag: '',
+        tags: [],
+        duplicateTag: false
     }),
 
     methods: {
+        addTag() {
+            if(this.tag) {
+                if (this.tags.indexOf(this.tag.trim()) != -1) {
+                    this.duplicateTag = true;
+                } else {
+                    this.tags.push(this.tag.trim());
+                    this.tag = "";
+                }
+            }
+        },
+        deleteTag(idx) {
+            this.tags.splice(idx, 1);
+        },
         onUpload() {
             if (!this.uploading && this.file) {
                 this.uploading = true;
@@ -63,7 +110,8 @@ export default {
                 }).then((resp) => {
                     this.uploading = false;
                     this.file = null;
-                    this.response = RESPONSES.SUCCESS(resp.name);
+                    this.tags.length = 0;
+                    this.response = RESPONSES.SUCCESS(resp?.data?.name);
                     setTimeout(() => {
                         this.response = null;
                     }, FEEDBACK_TIMER)
@@ -96,6 +144,10 @@ export default {
 
 .up-content {
     padding-top: 16px;
+}
+
+.up-tag-view {
+    max-width: 400px;
 }
 
 .up-btn {

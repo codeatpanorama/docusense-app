@@ -9,7 +9,7 @@ import SearchResults from '../components/SearchResults.vue';
       <SearchBar :navigate="false" @search="onSearch" :default-val="searchText"/>
     </div>
     <div class="sr-results-wrapper">
-      <SearchResults />
+      <SearchResults :search-text="searchText" />
     </div>
   </div>
 </template>
