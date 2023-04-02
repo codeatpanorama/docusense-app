@@ -1,8 +1,16 @@
 :root {
-    --button-bg: #2dcd7c;
-    --button-bg-hover: #003b49;
-    --button-text: #fff;
-    --header-bg: #003b49;
-    --header-text: #9cb7bd;
-    --body-bg: #f3f6f7;
+    --color-button-bg-hover: #003b49;
+    
+    --color-button-bg: #5324d1;
+    --color-button-text: #fff;
+    --color-body-bg: #f6f7fb;
+    --color-body-text: #a5a7ad;
+    --color-header-bg: #fff;
+    --color-header-icon: #a6a7af;
+    --color-header-icon-hover: #5225d3;
+    --color-header-icon-hover-bg: #ede9fa;
+    --color-border: #707c8a;
+    --color-border-subtle: rgba(0, 0, 0, 0.12);
+    --color-title-bg: #7764ca;
+    --color-title-text: #fff;
 }

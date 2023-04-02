@@ -1,37 +1,32 @@
 <script setup>
 import SearchBar from '../components/SearchBar.vue';
+import MainNav from '../components/MainNav.vue';
 </script>
 
 <template>
-  <main class="main-container">
-    <div class="search-wrapper">
-      <div class="logo-wrapper">
-        <div class="app-logo">DOCUSENSE</div>
+  <main class="main-container container">
+    <MainNav />
+    <div class="view-wrapper-center">
+      <div class="search-wrapper">
+        <div class="logo-wrapper">
+          <div class="app-logo">DOCUVED</div>
+        </div>
+        <SearchBar :navigate="true" />
       </div>
-      <SearchBar :navigate="true" />
     </div>
   </main>
 </template>
 
 <style scoped>
-.main-container {
-  width: 100%;
-  display: flex;
-  place-items: center;
-  flex-grow: 1;
-  justify-content: center;
-}
-
-.main-container .search-wrapper {}
-
 .search-wrapper .logo-wrapper {
   padding: 16px;
 }
 
 .app-logo {
   color: var(--color-heading);
+  text-shadow: 2px 2px black;
+  font-family: Samarkan;
   text-decoration: none;
-  text-shadow: 6px 6px 2px green;
-  font-size: 60px;
+  font-size: 84px;
 }
 </style>

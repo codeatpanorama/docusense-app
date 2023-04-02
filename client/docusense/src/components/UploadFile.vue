@@ -25,7 +25,7 @@
                 <v-chip
                     v-for="(sTag, idx) in tags"
                     class="ma-2"
-                    color="teal"
+                    color="purple"
                     text-color="white"
                     append-icon="mdi-close-circle"
                     @click="(evt) => {
@@ -129,21 +129,26 @@ export default {
 </script>
 <style scoped>
 .upload-wrapper {
-    padding: 12px;
-    border: 2px solid var(--color-border);
+    border: 2px solid var(--color-border-subtle);
     border-radius: 8px;
     min-width: 400px;
+    overflow: hidden;
 }
 
 .up-header {
-    padding: 0 0 16px 8px;
-    border-bottom: 2px solid var(--color-border);
+    background: var(--color-title-bg);
+    color: var(--color-title-text);
+    padding: 12px;
+    border-bottom: 2px solid var(--color-border-subtle);
+}
+
+.up-header-text {
     font-size: 16px;
     font-weight: bold;
 }
 
 .up-content {
-    padding-top: 16px;
+    padding: 12px;
 }
 
 .up-tag-view {

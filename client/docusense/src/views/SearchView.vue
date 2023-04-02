@@ -1,15 +1,19 @@
 <script setup>
 import SearchBar from '../components/SearchBar.vue';
 import SearchResults from '../components/SearchResults.vue';
+import MainNav from '../components/MainNav.vue';
 </script>
 
 <template>
-  <div class="search-view-container">
-    <div class="sr-bar-wrapper">
-      <SearchBar :navigate="false" @search="onSearch" :default-val="searchText"/>
-    </div>
-    <div class="sr-results-wrapper">
-      <SearchResults :search-text="searchText" />
+  <div class="search-view-container container">
+    <MainNav />
+    <div class="view-wrapper-start">
+      <div class="sr-bar-wrapper">
+        <SearchBar :navigate="false" @search="onSearch" :default-val="searchText"/>
+      </div>
+      <div class="sr-results-wrapper">
+        <SearchResults :search-text="searchText" />
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +38,6 @@ export default {
 
 <style scoped>
 .sr-bar-wrapper {
-    background-color: #424242;
+    
 }
 </style>

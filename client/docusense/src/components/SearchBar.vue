@@ -1,11 +1,9 @@
 <template>
-    <v-card theme="dark" color="grey-darken-3" max-width="400">
-        <v-card-text>
-            <v-text-field density="compact" variant="solo" label="Search documents" append-inner-icon="mdi-magnify"
-                single-line clearable hide-details v-model="searchText" @click:append-inner="onSearch"
-                @keyup.enter="onSearch"></v-text-field>
-        </v-card-text>
-    </v-card>
+    <div class="search-bar-holder">
+        <v-text-field density="compact" variant="solo" label="Search documents" append-inner-icon="mdi-magnify"
+            single-line clearable hide-details v-model="searchText" @click:append-inner="onSearch"
+            @keyup.enter="onSearch"></v-text-field>
+    </div>
 </template>
   
 <script>
@@ -38,3 +36,8 @@ export default {
     },
 }
 </script>
+<style scoped>
+.search-bar-holder {
+    padding-bottom: 24px;
+}
+</style>
