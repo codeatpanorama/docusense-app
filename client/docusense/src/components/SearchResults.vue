@@ -4,18 +4,24 @@
             class="elevation-1">
             <template v-slot:item.keywords="{ item }">
                 <template v-for="keyword in item.raw.keywords">
-                    <v-chip color="green">{{ keyword }}</v-chip>
+                    <v-chip color="purple">{{ keyword }}</v-chip>
                 </template>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-icon size="small" class="me-4 sr-tb-action" @click="previewChanges(item.raw)">
-                    mdi-file-find
-                    <v-tooltip activator="parent" location="top">Preview</v-tooltip>
-                </v-icon>
-                <v-icon size="small" class="sr-tb-action" @click="downloadDocument(item.raw)">
+                <v-tooltip text="Preview" location="top">
+                    <template v-slot:activator="{ props }">
+                        <v-icon v-bind="props" size="small" class="me-4 sr-tb-action" @click="previewChanges(item.raw)">
+                            mdi-file-find
+                        </v-icon>
+                    </template>
+                </v-tooltip>
+                <v-tooltip text="Download" location="top">
+                    <template v-slot:activator="{ props }">
+                <v-icon v-bind="props" size="small" class="sr-tb-action" @click="downloadDocument(item.raw)">
                     mdi-download
-                    <v-tooltip activator="parent" location="top">Download</v-tooltip>
                 </v-icon>
+                </template>
+                </v-tooltip>
             </template>
         </v-data-table>
     </div>
@@ -149,5 +155,14 @@ export default {
 <style scoped>
 .sr-tb-action:hover {
     transform: scale(1.15);
+}
+
+.sr-results-container .v-table.v-table--fixed-header > .v-table__wrapper > table > thead > tr > th {
+    background-color: var(--color-title-bg);
+    color: var(--color-title-text);
+}
+
+.sr-results-container .v-table.v-table--fixed-header > .v-table__wrapper > table > thead > tr > th .v-data-table-header__content span {
+    font-weight: bold;
 }
 </style>

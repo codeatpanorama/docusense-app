@@ -31,6 +31,7 @@ body {
   place-items: center;
   flex-grow: 1;
   padding-left: 56px;
+  padding-top: 56px;
 }
 
 .view-wrapper-center {

@@ -149,6 +149,7 @@ export default {
 
 .up-content {
     padding: 12px;
+    color: #000;
 }
 
 .up-tag-view {
