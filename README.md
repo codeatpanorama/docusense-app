@@ -1,21 +1,35 @@
-# docusense-app
+# docusense
 
-Open another terminal and execute the following commands in sequence from inside the project folder
+This template should help get you started developing with Vue 3 in Vite.
 
-```js
-1. yarn install
-2. cd server
-3. yarn install
-4. cd ..
-5. yarn run start-app
+## Recommended IDE Setup
+
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Project Setup
+
+```sh
+npm install
 ```
 
-and access the application at http://localhost:3030/
+### Compile and Hot-Reload for Development
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```sh
+npm run dev
+```
 
-## Available Scripts
+### Compile and Minify for Production
 
-In the project directory, you can run:
+```sh
+npm run build
+```
 
-### `yarn start`
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```
