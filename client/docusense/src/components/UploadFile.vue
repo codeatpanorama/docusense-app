@@ -20,34 +20,17 @@
                     :rules="[rules.required]"
                 ></v-text-field>
             </div>
-            <div class="up-tags">
-                <v-text-field
-                    label="Tags"
-                    v-model="tag"
-                    append-icon="mdi-plus-circle-outline"
-                    prepend-icon="mdi-tag"
-                    @click:append="addTag"
-                    @keyup.enter="addTag"
-                ></v-text-field>
-            </div>
-            <div class="up-tag-view">
-                <v-chip
-                    v-for="(sTag, idx) in tags"
-                    class="ma-2"
-                    color="purple"
-                    text-color="white"
-                    append-icon="mdi-close-circle"
-                    @click="(evt) => {
-                        if (evt.target.classList.contains('v-icon')) {
-                            deleteTag(idx)
-                        }
-                    }"
-                >
-                    {{sTag}}
-                </v-chip>
+            <div class="up-category">
+                <v-combobox
+                    label="Document Category"
+                    :items="categories"
+                    v-model="category"
+                    prepend-icon="mdi-format-list-bulleted-type"
+                    :rules="[rules.required]"
+                    ></v-combobox>
             </div>
             <div class="up-btn">
-                <v-btn density="default" @click="onUpload">
+                <v-btn density="default" @click="onUpload" :disabled="!(file && name && category)">
                     Upload
                     <v-progress-circular v-if="uploading" class="up-loader" indeterminate size="16"></v-progress-circular>
                 </v-btn>
@@ -56,16 +39,10 @@
                 <v-alert :text="response.text" :type="response.type" closable></v-alert>
             </div>
         </div>
-        <v-snackbar
-            v-model="duplicateTag"
-            :timeout="2000"
-            >
-            Duplicate tag
-        </v-snackbar>
     </div>
 </template>
 <script>
-import { APIS } from '../common/constants';
+import { APIS, DOC_CATEGORIES } from '../common/constants';
 import axios from "axios";
 
 const RESPONSES = {
@@ -87,35 +64,23 @@ export default {
         uploading: false,
         response: null,
         name: '',
-        tag: '',
-        tags: [],
-        duplicateTag: false,
+        extension: '',
+        category: '',
+        categories: DOC_CATEGORIES,
         rules: {
             required: value => !!value || 'Required.'
         }
     }),
 
     methods: {
-        addTag() {
-            if(this.tag) {
-                if (this.tags.indexOf(this.tag.trim()) != -1) {
-                    this.duplicateTag = true;
-                } else {
-                    this.tags.push(this.tag.trim());
-                    this.tag = "";
-                }
-            }
-        },
-        deleteTag(idx) {
-            this.tags.splice(idx, 1);
-        },
         updateFileName(files) {
             if (files.length) {
                 let nameArr = files[0].name.split('.');
-                nameArr.pop();
+                this.extension = nameArr.pop();
                 this.name = nameArr.join('.');
             } else {
                 this.name = "";
+                this.extension = "";
             }
         },
         onUpload() {
@@ -124,7 +89,8 @@ export default {
                 this.response = null;
                 axios.post(APIS.UPLOAD, {
                     file: this.file[0],
-                    tags: this.tags.join()
+                    name: this.name,
+                    category: this.category.toLowerCase()
                 }, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -132,7 +98,8 @@ export default {
                 }).then((resp) => {
                     this.uploading = false;
                     this.file = null;
-                    this.tags.length = 0;
+                    this.name = "";
+                    this.category = "";
                     this.response = RESPONSES.SUCCESS(resp?.data?.name);
                     setTimeout(() => {
                         this.response = null;

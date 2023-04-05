@@ -9,3 +9,11 @@ export const APIS = {
     LOGIN: `${API_BASE_URL}/hello`,
     HELLO: `${API_BASE_URL}/hello`,
 }
+
+export const DOC_CATEGORIES = [
+    'Receipt',
+    'Contract',
+    'Tender',
+    'Agreement',
+    'Notary'
+]
