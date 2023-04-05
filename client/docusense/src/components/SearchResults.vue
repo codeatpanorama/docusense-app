@@ -235,6 +235,10 @@ export default {
     font-weight: bold;
 }
 
+.sr-results-container .v-table.v-table--fixed-header > .v-table__wrapper > table > tbody > tr.v-data-table__tr.v-data-table__tr--clickable:hover td {
+    background-color: var(--color-row-bg-hover);
+}
+
 .sr-preview-container {
     z-index: 5;
 }

@@ -8,11 +8,16 @@
         <div class="pf-file-preview">
             <embed 
                 class="pf-embed"
+                loading="lazy"
                 :type="fileType"
                 :src="fileURL"
                 :width="previewWidth"
                 :height="previewHeight"
+                @load="onLoad"
             />
+            <div class="pf-loader" v-if="loading">
+                <v-progress-circular indeterminate :size="128" :width="12"></v-progress-circular>
+            </div>
         </div>
     </div>
 </template>
@@ -48,10 +53,17 @@ export default {
         }
     },
     data: () => ({
-        
+        loading: false
     }),
     mounted() {
         
+    },
+    watch: { 
+        fileURL(newVal, oldVal) {
+            if (newVal != oldVal) {
+                this.loading = true;
+            }
+        }
     },
     methods: {
         onClose() {
@@ -63,6 +75,10 @@ export default {
                 label: this.fileName
             });
             
+        },
+        onLoad(evt) {
+            this.loading = false;
+            console.log(evt)
         }
     },
 }
@@ -99,6 +115,17 @@ export default {
     display: flex;
     place-content: center;
     place-items: center;
+    position: relative;
+}
+
+.preview-file-container .pf-loader {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    background: #fff;
 }
 
 .pf-embed {
