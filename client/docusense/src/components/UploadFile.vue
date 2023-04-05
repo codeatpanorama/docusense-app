@@ -9,7 +9,16 @@
                     accept=".pdf,.doc,.docx"
                     label="Choose a file"
                     v-model="file"
+                    @update:modelValue="updateFileName"
                 ></v-file-input>
+            </div>
+            <div class="up-name">
+                <v-text-field
+                    label="Document Name"
+                    v-model="name"
+                    prepend-icon="mdi-file-document-edit"
+                    :rules="[rules.required]"
+                ></v-text-field>
             </div>
             <div class="up-tags">
                 <v-text-field
@@ -77,9 +86,13 @@ export default {
         file: null,
         uploading: false,
         response: null,
+        name: '',
         tag: '',
         tags: [],
-        duplicateTag: false
+        duplicateTag: false,
+        rules: {
+            required: value => !!value || 'Required.'
+        }
     }),
 
     methods: {
@@ -95,6 +108,15 @@ export default {
         },
         deleteTag(idx) {
             this.tags.splice(idx, 1);
+        },
+        updateFileName(files) {
+            if (files.length) {
+                let nameArr = files[0].name.split('.');
+                nameArr.pop();
+                this.name = nameArr.join('.');
+            } else {
+                this.name = "";
+            }
         },
         onUpload() {
             if (!this.uploading && this.file) {
