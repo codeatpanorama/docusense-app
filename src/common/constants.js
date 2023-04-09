@@ -6,6 +6,7 @@ export const APIS = {
     DOWNLOAD: `${API_BASE_URL}/download`,
     ALL_DOCS: `${API_BASE_URL}/documents`,
     GET_DOC: `${API_BASE_URL}/document`,
+    SEARCH: `${API_BASE_URL}/search`,
     LOGIN: `${API_BASE_URL}/hello`,
     HELLO: `${API_BASE_URL}/hello`,
 }
