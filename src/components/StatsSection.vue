@@ -49,9 +49,6 @@ export default {
 }
 </script>
 <style>
-.stats-wrapper {
-    
-}
 
 .stats-section-wrapper {
     width: 100%;

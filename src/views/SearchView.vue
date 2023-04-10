@@ -89,5 +89,4 @@ export default {
 </script>
 
 <style scoped>
-.sr-bar-wrapper {}
 </style>
