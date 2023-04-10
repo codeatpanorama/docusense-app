@@ -1,25 +1,36 @@
 <script setup>
 import SearchBar from '../components/SearchBar.vue';
+import StatsSection from '../components/StatsSection.vue';
 import MainNav from '../components/MainNav.vue';
 </script>
 
 <template>
   <main class="main-container container">
     <MainNav />
-    <div class="view-wrapper-center">
+    <div class="view-wrapper-start">
       <div class="search-wrapper">
-        <div class="logo-wrapper">
+        <!-- <div class="logo-wrapper">
           <div class="app-logo">DOCUVED</div>
-        </div>
+        </div> -->
         <SearchBar :navigate="true" />
+      </div>
+      <div class="stats-section-wrapper">
+        <StatsSection />
       </div>
     </div>
   </main>
 </template>
 
 <style scoped>
+.search-wrapper {
+    padding: 0 20px;
+}
 .search-wrapper .logo-wrapper {
   padding: 16px;
+}
+
+.stats-section-wrapper {
+  width: 100%;
 }
 
 .app-logo {
