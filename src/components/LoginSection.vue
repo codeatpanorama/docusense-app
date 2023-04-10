@@ -14,7 +14,7 @@
                     @click:append="showPwd = !showPwd"></v-text-field>
             </div>
             <div class="lo-btn">
-                <v-btn density="default" @click="onLogin">
+                <v-btn :disabled="!(username && password)" density="default" @click="onLogin">
                     Login
                 </v-btn>
             </div>

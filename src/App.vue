@@ -15,9 +15,8 @@
   top: 0;
   left: 0;
   width: 100vw;
-  z-index: 1;
+  z-index: 4;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
-  /* font-family: Samarkan; */
   color: var(--color-title-text);
   font-size: 36px;
   text-shadow: 2px 2px black;

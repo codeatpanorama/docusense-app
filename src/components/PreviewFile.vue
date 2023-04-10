@@ -6,15 +6,7 @@
             <v-btn v-if="downloadSrcURL" class="pf-download-btn" density="default" @click="downloadFile">Download</v-btn>
         </div>
         <div class="pf-file-preview">
-            <embed 
-                class="pf-embed"
-                loading="lazy"
-                :type="fileType"
-                :src="fileURL"
-                :width="previewWidth"
-                :height="previewHeight"
-                @load="onLoad"
-            />
+            <embed class="pf-embed" loading="lazy" :type="fileType" :src="filePreviewURL" @load="onLoad" />
             <div class="pf-loader" v-if="loading">
                 <v-progress-circular indeterminate :size="128" :width="12"></v-progress-circular>
             </div>
@@ -23,13 +15,14 @@
 </template>
   
 <script>
-import { downloadItem } from '../common/helpers'
+import { downloadItem, blobToBase64 } from '../common/helpers';
+import { api } from '../common/apis'
+import { APIS } from '../common/constants';
 
 export default {
     props: {
-        fileURL: {
-            type: String,
-            default: ""
+        fileData: {
+            default: null
         },
         fileType: {
             type: String,
@@ -53,19 +46,39 @@ export default {
         }
     },
     data: () => ({
-        loading: false
+        loading: false,
+        filePreviewURL: ''
     }),
     mounted() {
-        
+        this.loadFile();
     },
-    watch: { 
-        fileURL(newVal, oldVal) {
-            if (newVal != oldVal) {
-                this.loading = true;
+    watch: {
+        fileData(newVal, oldVal) {
+            if (JSON.stringify(newVal) != JSON.stringify(oldVal)) {
+                this.loadFile()
             }
         }
     },
     methods: {
+        loadFile() {
+            this.loading = true;
+            api.post(APIS.PREVIEW, {
+                path: this.fileData.url,
+                coordinates: [this.fileData.data]
+            })
+            .then((resp) => {
+                return resp.blob()
+            })
+            .then((blob) => {
+                return blobToBase64(blob)
+            })
+            .then((res) => {
+                this.filePreviewURL = res;
+            })
+            .catch((err) => {
+                console.log("Failed to load doc preview")
+            });
+        },
         onClose() {
             this.$emit('close');
         },
@@ -74,7 +87,7 @@ export default {
                 url: this.downloadSrcURL,
                 label: this.fileName
             });
-            
+
         },
         onLoad(evt) {
             this.loading = false;
