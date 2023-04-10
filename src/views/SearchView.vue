@@ -39,7 +39,7 @@ export default {
       return results.map((doc) => {
         return {
           id: doc.id,
-          keywords: [doc.lexeme],
+          keywords: [doc.lexeme.toLowerCase().split(/[\W_]+$/).join('')],
           date: 'NA',
           documentName: doc.documentName,
           page: doc.pageNumber,
