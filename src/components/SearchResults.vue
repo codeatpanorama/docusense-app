@@ -20,9 +20,9 @@ import PreviewFile from './PreviewFile.vue';
                     <template v-slot:activator="{ props }">
                         <v-icon v-bind="props" size="small" class="me-4 sr-tb-action" @click="previewChanges(item.raw)">
                             mdi-file-find
-                            </v-icon>
-                        </template>
-                    </v-tooltip> -->
+                                </v-icon>
+                            </template>
+                        </v-tooltip> -->
                 <v-tooltip text="Download" location="top">
                     <template v-slot:activator="{ props }">
                         <v-icon v-bind="props" size="small" class="sr-tb-action" @click="downloadDocument(item.raw)">
@@ -36,8 +36,8 @@ import PreviewFile from './PreviewFile.vue';
             <v-card>
                 <v-layout>
                     <v-navigation-drawer v-model="drawer" location="right" width="800" elevation="5" temporary>
-                        <PreviewFile v-if="fileURL" :fileURL="fileURL" :downloadSrcURL="fileURL" :fileName="fileName"
-                            @close="onPreviewClose" />
+                        <PreviewFile v-if="fileData" :fileData="fileData"
+                            :downloadSrcURL="downloadFileURL" :fileName="fileName" @close="onPreviewClose" />
                     </v-navigation-drawer>
                 </v-layout>
             </v-card>
@@ -92,7 +92,7 @@ export default {
     data() {
         return {
             drawer: false,
-            fileURL: "",
+            fileData: null,
             downloadFileURL: "",
             fileName: "",
             itemsPerPage: 10,
@@ -111,14 +111,18 @@ export default {
             });
         },
         onRowClick(evt, row) {
-            this.fileURL = row.item.value.resultFilePath;
-            this.downloadFileURL = row.item.value.sourceFilePath;
-            this.fileName = row.item.value.documentName;
+            const doc = row.item.value;
+            this.fileData = {
+                url: doc.resultFilePath,
+                data: doc.rect
+            };
+            this.downloadFileURL = doc.sourceFilePath;
+            this.fileName = doc.documentName;
             this.drawer = true;
         },
         onPreviewClose() {
             this.drawer = false;
-            this.fileURL = "";
+            this.fileData = null;
         }
     }
 }

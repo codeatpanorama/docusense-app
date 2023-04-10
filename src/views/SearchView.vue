@@ -19,7 +19,7 @@ import MainNav from '../components/MainNav.vue';
 </template>
 
 <script>
-import { APIS, API_BASE_URL } from '../common/constants';
+import { APIS } from '../common/constants';
 import axios from "axios";
 
 export default {
@@ -30,8 +30,8 @@ export default {
   }),
   created() {
     this.searchText = this.$route.query.text ? this.$route.query.text : "";
-    if (this.searchText) {
-      this.performSearch(this.searchText.split(' '));
+    if (this.searchText?.trim()) {
+      this.performSearch(this.searchText.trim().split(' '));
     }
   },
   methods: {
@@ -50,15 +50,21 @@ export default {
             height: doc.height,
             width: doc.width
           },
-          sourceFilePath: `${API_BASE_URL}/${doc.documentPath}`,
-          resultFilePath: `${API_BASE_URL}/${doc.imagePath}`
+          sourceFilePath: doc.documentPath,
+          resultFilePath: doc.imagePath
         }
       })
     },
     onSearch(text) {
       this.searchText = text;
-      if (this.searchText) {
-        this.performSearch(this.searchText.split(' '));
+      if (this.searchText?.trim()) {
+        this.$router.replace({
+          path: this.$route.path, 
+          query: {
+            text: this.searchText
+          }
+        });
+        this.performSearch(this.searchText.trim().split(' '));
       }
     },
     performSearch(searchWords) {
