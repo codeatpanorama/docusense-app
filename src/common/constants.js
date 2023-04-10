@@ -17,5 +17,6 @@ export const DOC_CATEGORIES = [
     'Contract',
     'Tender',
     'Agreement',
-    'Notary'
+    'Notary',
+    'Test Document'
 ]

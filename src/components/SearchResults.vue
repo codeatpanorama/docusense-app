@@ -25,7 +25,7 @@ import PreviewFile from './PreviewFile.vue';
                         </v-tooltip> -->
                 <v-tooltip text="Download" location="top">
                     <template v-slot:activator="{ props }">
-                        <v-icon v-bind="props" size="small" class="sr-tb-action" @click="downloadDocument(item.raw)">
+                        <v-icon v-bind="props" size="small" class="sr-tb-action" @click.stop="downloadDocument(item.raw)">
                             mdi-download
                         </v-icon>
                     </template>
@@ -65,11 +65,11 @@ const TABLE_HEADERS = [
         sortable: false,
         key: 'page'
     },
-    {
-        title: 'Date',
-        align: 'start',
-        key: 'date',
-    },
+    // {
+    //     title: 'Date',
+    //     align: 'start',
+    //     key: 'date',
+    // },
     {
         title: 'Actions',
         align: 'end',
