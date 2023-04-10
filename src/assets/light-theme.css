@@ -14,4 +14,6 @@
     --color-title-bg: #7764ca;
     --color-title-text: #fff;
     --color-row-bg-hover: #ebe7f6;
+    --color-border-gradient-start: #8868fd;
+    --color-border-gradient-stop: #4e4ff8;
 }
