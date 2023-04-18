@@ -2,8 +2,8 @@
 </script>
 
 <template>
-  <div class="logo-header">DOC<div class="rotate"><v-icon size="small" icon="mdi-magnify"></v-icon><v-icon class="logo-b"
-        size="small" icon="mdi-magnify"></v-icon></div>EES</div>
+  <div class="logo-header">PAN<v-icon class="logo-mag"
+        size="small" icon="mdi-magnify"></v-icon>CR</div>
   <RouterView />
 </template>
 
@@ -25,21 +25,23 @@
   place-content: center;
 }
 
-.logo-b {
-  transform: rotate(180deg);
+.logo-mag {
+  transform: scale(1.4) translate(5px, 5px);
+  animation: pendulum 1.25s ease-in-out alternate infinite;
 }
 
-.rotate:hover {
-  animation: rotation 0.5s linear;
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
+@keyframes search {
+  0%, 100% {
+    
   }
+}
 
-  to {
-    transform: rotate(180deg);
+@keyframes pendulum {
+  0%, 100% {
+    transform: scale(1.4) translate(5px, 5px) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.4) translate(5px, 5px) rotate(90deg);
   }
 }
 </style>

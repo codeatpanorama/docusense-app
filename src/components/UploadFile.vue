@@ -18,6 +18,7 @@
                     v-model="name"
                     prepend-icon="mdi-file-document-edit"
                     :rules="[rules.required]"
+                    validate-on="blur"
                 ></v-text-field>
             </div>
             <div class="up-category">
@@ -27,6 +28,7 @@
                     v-model="category"
                     prepend-icon="mdi-format-list-bulleted-type"
                     :rules="[rules.required]"
+                    validate-on="blur"
                     ></v-combobox>
             </div>
             <div class="up-btn">
