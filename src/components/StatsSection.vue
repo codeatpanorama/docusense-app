@@ -2,12 +2,12 @@
     <div class="stats-wrapper">
         <div class="sw-card-holder">
             <div class="sw-card-row">
-                <v-card :text="pad(downloaded)" title="DOWNLOADED"></v-card>
-                <v-card :text="pad(previewed)" title="PREVIEWED"></v-card>
+                <v-card :text="pad(searched)" title="SEARCHES"></v-card>
+                <v-card :text="pad(uploaded)" title="UPLOADS"></v-card>
             </div>
             <div class="sw-card-row">
-                <v-card :text="pad(searched)" title="SEARCHED"></v-card>
-                <v-card :text="pad(uploaded)" title="UPLOADED"></v-card>
+                <v-card :text="pad(downloaded)" title="DOWNLOADS"></v-card>
+                <v-card :text="pad(previewed)" title="PREVIEWS"></v-card>
             </div>
         </div>
     </div>
@@ -49,9 +49,6 @@ export default {
 }
 </script>
 <style>
-.stats-wrapper {
-    
-}
 
 .stats-section-wrapper {
     width: 100%;

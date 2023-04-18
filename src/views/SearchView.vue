@@ -12,7 +12,7 @@ import MainNav from '../components/MainNav.vue';
         <SearchBar :navigate="false" @search="onSearch" :default-val="searchText" />
       </div>
       <div class="sr-results-wrapper">
-        <SearchResults :search-text="searchText" :documents="searchResult" />
+        <SearchResults :search-text="searchText" :documents="searchResult" :searching="searching" />
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@ export default {
       return results.map((doc) => {
         return {
           id: doc.id,
-          keywords: [doc.lexeme],
+          keywords: [doc.lexeme.toLowerCase()],
           date: 'NA',
           documentName: doc.documentName,
           page: doc.pageNumber,
@@ -89,5 +89,4 @@ export default {
 </script>
 
 <style scoped>
-.sr-bar-wrapper {}
 </style>

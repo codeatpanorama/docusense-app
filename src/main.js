@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 
 import './assets/main.css'
+import 'vue3-lottie/dist/style.css'
 
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
@@ -10,6 +11,7 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { VDataTable } from 'vuetify/labs/VDataTable'
+import Vue3Lottie from 'vue3-lottie'
 
 const vuetify = createVuetify({
   components: {
@@ -41,5 +43,7 @@ const app = createApp(App)
 app.use(vuetify)
 
 app.use(router)
+
+app.use(Vue3Lottie)
 
 app.mount('#app')

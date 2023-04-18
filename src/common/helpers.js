@@ -4,12 +4,16 @@ export const downloadItem = ({ url, label, type = 'application/pdf' }) => {
     axios.get(url, { responseType: 'blob' })
         .then(response => {
             const blob = new Blob([response.data], { type })
-            const link = document.createElement('a')
-            link.href = URL.createObjectURL(blob)
-            link.download = label
-            link.click()
-            URL.revokeObjectURL(link.href)
+            downloadBlob(blob, label);
         }).catch(console.error)
+}
+
+export const downloadBlob = (blob, name) => {
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = name
+    link.click()
+    URL.revokeObjectURL(link.href)
 }
 
 export const openInNewTab = (url) => {
