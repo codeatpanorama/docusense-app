@@ -83,11 +83,7 @@ export default {
             this.$emit('close');
         },
         downloadFile() {
-            this.downloadSrcURL && downloadItem({
-                url: this.downloadSrcURL,
-                label: this.fileName
-            });
-
+            this.$emit('download')
         },
         onLoad(evt) {
             this.loading = false;

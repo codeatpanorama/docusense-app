@@ -6,6 +6,8 @@ import PreviewFile from './PreviewFile.vue';
         <div class="sr-no-data-wrapper" v-if="!documents || !documents.length">
             <div class="sr-no-data-text">
                 {{searching ? "🔍 Searching..." : "No data available..."}}
+                <Vue3Lottie v-if="searching" :animationData="searchAnim" :height="500" :width="500" />
+                <Vue3Lottie v-else :animationData="noDataAnim" :height="500" :width="500" />
             </div>
         </div>
         <v-data-table v-else v-model:items-per-page="itemsPerPage" :headers="headers" :items="documents" item-value="name"
@@ -37,7 +39,8 @@ import PreviewFile from './PreviewFile.vue';
                 <v-layout>
                     <v-navigation-drawer v-model="drawer" location="right" width="800" elevation="5" temporary>
                         <PreviewFile v-if="fileData" :fileData="fileData"
-                            :downloadSrcURL="downloadFileURL" :fileName="fileName" @close="onPreviewClose" />
+                            :downloadSrcURL="downloadFileURL" :fileName="fileName" @close="onPreviewClose"
+                            @download="downloadPreviewDoc" />
                     </v-navigation-drawer>
                 </v-layout>
             </v-card>
@@ -48,6 +51,8 @@ import PreviewFile from './PreviewFile.vue';
 import { openInNewTab, downloadBlob } from '../common/helpers'
 import { api } from '../common/apis';
 import { APIS } from '../common/constants';
+import NoDataJSON from '../assets/animations/nodata.json';
+import SearchingJSON from '../assets/animations/searching.json'
 
 const TABLE_HEADERS = [
     {
@@ -103,6 +108,8 @@ export default {
             fileName: "",
             itemsPerPage: 10,
             headers: TABLE_HEADERS,
+            noDataAnim: NoDataJSON,
+            searchAnim: SearchingJSON
         }
     },
 
@@ -111,14 +118,20 @@ export default {
             doc.resultFilePath && openInNewTab(doc.resultFilePath);
         },
         downloadDocument(doc) {
+            this.downloadDoc(doc.sourceFilePath, doc.documentName)
+        },
+        downloadPreviewDoc() {
+            this.downloadDoc(this.downloadFileURL, this.fileName)
+        },
+        downloadDoc(url, name) {
             api.get(APIS.DOWNLOAD, {
-                path: doc.sourceFilePath
+                path: url
             })
             .then((resp) => {
                 return resp.blob({type: 'application/pdf'})
             })
             .then((blob) => {
-                downloadBlob(blob, doc.documentName)
+                downloadBlob(blob, name)
             })
             .catch((err) => {
                 console.log("Failed to download the document")
@@ -166,5 +179,9 @@ export default {
 
 .sr-preview-container {
     z-index: 5;
+}
+
+.sr-results-container .sr-no-data-text {
+    padding: 8px;
 }
 </style>
