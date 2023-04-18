@@ -5,7 +5,7 @@ import PreviewFile from './PreviewFile.vue';
     <div class="sr-results-container">
         <div class="sr-no-data-wrapper" v-if="!documents || !documents.length">
             <div class="sr-no-data-text">
-                No data available...
+                {{searching ? "🔍 Searching..." : "No data available..."}}
             </div>
         </div>
         <v-data-table v-else v-model:items-per-page="itemsPerPage" :headers="headers" :items="documents" item-value="name"
@@ -45,7 +45,9 @@ import PreviewFile from './PreviewFile.vue';
     </div>
 </template>
 <script>
-import { openInNewTab, downloadItem } from '../common/helpers'
+import { openInNewTab, downloadBlob } from '../common/helpers'
+import { api } from '../common/apis';
+import { APIS } from '../common/constants';
 
 const TABLE_HEADERS = [
     {
@@ -87,6 +89,10 @@ export default {
         documents: {
             type: Array,
             default: []
+        },
+        searching: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -105,9 +111,17 @@ export default {
             doc.resultFilePath && openInNewTab(doc.resultFilePath);
         },
         downloadDocument(doc) {
-            doc.sourceFilePath && downloadItem({
-                url: doc.sourceFilePath,
-                label: doc.documentName
+            api.get(APIS.DOWNLOAD, {
+                path: doc.sourceFilePath
+            })
+            .then((resp) => {
+                return resp.blob({type: 'application/pdf'})
+            })
+            .then((blob) => {
+                downloadBlob(blob, doc.documentName)
+            })
+            .catch((err) => {
+                console.log("Failed to download the document")
             });
         },
         onRowClick(evt, row) {

@@ -12,7 +12,7 @@ import MainNav from '../components/MainNav.vue';
         <SearchBar :navigate="false" @search="onSearch" :default-val="searchText" />
       </div>
       <div class="sr-results-wrapper">
-        <SearchResults :search-text="searchText" :documents="searchResult" />
+        <SearchResults :search-text="searchText" :documents="searchResult" :searching="searching" />
       </div>
     </div>
   </div>
