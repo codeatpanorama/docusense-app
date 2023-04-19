@@ -1,0 +1,14 @@
+version: "3.4"
+services:
+ pan_ocr_fe:
+   image: node:alpine
+   container_name: pan_ocr_fe
+   entrypoint: /bin/sh
+   ports:
+     - 8000:8000
+   working_dir: /srv/app
+   volumes:
+     - type: bind
+       source: ./
+       target: /srv/app
+   tty: true
