@@ -33,3 +33,32 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## Working with Docker
+
+### Build the Project for Production
+
+```sh
+npm install
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
+
+### Create network
+```dockerfile
+docker network create document-network
+```
+
+### Create Image
+```dockerfile
+docker build -t docusense_fe .
+```
+
+### Run Container
+```dockerfile
+docker run --network document-network -it -d -p 8000:80 docusense_fe
+```
