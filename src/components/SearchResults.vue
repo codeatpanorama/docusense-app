@@ -4,8 +4,7 @@ import PreviewFile from './PreviewFile.vue';
 <template>
     <div class="sr-results-container">
         <div class="sr-no-data-wrapper" v-if="!documents || !documents.length">
-            <div class="sr-no-data-text">
-                {{searching ? "🔍 Searching..." : "No data available..."}}
+            <div class="sr-no-data-content">
                 <Vue3Lottie v-if="searching" :animationData="searchAnim" :height="500" :width="500" />
                 <Vue3Lottie v-else :animationData="noDataAnim" :height="500" :width="500" />
             </div>
@@ -181,7 +180,7 @@ export default {
     z-index: 5;
 }
 
-.sr-results-container .sr-no-data-text {
+.sr-results-container .sr-no-data-content {
     padding: 8px;
 }
 </style>
