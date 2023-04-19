@@ -94,6 +94,9 @@ export default {
     color: var(--color-header-icon-hover);
 }
 
+.hdr-link a.hdr-link-a.router-link-active .v-icon {
+    color: var(--color-header-icon-hover);
+}
 .hdr-link a.hdr-link-a .v-icon {
     color: var(--color-header-icon);
 }
