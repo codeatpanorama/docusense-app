@@ -27,3 +27,30 @@ export const blobToBase64 = (blob) => {
         reader.readAsDataURL(blob);
     });
 }
+
+export const getWordsFromLocalStorage = () => {
+    if (window.localStorage) {
+        let searches = window.localStorage.getItem('searches');
+        if (searches) {
+            return JSON.parse(searches)
+        }
+    }
+    return [];
+}
+
+export const addWordToLocalStorage = (word) => {
+    if (window.localStorage) {
+        let searches = window.localStorage.getItem('searches');
+        let words = [];
+        if (searches) {
+            words = JSON.parse(searches);
+        }
+        const exist = words.indexOf(word);
+        if (exist != -1) {
+            words.splice(exist, 1)
+        }
+        words.unshift(word)
+        words.length = words.length > 5 ? 5 : words.length;
+        window.localStorage.setItem('searches', JSON.stringify(words))
+    }
+}
