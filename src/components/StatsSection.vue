@@ -18,10 +18,10 @@ import { api } from '../common/apis';
 
 export default {
     data: () => ({
-        downloaded: 1,
-        searched: 1,
-        previewed: 1,
-        uploaded: 1
+        downloaded: 0,
+        searched: 0,
+        previewed: 0,
+        uploaded: 0
     }),
     mounted() {
         api.get(APIS.STATS)
@@ -29,21 +29,18 @@ export default {
                 return resp.json()
             })
             .then(data => {
-                this.downloaded = data.stats.DOWNLOADED;
-                this.searched = data.stats.SEARCHED;
-                this.previewed = data.stats.PREVIEW;
-                this.uploaded = data.stats.UPLOADED;
+                this.downloaded = data.stats.DOWNLOADED || 0;
+                this.searched = data.stats.SEARCHED || 0;
+                this.previewed = data.stats.PREVIEW || 0;
+                this.uploaded = data.stats.UPLOADED || 0;
             })
     },
     methods: {
         pad(num) {
             if (num < 10) {
-                return '0' + num;
+                return `0${num}`;
             }
-            return num;
-        },
-        onLoad() {
-            
+            return `${num}`;
         },
     },
 }
