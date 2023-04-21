@@ -5,8 +5,16 @@ import PreviewFile from './PreviewFile.vue';
     <div class="sr-results-container">
         <div class="sr-no-data-wrapper" v-if="!documents || !documents.length">
             <div class="sr-no-data-content">
-                <Vue3Lottie v-if="searching" :animationData="searchAnim" :height="500" :width="500" />
-                <Vue3Lottie v-else :animationData="noDataAnim" :height="500" :width="500" />
+                <template v-if="searching">
+                    <Vue3Lottie :animationData="searchAnim" :height="500" :width="500" />
+                </template>
+                <template v-else-if="!searchText">
+                    <Vue3Lottie :animationData="searchDefaultAnim" :height="500" :width="500" />
+                </template>
+                <template v-else>
+                    <div class="sr-no-records-text">No Records Found</div>
+                    <Vue3Lottie :animationData="noDataAnim" :height="500" :width="500" />
+                </template>
             </div>
         </div>
         <v-data-table v-else v-model:items-per-page="itemsPerPage" :headers="headers" :items="documents" :page="activePage"
@@ -64,7 +72,8 @@ import { openInNewTab, downloadBlob } from '../common/helpers'
 import { api } from '../common/apis';
 import { APIS } from '../common/constants';
 import NoDataJSON from '../assets/animations/nodata.json';
-import SearchingJSON from '../assets/animations/searching.json'
+import SearchingJSON from '../assets/animations/searching.json';
+import SearchDefault from '../assets/animations/search-default.json';
 
 const TABLE_HEADERS = [
     {
@@ -123,7 +132,8 @@ export default {
             activePage: 1,
             headers: TABLE_HEADERS,
             noDataAnim: NoDataJSON,
-            searchAnim: SearchingJSON
+            searchAnim: SearchingJSON,
+            searchDefaultAnim: SearchDefault
         }
     },
     watch: {
@@ -201,6 +211,12 @@ export default {
 <style>
 .sr-tb-action:hover {
     transform: scale(1.15);
+}
+
+.sr-no-records-text {
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
 }
 
 .sr-results-container .v-table {

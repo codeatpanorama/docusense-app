@@ -47,7 +47,7 @@ body {
   padding: 24px;
 }
 
-#app .v-btn--elevated {
+.pan-ocr .v-btn--elevated {
   background-color: var(--color-button-bg);
   color: var(--color-button-text);
 }
