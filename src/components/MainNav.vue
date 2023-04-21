@@ -28,15 +28,6 @@
                     </template>
                 </v-tooltip>
             </div>
-            <div class="hdr-link">
-                <v-tooltip text="Logout">
-                    <template v-slot:activator="{ props }">
-                        <a v-bind="props" class="hdr-link-a">
-                            <v-icon size="small" icon="mdi-logout-variant"></v-icon>
-                        </a>
-                    </template>
-                </v-tooltip>
-            </div>
         </div>
     </div>
 </template>
@@ -53,7 +44,7 @@ export default {
 
     },
     methods: {
-
+        
     },
 }
 </script>
