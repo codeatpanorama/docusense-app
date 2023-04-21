@@ -31,7 +31,7 @@ export default {
   created() {
     this.searchText = this.$route.query.text ? this.$route.query.text : "";
     if (this.searchText?.trim()) {
-      this.performSearch(this.searchText.trim().split(' '));
+      this.performSearch(this.searchText.trim().split(/\s+/));
     }
   },
   methods: {
@@ -64,7 +64,7 @@ export default {
             text: this.searchText
           }
         });
-        this.performSearch(this.searchText.trim().split(' '));
+        this.performSearch(this.searchText.trim().split(/\s+/));
       }
     },
     performSearch(searchWords) {
