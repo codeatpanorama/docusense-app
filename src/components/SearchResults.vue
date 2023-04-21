@@ -9,21 +9,14 @@ import PreviewFile from './PreviewFile.vue';
                 <Vue3Lottie v-else :animationData="noDataAnim" :height="500" :width="500" />
             </div>
         </div>
-        <v-data-table v-else v-model:items-per-page="itemsPerPage" :headers="headers" :items="documents" :page="activePage" item-value="name"
-            class="elevation-1" @click:row="onRowClick">
+        <v-data-table v-else v-model:items-per-page="itemsPerPage" :headers="headers" :items="documents" :page="activePage"
+            item-value="name" class="elevation-1" @click:row="onRowClick" hide-default-footer>
             <template v-slot:item.keywords="{ item }">
                 <template v-for="keyword in item.raw.keywords">
                     <v-chip color="purple">{{ keyword }}</v-chip>
                 </template>
-        </template>
-        <template v-slot:item.actions="{ item }">
-            <!-- <v-tooltip text="Preview" location="top">
-                    <template v-slot:activator="{ props }">
-                        <v-icon v-bind="props" size="small" class="me-4 sr-tb-action" @click="previewChanges(item.raw)">
-                            mdi-file-find
-                                                </v-icon>
-                                            </template>
-                                        </v-tooltip> -->
+            </template>
+            <template v-slot:item.actions="{ item }">
                 <v-tooltip text="Download" location="top">
                     <template v-slot:activator="{ props }">
                         <v-icon v-bind="props" size="small" class="sr-tb-action" @click.stop="downloadDocument(item.raw)">
@@ -31,6 +24,27 @@ import PreviewFile from './PreviewFile.vue';
                         </v-icon>
                     </template>
                 </v-tooltip>
+            </template>
+            <template v-slot:bottom>
+                <div class="sr-footer-container">
+                    <div class="sr-footer-page-items">
+                        <span>Items per page:</span>
+                        <v-select :items="pageOptions" v-model="itemsPerPage" density="compact"></v-select>
+                    </div>
+                    <div class="sr-footer-info">
+                        <div>{{ infoText }}</div>
+                    </div>
+                    <div class="sr-footer-pagination">
+                        <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-page-first" :disabled="activePage == 1"
+                            @click="firstPage"></v-btn>
+                        <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-chevron-left" :disabled="activePage == 1"
+                            @click="previousPage"></v-btn>
+                        <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-chevron-right"
+                            :disabled="activePage == pages" @click="nextPage"></v-btn>
+                        <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-page-last" :disabled="activePage == pages"
+                            @click="lastPage"></v-btn>
+                    </div>
+                </div>
             </template>
         </v-data-table>
         <div class="sr-preview-container">
@@ -42,21 +56,6 @@ import PreviewFile from './PreviewFile.vue';
                     </v-navigation-drawer>
                 </v-layout>
             </v-card>
-        </div>
-        <div class="sr-footer-container">
-            <div class="sr-footer-page-items">
-                <span>Items per page:</span>
-                <v-select :items="pageOptions" v-model="itemsPerPage" density="compact"></v-select>
-            </div>
-            <div class="sr-footer-info">
-                <div>{{ infoText }}</div>
-            </div>
-            <div class="sr-footer-pagination">
-                <v-btn icon="mdi-page-first" :disabled="activePage == 1" @click="firstPage"></v-btn>
-                <v-btn icon="mdi-chevron-left" :disabled="activePage == 1" @click="previousPage"></v-btn>
-                <v-btn icon="mdi-chevron-right" :disabled="activePage == pages" @click="nextPage"></v-btn>
-                <v-btn icon="mdi-page-last" :disabled="activePage == pages" @click="lastPage"></v-btn>
-            </div>
         </div>
     </div>
 </template>
@@ -132,7 +131,7 @@ export default {
             return this.documents?.length;
         },
         pages() {
-            return Math.ceil(this.documents.length / this.itemsPerPage);
+            return this.documents && Math.ceil(this.documents.length / this.itemsPerPage);
         },
         infoText() {
             const start = this.itemsPerPage * (this.activePage - 1) + 1;
@@ -228,8 +227,9 @@ export default {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    padding: 0 8px;
+    padding: 8px;
     justify-content: flex-end;
+    border-top: 1px solid var(--color-border-subtle);
 }
 
 .sr-footer-container .sr-footer-page-items {
@@ -243,8 +243,29 @@ export default {
     padding-inline-end: 24px;
 }
 
+.sr-footer-container .sr-footer-page-items .v-text-field .v-input__details {
+    display: none;
+}
+
 .sr-footer-container .sr-footer-info {
     display: flex;
     padding-inline-end: 24px;
+}
+
+.sr-footer-pagination .sr-footer-pg-btn {
+    margin-left: 4px;
+    background: none;
+    color: #000;
+    border: none;
+    box-shadow: none;
+}
+
+.sr-footer-pagination .sr-footer-pg-btn.v-btn--disabled {
+    pointer-events: none;
+    opacity: .26;
+}
+
+.sr-footer-pagination .sr-footer-pg-btn.v-btn--disabled .v-btn__overlay {
+    background: none;
 }
 </style>
