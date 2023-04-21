@@ -126,6 +126,11 @@ export default {
             searchAnim: SearchingJSON
         }
     },
+    watch: {
+        searchText() {
+            this.activePage = 1;
+        }
+    },
     computed: {
         records() {
             return this.documents?.length;
