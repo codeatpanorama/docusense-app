@@ -21,3 +21,8 @@ export const DOC_CATEGORIES = [
     'Notary',
     'Test Document'
 ]
+
+export const AWS_DATA = {
+    CLIENT_ID: "tn15dut73mm4suikeqkbkti5",
+    USER_POOL_ID: "us-east-1_Fnipguzrl"
+}

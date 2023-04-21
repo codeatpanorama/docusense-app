@@ -25,8 +25,13 @@
     </div>
 </template>
 <script>
-import { APIS } from '../common/constants';
-import axios from "axios";
+import { AWS_DATA } from '../common/constants';
+import {
+    CognitoUserPool,
+    CognitoUserAttribute,
+    CognitoUser,
+    AuthenticationDetails
+} from 'amazon-cognito-identity-js';
 
 const RESPONSES = {
     SUCCESS: () => ({
@@ -39,7 +44,8 @@ const RESPONSES = {
     })
 }
 
-const FEEDBACK_TIMER = 5000;
+const SUCCESS_TIMER = 2000;
+const FAIL_TIMER = 5000;
 
 export default {
     data: () => ({
@@ -52,37 +58,56 @@ export default {
             required: value => !!value || 'Required.'
         }
     }),
-
+    mounted() {
+        if (this.$cookies.get("accessToken")) {
+            this.afterLogin();
+        }
+    },
     methods: {
         onLogin() {
             if (!this.processing && this.username && this.password) {
                 this.processing = true;
                 // Perform login success
-                setTimeout(() => {
-                    this.processing = false;
-                    this.response = RESPONSES.SUCCESS();
-                    this.$router.push(`/`)
-                })
-                /*
-                axios.post(APIS.LOGIN, {
-                    username: this.username,
-                    password: this.password
-                }).then((resp) => {
-                    this.processing = false;
-                    this.response = RESPONSES.SUCCESS();
-                    setTimeout(() => {
-                        this.response = null;
-                    }, FEEDBACK_TIMER)
-                }).catch((err) => {
-                    this.processing = false;
-                    this.response = RESPONSES.FAILURE();
-                    setTimeout(() => {
-                        this.response = null;
-                    }, FEEDBACK_TIMER)
+                const authDetails = new AuthenticationDetails({
+                    Username: this.username,
+                    Password: this.password
                 });
-                */
+                const userPool = new CognitoUserPool({
+                    UserPoolId: AWS_DATA.USER_POOL_ID,
+                    ClientId: AWS_DATA.CLIENT_ID,
+                });
+                const cognitoUser = new CognitoUser({
+                    Username: this.username,
+                    Pool: userPool
+                })
+                cognitoUser.authenticateUser(authDetails, {
+                    onSuccess: (result) => {
+                        const accessToken = result.getAccessToken().getJwtToken();
+                        const refreshToken = result.getRefreshToken().getToken();
+                        this.processing = false;
+                        this.response = RESPONSES.SUCCESS();
+                        this.$cookies.set('accessToken', accessToken);
+                        this.$cookies.set('refreshToken', refreshToken);
+                        setTimeout(() => {
+                            this.response = null;
+                            this.afterLogin();
+                        }, SUCCESS_TIMER)
+                    },
+
+                    onFailure: (err) => {
+                        this.processing = false;
+                        this.response = RESPONSES.FAILURE();
+                        console.log(err);
+                        setTimeout(() => {
+                            this.response = null;
+                        }, FAIL_TIMER)
+                    },
+                });
             }
         },
+        afterLogin() {
+            this.$router.push(`/`);
+        }
     },
 }
 </script>

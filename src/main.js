@@ -12,6 +12,7 @@ import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import Vue3Lottie from 'vue3-lottie'
+import VueCookies from 'vue3-cookies'
 
 const vuetify = createVuetify({
   components: {
@@ -45,5 +46,7 @@ app.use(vuetify)
 app.use(router)
 
 app.use(Vue3Lottie)
+
+app.use(VueCookies)
 
 app.mount('#app')
