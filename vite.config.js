@@ -1,11 +1,18 @@
 import { fileURLToPath, URL } from 'node:url'
-
+import resolve from '@rollup/plugin-node-resolve';
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  ...(process.env.NODE_ENV === 'development'
+    ? {
+      define: {
+        global: {},
+      },
+    }
+    : {}),
+  plugins: [vue(),resolve()],
   server: {
     host: true,
     port: 8000, // Docker Port

@@ -1,6 +1,14 @@
+<script setup>
+import UserInfo from './UserInfo.vue';
+</script>
 <template>
     <div class="logo-header">
-        <span>PAN<v-icon class="logo-mag" size="small" icon="mdi-magnify"></v-icon>CR</span>
+        <div class="lh-logo-holder">
+            <span>PAN<v-icon class="logo-mag" size="small" icon="mdi-magnify"></v-icon>CR</span>
+        </div>
+        <div class="lh-user-holder" v-if="loggedIn">
+            <UserInfo />
+        </div>
     </div>
 </template>
   
@@ -12,6 +20,11 @@ export default {
     data: () => ({
 
     }),
+    computed: {
+        loggedIn() {
+            return this.$route.path.indexOf('/login') == -1;
+        }
+    },
     mounted() {
 
     },
@@ -41,6 +54,18 @@ export default {
 .logo-mag {
     transform: scale(1.4) translate(5px, 2px);
     /* animation: pendulum 1.25s ease-in-out alternate infinite; */
+}
+
+.logo-header .lh-logo-holder {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.logo-header .lh-user-holder {
+    padding: 0 8px;
+    display: flex;
+    place-content: center;
+    place-items: center;
 }
 
 @keyframes search {
