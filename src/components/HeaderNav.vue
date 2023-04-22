@@ -4,7 +4,7 @@ import UserInfo from './UserInfo.vue';
 <template>
     <div class="logo-header">
         <div class="lh-logo-holder">
-            <span>PAN<v-icon class="logo-mag" size="small" icon="mdi-magnify"></v-icon>CR</span>
+            <span class="lh-logo" @click="goHome">PAN<v-icon class="logo-mag" size="small" icon="mdi-magnify"></v-icon>CR</span>
         </div>
         <div class="lh-user-holder" v-if="loggedIn">
             <UserInfo />
@@ -29,7 +29,9 @@ export default {
 
     },
     methods: {
-
+        goHome() {
+            this.$router.push("/");
+        }
     },
 }
 </script>
@@ -51,7 +53,11 @@ export default {
     place-content: center;
 }
 
-.logo-mag {
+.logo-header .lh-logo {
+    cursor: pointer;
+}
+
+.logo-header .lh-logo .logo-mag {
     transform: scale(1.4) translate(5px, 2px);
     /* animation: pendulum 1.25s ease-in-out alternate infinite; */
 }
