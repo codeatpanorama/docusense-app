@@ -4,7 +4,7 @@ import UserInfo from './UserInfo.vue';
 <template>
     <div class="logo-header">
         <div class="lh-logo-holder">
-            <span class="lh-logo" @click="goHome">PAN<div class="logo-mag"></div>CR</span>
+            <span class="lh-logo" @click="goHome">PAN<div class="logo-mag-shadow"><div class="logo-mag"></div></div>CR</span>
         </div>
         <div class="lh-user-holder" v-if="loggedIn">
             <UserInfo />
@@ -57,13 +57,25 @@ export default {
     cursor: pointer;
 }
 
+.logo-header .lh-logo .logo-mag-shadow {
+    display: inline-block;
+    height: 44px;
+    width: 44px;
+    background-image: url(/src/assets/images/pan-ocr-black.png);
+    background-size: contain;
+    transform: translate(2px, 10px);
+    position: relative;
+}
+
 .logo-header .lh-logo .logo-mag {
     display: inline-block;
     height: 44px;
     width: 44px;
+    position: absolute;
+    top: -2px;
+    left: -2px;
     background-image: url(/src/assets/images/pan-ocr.png);
     background-size: contain;
-    transform: translate(2px, 8px);
 }
 
 .logo-header .lh-logo-holder {
