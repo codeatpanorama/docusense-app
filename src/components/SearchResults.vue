@@ -9,11 +9,11 @@ import PreviewFile from './PreviewFile.vue';
                     <Vue3Lottie :animationData="searchAnim" :height="500" :width="500" />
                 </template>
                 <template v-else-if="!searchText">
-                    <Vue3Lottie :animationData="searchDefaultAnim" :height="500" :width="500" />
+                    <Vue3Lottie :animationData="searchDefaultAnim" :height="500" :width="715" />
                 </template>
                 <template v-else>
                     <div class="sr-no-records-text">No Records Found</div>
-                    <Vue3Lottie :animationData="noDataAnim" :height="500" :width="500" />
+                    <Vue3Lottie :animationData="noDataAnim" :height="471" :width="500" />
                 </template>
             </div>
         </div>
