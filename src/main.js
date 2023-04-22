@@ -13,6 +13,7 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import Vue3Lottie from 'vue3-lottie'
 import VueCookies from 'vue3-cookies'
+import VueWordCloud from 'vue3-word-cloud';
 
 const vuetify = createVuetify({
   components: {
@@ -38,7 +39,6 @@ const vuetify = createVuetify({
   }
 })
 
-
 const app = createApp(App)
 
 app.use(vuetify)
@@ -48,5 +48,7 @@ app.use(router)
 app.use(Vue3Lottie)
 
 app.use(VueCookies)
+
+app.component(VueWordCloud.name, VueWordCloud);
 
 app.mount('#app')

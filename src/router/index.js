@@ -26,6 +26,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')
+    },
+    {
+      path: '/cloud',
+      name: 'cloud',
+      component: () => import('../views/CloudView.vue')
     }
   ]
 })

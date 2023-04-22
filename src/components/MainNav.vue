@@ -28,6 +28,15 @@
                     </template>
                 </v-tooltip>
             </div>
+            <div class="hdr-link">
+                <v-tooltip text="Search">
+                    <template v-slot:activator="{ props }">
+                        <RouterLink v-bind="props" to="/cloud/" class="hdr-link-a">
+                            <v-icon size="small" icon="mdi-chart-bubble"></v-icon>
+                        </RouterLink>
+                    </template>
+                </v-tooltip>
+            </div>
         </div>
     </div>
 </template>
