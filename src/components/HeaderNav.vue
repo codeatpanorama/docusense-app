@@ -13,6 +13,7 @@ import UserInfo from './UserInfo.vue';
 </template>
   
 <script>
+import { userStore } from '../store/user';
 export default {
     props: {
 
@@ -22,7 +23,7 @@ export default {
     }),
     computed: {
         loggedIn() {
-            return this.$route.path.indexOf('/login') == -1;
+            return userStore.getState().isAuthenticated;
         }
     },
     mounted() {
