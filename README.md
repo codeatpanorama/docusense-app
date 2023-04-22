@@ -1,4 +1,4 @@
-# docusense
+# panocr
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -50,15 +50,15 @@ npm run build
 
 ### Create network
 ```dockerfile
-docker network create document-network
+docker network create document
 ```
 
 ### Create Image
 ```dockerfile
-docker build -t docusense_app .
+docker build -t docusense-app .
 ```
 
 ### Run Container
 ```dockerfile
-docker run --name docusense_app --network document-network -it -d -p 80:80 docusense_app
+docker run --name docusense_fe --network document-network -it -d -p 80:80 docusense-app
 ```

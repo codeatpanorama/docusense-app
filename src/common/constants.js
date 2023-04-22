@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://localhost:8080/api"
+export const API_BASE_URL = "http://43.239.110.16:8080/api"
 
 export const APIS = {
     UPLOAD: `${API_BASE_URL}/upload`,
