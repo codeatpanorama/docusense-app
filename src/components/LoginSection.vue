@@ -32,6 +32,7 @@ import {
     CognitoUser,
     AuthenticationDetails
 } from 'amazon-cognito-identity-js';
+import { userStore } from '../store/user';
 
 const RESPONSES = {
     SUCCESS: () => ({
@@ -82,6 +83,7 @@ export default {
                 })
                 cognitoUser.authenticateUser(authDetails, {
                     onSuccess: (result) => {
+                        userStore.authenticate();
                         const accessToken = result.getAccessToken().getJwtToken();
                         const refreshToken = result.getRefreshToken().getToken();
                         this.processing = false;
