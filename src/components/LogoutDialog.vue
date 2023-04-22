@@ -20,6 +20,7 @@
     </v-dialog>
 </template>
 <script>
+import { userStore } from '../store/user';
 export default {
     props: {
     },
@@ -30,6 +31,7 @@ export default {
     },
     methods: {
         logout() {
+            userStore.logout();
             this.showDialog = false;
             this.$cookies.remove("accessToken");
             this.$cookies.remove("refreshToken");
