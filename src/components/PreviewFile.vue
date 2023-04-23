@@ -139,6 +139,7 @@ export default {
 
 .pf-embed {
     max-height: 90vh;
+    max-width: 100%;
     object-fit: scale-down;
 }
 </style>
