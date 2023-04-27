@@ -2,7 +2,8 @@
     <div class="doc-status">
         <v-data-table :headers="headers" :items="documents" item-value="name" class="elevation-1" @click:row="onRowClick">
             <template v-slot:item.status="{ item }">
-                <v-chip class="ds-chip" :prepend-icon="chipIcons[item.raw.status]" :color="chipColors[item.raw.status]">{{ item.raw.status }}</v-chip>
+                <v-chip class="ds-chip" :prepend-icon="chipIcons[item.raw.status]" :color="chipColors[item.raw.status]">{{
+                    chipText[item.raw.status] }}</v-chip>
             </template>
         </v-data-table>
     </div>
@@ -19,7 +20,7 @@ const TABLE_HEADERS = [
         key: 'name',
     },
     {
-        title: 'Date',
+        title: 'Upload Date',
         align: 'start',
         key: 'date'
     },
@@ -43,6 +44,12 @@ const STATUS_ICONS = {
     "Extracted": "mdi-check-circle"
 }
 
+const STATUS_TEXT = {
+    "In Progress": "In Progress",
+    "Pending": "Pending",
+    "Extracted": "Completed"
+}
+
 export default {
     props: {
     },
@@ -50,7 +57,8 @@ export default {
         documents: [],
         headers: TABLE_HEADERS,
         chipColors: STATUS_COLORS,
-        chipIcons: STATUS_ICONS
+        chipIcons: STATUS_ICONS,
+        chipText: STATUS_TEXT
     }),
     mounted() {
         // api.get(APIS.DOC_STATUS)
@@ -98,5 +106,22 @@ export default {
 <style>
 .doc-status .ds-chip {
     font-weight: bold;
+}
+
+.doc-status .v-table {
+    border-radius: 8px;
+}
+
+.doc-status .v-table.v-table--fixed-header>.v-table__wrapper>table>thead>tr>th {
+    background-color: var(--color-title-bg);
+    color: var(--color-title-text);
+}
+
+.doc-status .v-table.v-table--fixed-header>.v-table__wrapper>table>thead>tr>th .v-data-table-header__content span {
+    font-weight: bold;
+}
+
+.doc-status .v-table.v-table--fixed-header>.v-table__wrapper>table>tbody>tr.v-data-table__tr.v-data-table__tr--clickable:hover td {
+    background-color: var(--color-row-bg-hover);
 }
 </style>
