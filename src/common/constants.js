@@ -7,6 +7,7 @@ export const APIS = {
     ALL_DOCS: `${API_BASE_URL}/documents`,
     GET_DOC: `${API_BASE_URL}/document`,
     SEARCH: `${API_BASE_URL}/search`,
+    DOC_STATUS: `${API_BASE_URL}/doc-status`,
     PREVIEW: `${API_BASE_URL}/resultPreview`,
     STATS: `${API_BASE_URL}/stats`,
     LOGIN: `${API_BASE_URL}/hello`,
