@@ -24,6 +24,11 @@ const router = createRouter({
       component: () => import('../views/UploadView.vue')
     },
     {
+      path: '/doc-status',
+      name: 'doc-status',
+      component: () => import('../views/DocStatusView.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')

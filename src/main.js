@@ -13,6 +13,10 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import Vue3Lottie from 'vue3-lottie'
 import VueCookies from 'vue3-cookies'
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 const vuetify = createVuetify({
   components: {
@@ -48,5 +52,7 @@ app.use(router)
 app.use(Vue3Lottie)
 
 app.use(VueCookies)
+
+app.config.globalProperties.$dayjs = dayjs
 
 app.mount('#app')
