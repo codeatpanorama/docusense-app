@@ -11,6 +11,7 @@
 <script>
 import { api } from '../common/apis';
 import { APIS } from '../common/constants';
+import { formatUTCDate } from '../common/helpers'
 
 const TABLE_HEADERS = [
     {
@@ -50,6 +51,12 @@ const STATUS_TEXT = {
     "Extracted": "Completed"
 }
 
+const DOC_STATUS = {
+    NOT_STARTED: "Pending",
+    STARTED: "In Progress",
+    COMPLETED: "Extracted"
+}
+
 export default {
     props: {
     },
@@ -61,11 +68,13 @@ export default {
         chipText: STATUS_TEXT
     }),
     mounted() {
-        // api.get(APIS.DOC_STATUS)
-        //     .then((resp) => {
-        //         console.log(resp)
-        //     })
-        this.documents = this.getSampleData();
+        api.get(APIS.ALL_DOCS)
+            .then((resp) => {
+                return resp.json();
+            })
+            .then((data) => {
+                this.documents = this.parseDocData(data);
+            })
     },
     methods: {
         getSampleData() {
@@ -96,6 +105,28 @@ export default {
                     date: "2023-04-25"
                 }
             ]
+        },
+        parseDocData(docs) {
+            return docs.map((doc) => {
+                return {
+                    name: doc.name,
+                    date: formatUTCDate(doc.createdAt),
+                    status: this.getDocStatus(doc)
+                }
+            })
+        },
+        getDocStatus(doc) {
+            if (doc.tasks) {
+                const extraction = doc.tasks.find((task) => task.type == "EXTRACT");
+                if (extraction && extraction.status == "COMPLETED") {
+                    return DOC_STATUS.COMPLETED;
+                }
+                const process = doc.tasks.find((task) => task.type == "PROCESS");
+                if (process && process.status != "NOT_STARTED") {
+                    return DOC_STATUS.STARTED;
+                }
+            }
+            return DOC_STATUS.NOT_STARTED;
         },
         onRowClick() {
             console.log("Row clicked");

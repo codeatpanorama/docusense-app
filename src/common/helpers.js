@@ -1,4 +1,5 @@
-import axios from "axios"
+import axios from "axios";
+import dayjs from "dayjs";
 
 export const downloadItem = ({ url, label, type = 'application/pdf' }) => {
     axios.get(url, { responseType: 'blob' })
@@ -53,4 +54,8 @@ export const addWordToLocalStorage = (word) => {
         words.length = words.length > 5 ? 5 : words.length;
         window.localStorage.setItem('searches', JSON.stringify(words))
     }
+}
+
+export const formatUTCDate = (date) => {
+    return dayjs(date).utc(true).format('DD-MM-YYYY');
 }
