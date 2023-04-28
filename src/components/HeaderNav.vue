@@ -37,6 +37,8 @@ export default {
 }
 </script>
 <style lang="scss">
+@import '../assets/media.scss';
+
 .logo-header {
     height: 56px;
     background: var(--color-title-bg);
@@ -52,6 +54,11 @@ export default {
     display: flex;
     place-items: center;
     place-content: center;
+    
+    @include for-phone-only {
+        width: 100%;
+    }
+
     .lh-logo-holder {
         flex-grow: 1;
         text-align: center;

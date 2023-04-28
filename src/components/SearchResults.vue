@@ -209,7 +209,12 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../assets/media.scss';
+
 .sr-results-container {
+    @include for-phone-only {
+        max-width: calc(100vw - 24px);
+    }
     .sr-no-data-wrapper {
         .sr-no-data-content {
             padding: 8px;

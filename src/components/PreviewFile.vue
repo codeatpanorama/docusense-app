@@ -115,6 +115,10 @@ export default {
             flex-grow: 1;
             text-align: center;
             font-weight: 700;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            padding-left: 8px;
         }
     }
 

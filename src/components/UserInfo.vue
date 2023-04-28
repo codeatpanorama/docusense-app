@@ -2,7 +2,7 @@
 import LogoutDialog from './LogoutDialog.vue';
 </script>
 <template>
-    <v-menu open-on-hover>
+    <v-menu :model-value="open">
         <template v-slot:activator="{ props }">
             <v-btn icon="mdi-account" size="x-small" v-bind="props"></v-btn>
         </template>
@@ -21,7 +21,8 @@ export default {
 
     },
     data: () => ({
-        items: []
+        items: [],
+        open: false
     }),
     mounted() {
     },

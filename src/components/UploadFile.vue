@@ -119,11 +119,16 @@ export default {
 }
 </script>
 <style lang="scss">
+@import '../assets/media.scss';
+
 .upload-wrapper {
     border: 2px solid var(--color-border-subtle);
     border-radius: 8px;
     width: 400px;
     overflow: hidden;
+    @include for-phone-only {
+        width: 96%;
+    }
     .up-header {
         background: var(--color-title-bg);
         color: var(--color-title-text);

@@ -49,6 +49,8 @@ export default {
 }
 </script>
 <style lang="scss">
+@import '../assets/media.scss';
+
 .header {
     height: 100vh;
     padding-top: 56px;
@@ -56,6 +58,10 @@ export default {
     left: 0;
     top: 0;
     background: var(--color-header-bg);
+
+    @include for-phone-only {
+        display: none;
+    }
 
     .hd-nav-drawer {
         height: 100vh;

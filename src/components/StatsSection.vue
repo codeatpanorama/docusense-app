@@ -46,6 +46,8 @@ export default {
 }
 </script>
 <style lang="scss">
+@import '../assets/media.scss';
+
 .stats-wrapper {
 
     .sw-card-holder {
@@ -59,6 +61,11 @@ export default {
     .sw-card-row {
         display: flex;
 
+        @include for-phone-only {
+            flex-direction: column;
+            width: 100%;
+        }
+
         .v-card {
             width: 360px;
             height: 240px;
@@ -66,6 +73,13 @@ export default {
             margin: 20px;
             border-radius: 8px;
             border-left: 8px solid var(--color-border-gradient-start);
+
+            @include for-phone-only {
+                width: 100%;
+                height: auto;
+    margin: 0;
+    margin-bottom: 12px;
+            }
 
             .v-card-title {
                 font-size: 24px;

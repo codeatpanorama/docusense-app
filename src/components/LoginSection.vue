@@ -119,6 +119,10 @@ export default {
     border-radius: 8px;
     min-width: 400px;
     overflow: hidden;
+    
+    @include for-phone-only {
+        width: 96%;
+    }
 
     .lo-header {
         background: var(--color-title-bg);
