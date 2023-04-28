@@ -20,6 +20,15 @@
                 </v-tooltip>
             </div>
             <div class="hdr-link">
+                <v-tooltip text="Document Status">
+                    <template v-slot:activator="{ props }">
+                        <RouterLink v-bind="props" to="/doc-status/" class="hdr-link-a">
+                            <v-icon size="small" icon="mdi-list-status"></v-icon>
+                        </RouterLink>
+                    </template>
+                </v-tooltip>
+            </div>
+            <div class="hdr-link">
                 <v-tooltip text="Search">
                     <template v-slot:activator="{ props }">
                         <RouterLink v-bind="props" to="/search/" class="hdr-link-a">
