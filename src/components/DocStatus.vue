@@ -34,20 +34,20 @@ const TABLE_HEADERS = [
 ];
 
 const STATUS_COLORS = {
-    "In Progress": "orange",
     "Pending": "red",
+    "In Progress": "orange",
     "Extracted": "green"
 }
 
 const STATUS_ICONS = {
-    "In Progress": "mdi-timer-sand",
     "Pending": "mdi-progress-upload",
+    "In Progress": "mdi-timer-sand",
     "Extracted": "mdi-check-circle"
 }
 
 const STATUS_TEXT = {
-    "In Progress": "In Progress",
     "Pending": "Pending",
+    "In Progress": "In Progress",
     "Extracted": "Completed"
 }
 
@@ -77,35 +77,6 @@ export default {
             })
     },
     methods: {
-        getSampleData() {
-            return [
-                {
-                    name: "Doc 5",
-                    status: "Pending",
-                    date: "2023-04-27"
-                },
-                {
-                    name: "Doc 4",
-                    status: "In Progress",
-                    date: "2023-04-27"
-                },
-                {
-                    name: "Doc 3",
-                    status: "Extracted",
-                    date: "2023-04-26"
-                },
-                {
-                    name: "Doc 2",
-                    status: "Extracted",
-                    date: "2023-04-25"
-                },
-                {
-                    name: "Doc 1",
-                    status: "Extracted",
-                    date: "2023-04-25"
-                }
-            ]
-        },
         parseDocData(docs) {
             return docs.map((doc) => {
                 return {
