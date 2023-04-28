@@ -114,6 +114,8 @@ export default {
 }
 </script>
 <style lang="scss">
+@import '../assets/media.scss';
+
 .login-wrapper {
     border: 2px solid var(--color-border-subtle);
     border-radius: 8px;

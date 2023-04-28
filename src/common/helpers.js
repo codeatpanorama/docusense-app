@@ -54,3 +54,5 @@ export const addWordToLocalStorage = (word) => {
         window.localStorage.setItem('searches', JSON.stringify(words))
     }
 }
+
+export const isMobile = (screen.width <= 760);

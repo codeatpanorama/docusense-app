@@ -26,3 +26,21 @@ export const AWS_DATA = {
     CLIENT_ID: "tn15dut73mm4suikeqkbkti5",
     USER_POOL_ID: "us-east-1_Fnipguzrl"
 }
+
+export const MENU_ITEMS = [
+    {
+        text: "Home",
+        link: "/",
+        icon: "mdi-home-analytics"
+    },
+    {
+        text: "File Upload",
+        link: "/upload/",
+        icon: "mdi-file-upload"
+    },
+    {
+        text: "Search",
+        link: "/search/",
+        icon: "mdi-file-search"
+    }
+];
