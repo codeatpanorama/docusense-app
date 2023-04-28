@@ -118,44 +118,37 @@ export default {
     },
 }
 </script>
-<style scoped>
+<style lang="scss">
 .upload-wrapper {
     border: 2px solid var(--color-border-subtle);
     border-radius: 8px;
     width: 400px;
     overflow: hidden;
-}
-
-.up-header {
-    background: var(--color-title-bg);
-    color: var(--color-title-text);
-    padding: 12px;
-    border-bottom: 2px solid var(--color-border-subtle);
-}
-
-.up-header-text {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.up-content {
-    padding: 12px;
-    color: #000;
-}
-
-.up-tag-view {
-    max-width: 400px;
-}
-
-.up-btn {
-    text-align: right;
-}
-
-.up-loader {
-    margin-left: 8px;
-}
-
-.up-response {
-    margin-top: 8px;
+    .up-header {
+        background: var(--color-title-bg);
+        color: var(--color-title-text);
+        padding: 12px;
+        border-bottom: 2px solid var(--color-border-subtle);
+        .up-header-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+    .up-content {
+        padding: 12px;
+        color: #000;
+        .up-tag-view {
+            max-width: 400px;
+        }
+        .up-btn {
+            text-align: right;
+            .up-loader {
+                margin-left: 8px;
+            }
+        }
+        .up-response {
+            margin-top: 8px;
+        }
+    }
 }
 </style>

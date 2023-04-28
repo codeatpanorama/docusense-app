@@ -50,7 +50,7 @@ export default {
     components: { RecentSearches }
 }
 </script>
-<style scoped>
+<style lang="scss">
 .search-bar-holder {
     padding-bottom: 24px;
 }

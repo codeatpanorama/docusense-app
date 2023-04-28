@@ -23,25 +23,22 @@ export default {
     },
 }
 </script>
-<style>
+<style lang="scss">
 .recent-searches {
     margin-top: 8px;
     padding: 0 8px;
     color: #000;
-}
-
-.recent-searches .rs-words {
-    display: inline-block;
-    padding: 0 16px;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.recent-searches .rs-words:hover {
-    color: var(--color-link-hover);
-}
-
-.recent-searches .rs-words:not(:last-child) {
-    border-right: 1px solid;
+    .rs-words {
+        display: inline-block;
+        padding: 0 16px;
+        cursor: pointer;
+        text-decoration: underline;
+        &:hover {
+            color: var(--color-link-hover);
+        }
+        &:not(:last-child) {
+            border-right: 1px solid;
+        }
+    }
 }
 </style>

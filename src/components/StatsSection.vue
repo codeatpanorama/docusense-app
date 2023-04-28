@@ -45,39 +45,37 @@ export default {
     },
 }
 </script>
-<style>
+<style lang="scss">
+.stats-wrapper {
 
-.stats-section-wrapper {
-    width: 100%;
-}
+    .sw-card-holder {
+        display: flex;
+        width: 100%;
+        place-content: center;
+        place-items: flex-start;
+        flex-direction: column;
+    }
 
-.sw-card-holder {
-    display: flex;
-    width: 100%;
-    place-content: center;
-    place-items: flex-start;
-    flex-direction: column;
-}
+    .sw-card-row {
+        display: flex;
 
-.sw-card-row {
-    display: flex;
-}
+        .v-card {
+            width: 360px;
+            height: 240px;
+            padding: 8px;
+            margin: 20px;
+            border-radius: 8px;
+            border-left: 8px solid var(--color-border-gradient-start);
 
-.sw-card-row .v-card {
-    width: 360px;
-    height: 240px;
-    padding: 8px;
-    margin: 20px;
-    border-radius: 8px;
-    border-left: 8px solid var(--color-border-gradient-start);
-}
+            .v-card-title {
+                font-size: 24px;
+            }
 
-.sw-card-row .v-card .v-card-title {
-    font-size: 24px;
-}
-
-.sw-card-row .v-card .v-card-text {
-    font-size: 80px;
-    line-height: normal;
+            .v-card-text {
+                font-size: 80px;
+                line-height: normal;
+            }
+        }
+    }
 }
 </style>

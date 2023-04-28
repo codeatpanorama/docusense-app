@@ -12,7 +12,7 @@ import MainNav from '../components/MainNav.vue';
     </div>
 </template>
 
-<style scoped>
+<style lang="scss">
 .upload-container {
     width: 100%;
     display: flex;

@@ -36,7 +36,7 @@ export default {
     },
 }
 </script>
-<style scoped>
+<style lang="scss">
 .logo-header {
     height: 56px;
     background: var(--color-title-bg);
@@ -52,42 +52,42 @@ export default {
     display: flex;
     place-items: center;
     place-content: center;
+    .lh-logo-holder {
+        flex-grow: 1;
+        text-align: center;
+        .lh-logo {
+            cursor: pointer;
+            .logo-mag {
+                display: inline-block;
+                height: 44px;
+                width: 44px;
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                background-image: url(/src/assets/images/pan-ocr.png);
+                background-size: contain;
+            }
+            .logo-mag-shadow {
+                display: inline-block;
+                height: 44px;
+                width: 44px;
+                background-image: url(/src/assets/images/pan-ocr-black.png);
+                background-size: contain;
+                transform: translate(2px, 10px);
+                position: relative;
+            }
+        }
+    }
+    .lh-user-holder {
+        padding: 0 8px;
+        display: flex;
+        place-content: center;
+        place-items: center;
+    }
 }
 
-.logo-header .lh-logo {
-    cursor: pointer;
-}
 
-.logo-header .lh-logo .logo-mag-shadow {
-    display: inline-block;
-    height: 44px;
-    width: 44px;
-    background-image: url(/src/assets/images/pan-ocr-black.png);
-    background-size: contain;
-    transform: translate(2px, 10px);
-    position: relative;
-}
 
-.logo-header .lh-logo .logo-mag {
-    display: inline-block;
-    height: 44px;
-    width: 44px;
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    background-image: url(/src/assets/images/pan-ocr.png);
-    background-size: contain;
-}
 
-.logo-header .lh-logo-holder {
-    flex-grow: 1;
-    text-align: center;
-}
 
-.logo-header .lh-user-holder {
-    padding: 0 8px;
-    display: flex;
-    place-content: center;
-    place-items: center;
-}
 </style>

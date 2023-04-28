@@ -43,14 +43,14 @@ import PreviewFile from './PreviewFile.vue';
                         <div>{{ infoText }}</div>
                     </div>
                     <div class="sr-footer-pagination">
-                        <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-page-first" :disabled="activePage == 1"
-                            @click="firstPage"></v-btn>
-                        <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-chevron-left" :disabled="activePage == 1"
-                            @click="previousPage"></v-btn>
+                        <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-page-first"
+                            :disabled="activePage == 1" @click="firstPage"></v-btn>
+                        <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-chevron-left"
+                            :disabled="activePage == 1" @click="previousPage"></v-btn>
                         <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-chevron-right"
                             :disabled="activePage == pages" @click="nextPage"></v-btn>
-                        <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-page-last" :disabled="activePage == pages"
-                            @click="lastPage"></v-btn>
+                        <v-btn class="sr-footer-pg-btn" size="large" density="compact" icon="mdi-page-last"
+                            :disabled="activePage == pages" @click="lastPage"></v-btn>
                     </div>
                 </div>
             </template>
@@ -208,40 +208,60 @@ export default {
 }
 </script>
 
-<style>
-.sr-tb-action:hover {
-    transform: scale(1.15);
-}
+<style lang="scss">
+.sr-results-container {
+    .sr-no-data-wrapper {
+        .sr-no-data-content {
+            padding: 8px;
 
-.sr-no-records-text {
-    width: 100%;
-    text-align: center;
-    font-size: 28px;
-}
+            .sr-no-records-text {
+                width: 100%;
+                text-align: center;
+                font-size: 28px;
+            }
+        }
+    }
 
-.sr-results-container .v-table {
-    border-radius: 8px;
-}
+    .v-table {
+        border-radius: 8px;
 
-.sr-results-container .v-table.v-table--fixed-header>.v-table__wrapper>table>thead>tr>th {
-    background-color: var(--color-title-bg);
-    color: var(--color-title-text);
-}
+        &.v-table--fixed-header {
+            >.v-table__wrapper {
+                >table {
+                    >thead {
+                        >tr {
+                            >th {
+                                background-color: var(--color-title-bg);
+                                color: var(--color-title-text);
 
-.sr-results-container .v-table.v-table--fixed-header>.v-table__wrapper>table>thead>tr>th .v-data-table-header__content span {
-    font-weight: bold;
-}
+                                .v-data-table-header__content span {
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+                    }
 
-.sr-results-container .v-table.v-table--fixed-header>.v-table__wrapper>table>tbody>tr.v-data-table__tr.v-data-table__tr--clickable:hover td {
-    background-color: var(--color-row-bg-hover);
-}
+                    >tbody {
+                        >tr.v-data-table__tr.v-data-table__tr--clickable {
+                            &:hover {
+                                td {
+                                    background-color: var(--color-row-bg-hover);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-.sr-preview-container {
-    z-index: 5;
-}
+        .sr-tb-action:hover {
+            transform: scale(1.15);
+        }
+    }
 
-.sr-results-container .sr-no-data-content {
-    padding: 8px;
+    .sr-preview-container {
+        z-index: 5;
+    }
 }
 
 .sr-footer-container {
@@ -251,42 +271,44 @@ export default {
     padding: 8px;
     justify-content: flex-end;
     border-top: 1px solid var(--color-border-subtle);
-}
 
-.sr-footer-container .sr-footer-page-items {
-    padding-inline-end: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+    .sr-footer-page-items {
+        padding-inline-end: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-.sr-footer-container .sr-footer-page-items span {
-    padding-inline-end: 24px;
-}
+        span {
+            padding-inline-end: 24px;
+        }
 
-.sr-footer-container .sr-footer-page-items .v-text-field .v-input__details {
-    display: none;
-}
+        .v-text-field .v-input__details {
+            display: none;
+        }
+    }
 
-.sr-footer-container .sr-footer-info {
-    display: flex;
-    padding-inline-end: 24px;
-}
+    .sr-footer-info {
+        display: flex;
+        padding-inline-end: 24px;
+    }
 
-.sr-footer-pagination .sr-footer-pg-btn {
-    margin-left: 4px;
-    background: none;
-    color: #000;
-    border: none;
-    box-shadow: none;
-}
+    .sr-footer-pagination {
 
-.sr-footer-pagination .sr-footer-pg-btn.v-btn--disabled {
-    pointer-events: none;
-    opacity: .26;
-}
+        .sr-footer-pg-btn {
+            margin-left: 4px;
+            background: none;
+            color: #000;
+            border: none;
+            box-shadow: none;
 
-.sr-footer-pagination .sr-footer-pg-btn.v-btn--disabled .v-btn__overlay {
-    background: none;
-}
-</style>
+            &.v-btn--disabled {
+                pointer-events: none;
+                opacity: .26;
+
+                .v-btn__overlay {
+                    background: none;
+                }
+            }
+        }
+    }
+}</style>

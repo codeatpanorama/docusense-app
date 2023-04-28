@@ -43,13 +43,13 @@ export default {
     },
 }
 </script>
-<style>
+<style lang="scss">
 .logout-trigger {
     padding: 0 20px;
     cursor: pointer;
+    &:hover {
+        background: rgba(0,0,0,0.12);
+    }
 }
 
-.logout-trigger:hover {
-    background: rgba(0,0,0,0.12);
-}
 </style>
