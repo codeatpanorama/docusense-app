@@ -1,8 +1,12 @@
 <script setup>
 import UserInfo from './UserInfo.vue';
+import MobileNav from './MobileNav.vue';
 </script>
 <template>
     <div class="logo-header">
+        <div v-if="isMobile" class="lh-mobile-nav">
+            <MobileNav />
+        </div>
         <div class="lh-logo-holder">
             <span class="lh-logo" @click="goHome">PAN<div class="logo-mag-shadow"><div class="logo-mag"></div></div>CR</span>
         </div>
@@ -14,12 +18,13 @@ import UserInfo from './UserInfo.vue';
   
 <script>
 import { userStore } from '../store/user';
+import { isMobile } from '../common/helpers';
 export default {
     props: {
 
     },
     data: () => ({
-
+        isMobile: isMobile
     }),
     computed: {
         loggedIn() {
