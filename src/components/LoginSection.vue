@@ -119,7 +119,7 @@ export default {
 .login-wrapper {
     border: 2px solid var(--color-border-subtle);
     border-radius: 8px;
-    min-width: 400px;
+    width: 400px;
     overflow: hidden;
     
     @include for-phone-only {
