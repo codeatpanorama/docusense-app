@@ -1,38 +1,11 @@
 <template>
     <div class="header">
         <div class="hd-nav-drawer">
-            <div class="hdr-link">
-                <v-tooltip text="Home">
+            <div class="hdr-link" v-for="item of items">
+                <v-tooltip :text="item.text">
                     <template v-slot:activator="{ props }">
-                        <RouterLink v-bind="props" to="/" class="hdr-link-a">
-                            <v-icon size="small" icon="mdi-home-analytics"></v-icon>
-                        </RouterLink>
-                    </template>
-                </v-tooltip>
-            </div>
-            <div class="hdr-link">
-                <v-tooltip text="File Upload">
-                    <template v-slot:activator="{ props }">
-                        <RouterLink v-bind="props" to="/upload/" class="hdr-link-a">
-                            <v-icon size="small" icon="mdi-file-upload"></v-icon>
-                        </RouterLink>
-                    </template>
-                </v-tooltip>
-            </div>
-            <div class="hdr-link">
-                <v-tooltip text="Document Status">
-                    <template v-slot:activator="{ props }">
-                        <RouterLink v-bind="props" to="/doc-status/" class="hdr-link-a">
-                            <v-icon size="small" icon="mdi-list-status"></v-icon>
-                        </RouterLink>
-                    </template>
-                </v-tooltip>
-            </div>
-            <div class="hdr-link">
-                <v-tooltip text="Search">
-                    <template v-slot:activator="{ props }">
-                        <RouterLink v-bind="props" to="/search/" class="hdr-link-a">
-                            <v-icon size="small" icon="mdi-file-search"></v-icon>
+                        <RouterLink v-bind="props" :to="item.link" class="hdr-link-a">
+                            <v-icon size="small" :icon="item.icon"></v-icon>
                         </RouterLink>
                     </template>
                 </v-tooltip>
@@ -42,12 +15,13 @@
 </template>
   
 <script>
+import { MENU_ITEMS } from '../common/constants';
 export default {
     props: {
 
     },
     data: () => ({
-
+        items: MENU_ITEMS
     }),
     mounted() {
 

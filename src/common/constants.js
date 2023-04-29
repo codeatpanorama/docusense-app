@@ -41,6 +41,11 @@ export const MENU_ITEMS = [
         icon: "mdi-file-upload"
     },
     {
+        text: "Document Status",
+        link: "/doc-status/",
+        icon: "mdi-list-status"
+    },
+    {
         text: "Search",
         link: "/search/",
         icon: "mdi-file-search"
