@@ -105,25 +105,36 @@ export default {
     },
 }
 </script>
-<style>
-.doc-status .ds-chip {
-    font-weight: bold;
-}
+<style lang="scss">
+@import '../assets/media.scss';
 
-.doc-status .v-table {
-    border-radius: 8px;
-}
 
-.doc-status .v-table.v-table--fixed-header>.v-table__wrapper>table>thead>tr>th {
-    background-color: var(--color-title-bg);
-    color: var(--color-title-text);
-}
+.doc-status {
+    @include for-phone-only {
+        max-width: calc(100vw - 24px);
+    }
+    .ds-chip {
+        font-weight: bold;
+    }
+    .v-table {
+        border-radius: 8px;
 
-.doc-status .v-table.v-table--fixed-header>.v-table__wrapper>table>thead>tr>th .v-data-table-header__content span {
-    font-weight: bold;
-}
+        &.v-table--fixed-header>.v-table__wrapper>table {
+            >thead>tr>th {
+                background-color: var(--color-title-bg);
+                color: var(--color-title-text);
 
-.doc-status .v-table.v-table--fixed-header>.v-table__wrapper>table>tbody>tr.v-data-table__tr.v-data-table__tr--clickable:hover td {
-    background-color: var(--color-row-bg-hover);
-}
-</style>
+                .v-data-table-header__content span {
+                    font-weight: bold;
+                }
+            }
+
+            >tbody>tr.v-data-table__tr.v-data-table__tr--clickable:hover td {
+                background-color: var(--color-row-bg-hover);
+            }
+        }
+
+
+    }
+
+}</style>
