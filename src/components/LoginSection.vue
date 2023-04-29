@@ -113,36 +113,41 @@ export default {
     },
 }
 </script>
-<style scoped>
+<style lang="scss">
+@import '../assets/media.scss';
+
 .login-wrapper {
     border: 2px solid var(--color-border-subtle);
     border-radius: 8px;
     min-width: 400px;
     overflow: hidden;
-}
+    
+    @include for-phone-only {
+        width: 96%;
+    }
 
-.lo-header {
-    background: var(--color-title-bg);
-    color: var(--color-title-text);
-    padding: 12px;
-    border-bottom: 2px solid var(--color-border-subtle);
-}
+    .lo-header {
+        background: var(--color-title-bg);
+        color: var(--color-title-text);
+        padding: 12px;
+        border-bottom: 2px solid var(--color-border-subtle);
 
-.lo-header-text {
-    font-size: 16px;
-    font-weight: bold;
-}
+        .lo-header-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
 
-.lo-content {
-    padding: 12px;
-    color: #000;
-}
+    .lo-content {
+        padding: 12px;
+        color: #000;
 
-.lo-btn {
-    text-align: right;
-}
+        .lo-btn {
+            text-align: right;
+        }
 
-.lo-response {
-    margin-top: 8px;
-}
-</style>
+        .lo-response {
+            margin-top: 8px;
+        }
+    }
+}</style>

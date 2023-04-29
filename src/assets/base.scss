@@ -1,6 +1,7 @@
 /* color palette from <https://github.com/vuejs/theme> */
-@import './fonts.css';
-@import './light-theme.css';
+@import './fonts.scss';
+@import './light-theme.scss';
+@import './media.scss';
 
 *,
 *::before,
@@ -32,6 +33,10 @@ body {
   flex-grow: 1;
   padding-left: 56px;
   padding-top: 56px;
+
+  @include for-phone-only {
+    padding-left: 0;
+  }
 }
 
 .view-wrapper-center {
@@ -45,6 +50,10 @@ body {
   flex-grow: 1;
   align-self: start;
   padding: 24px;
+
+  @include for-phone-only {
+    padding: 12px;
+  }
 }
 
 .pan-ocr .v-btn--elevated {

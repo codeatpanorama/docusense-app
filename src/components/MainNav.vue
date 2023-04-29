@@ -1,38 +1,11 @@
 <template>
     <div class="header">
         <div class="hd-nav-drawer">
-            <div class="hdr-link">
-                <v-tooltip text="Home">
+            <div class="hdr-link" v-for="item of items">
+                <v-tooltip :text="item.text">
                     <template v-slot:activator="{ props }">
-                        <RouterLink v-bind="props" to="/" class="hdr-link-a">
-                            <v-icon size="small" icon="mdi-home-analytics"></v-icon>
-                        </RouterLink>
-                    </template>
-                </v-tooltip>
-            </div>
-            <div class="hdr-link">
-                <v-tooltip text="File Upload">
-                    <template v-slot:activator="{ props }">
-                        <RouterLink v-bind="props" to="/upload/" class="hdr-link-a">
-                            <v-icon size="small" icon="mdi-file-upload"></v-icon>
-                        </RouterLink>
-                    </template>
-                </v-tooltip>
-            </div>
-            <div class="hdr-link">
-                <v-tooltip text="Document Status">
-                    <template v-slot:activator="{ props }">
-                        <RouterLink v-bind="props" to="/doc-status/" class="hdr-link-a">
-                            <v-icon size="small" icon="mdi-list-status"></v-icon>
-                        </RouterLink>
-                    </template>
-                </v-tooltip>
-            </div>
-            <div class="hdr-link">
-                <v-tooltip text="Search">
-                    <template v-slot:activator="{ props }">
-                        <RouterLink v-bind="props" to="/search/" class="hdr-link-a">
-                            <v-icon size="small" icon="mdi-file-search"></v-icon>
+                        <RouterLink v-bind="props" :to="item.link" class="hdr-link-a">
+                            <v-icon size="small" :icon="item.icon"></v-icon>
                         </RouterLink>
                     </template>
                 </v-tooltip>
@@ -42,22 +15,25 @@
 </template>
   
 <script>
+import { MENU_ITEMS } from '../common/constants';
 export default {
     props: {
 
     },
     data: () => ({
-
+        items: MENU_ITEMS
     }),
     mounted() {
 
     },
     methods: {
-        
+
     },
 }
 </script>
-<style scoped>
+<style lang="scss">
+@import '../assets/media.scss';
+
 .header {
     height: 100vh;
     padding-top: 56px;
@@ -65,39 +41,51 @@ export default {
     left: 0;
     top: 0;
     background: var(--color-header-bg);
-}
-.hd-nav-drawer {
-    height: 100vh;
-    width: 56px;
-    background: var(--color-heading);
-    border-right: 1px solid var(--color-border-subtle);
-    padding: 8px;
-}
 
-.hdr-link a.hdr-link-a {
-    display: inline-block;
-    text-decoration: none;
-    text-align: center;
-    padding: 8px;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    margin-bottom: 8px;
-    cursor: pointer;
-}
+    @include for-phone-only {
+        display: none;
+    }
 
-.hdr-link a.hdr-link-a:hover {
-    background: var(--color-header-icon-hover-bg);
-}
+    .hd-nav-drawer {
+        height: 100vh;
+        width: 56px;
+        background: var(--color-heading);
+        border-right: 1px solid var(--color-border-subtle);
+        padding: 8px;
 
-.hdr-link a.hdr-link-a:hover .v-icon {
-    color: var(--color-header-icon-hover);
-}
+        .hdr-link {
 
-.hdr-link a.hdr-link-a.router-link-active .v-icon {
-    color: var(--color-header-icon-hover);
-}
-.hdr-link a.hdr-link-a .v-icon {
-    color: var(--color-header-icon);
+            a.hdr-link-a {
+                display: inline-block;
+                text-decoration: none;
+                text-align: center;
+                padding: 8px;
+                height: 40px;
+                width: 40px;
+                border-radius: 50%;
+                margin-bottom: 8px;
+                cursor: pointer;
+
+                .v-icon {
+                    color: var(--color-header-icon);
+                }
+
+                &:hover {
+                    background: var(--color-header-icon-hover-bg);
+
+                    .v-icon {
+                        color: var(--color-header-icon-hover);
+                    }
+                }
+
+                &.router-link-active {
+
+                    .v-icon {
+                        color: var(--color-header-icon-hover);
+                    }
+                }
+            }
+        }
+    }
 }
 </style>

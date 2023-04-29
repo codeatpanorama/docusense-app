@@ -21,12 +21,17 @@ import MainNav from '../components/MainNav.vue';
   </main>
 </template>
 
-<style scoped>
+<style lang="scss">
+@import '../assets/media.scss';
+
 .search-wrapper {
     padding: 0 20px;
-}
-.search-wrapper .logo-wrapper {
-  padding: 16px;
+    @include for-phone-only {
+      padding: 0;
+    }
+    .logo-wrapper {
+      padding: 16px;
+    }
 }
 
 .stats-section-wrapper {

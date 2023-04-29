@@ -8,7 +8,7 @@ import LoginSection from '../components/LoginSection.vue';
     </div>
 </template>
 
-<style scoped>
+<style lang="scss">
 .login-container {
     width: 100%;
     display: flex;

@@ -6,8 +6,9 @@
             </div>
         </template>
         <v-card>
-            <v-card-title>Are you sure you want to logout?</v-card-title>
+            <v-card-title>LOGOUT</v-card-title>
             <v-divider></v-divider>
+            <v-card-text>Are you sure you want to logout?</v-card-text>
             <v-card-actions>
                 <v-btn color="blue-darken-1" variant="text" @click="logout">
                     YES
@@ -43,13 +44,13 @@ export default {
     },
 }
 </script>
-<style>
+<style lang="scss">
 .logout-trigger {
     padding: 0 20px;
     cursor: pointer;
+    &:hover {
+        background: rgba(0,0,0,0.12);
+    }
 }
 
-.logout-trigger:hover {
-    background: rgba(0,0,0,0.12);
-}
 </style>

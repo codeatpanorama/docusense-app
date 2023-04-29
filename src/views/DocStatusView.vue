@@ -17,16 +17,15 @@ import MainNav from '../components/MainNav.vue';
     </div>
 </template>
 
-<style>
+<style lang="scss">
 .doc-status-container {
-    
+    .ds-header-wrapper {
+        padding: 8px;
+        margin-bottom: 8px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #000;
+    }
 }
 
-.doc-status-container .ds-header-wrapper {
-    padding: 8px;
-    margin-bottom: 8px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #000;
-}
 </style>

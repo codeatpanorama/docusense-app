@@ -56,6 +56,8 @@ export const addWordToLocalStorage = (word) => {
     }
 }
 
+export const isMobile = (screen.width <= 760);
+
 export const formatUTCDate = (date) => {
     return dayjs(date).utc(true).format('DD-MM-YYYY');
 }

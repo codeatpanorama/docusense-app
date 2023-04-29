@@ -66,18 +66,18 @@ export default {
                 path: this.fileData.url,
                 coordinates: [this.fileData.data]
             })
-            .then((resp) => {
-                return resp.blob()
-            })
-            .then((blob) => {
-                return blobToBase64(blob)
-            })
-            .then((res) => {
-                this.filePreviewURL = res;
-            })
-            .catch((err) => {
-                console.log("Failed to load doc preview")
-            });
+                .then((resp) => {
+                    return resp.blob()
+                })
+                .then((blob) => {
+                    return blobToBase64(blob)
+                })
+                .then((res) => {
+                    this.filePreviewURL = res;
+                })
+                .catch((err) => {
+                    console.log("Failed to load doc preview")
+                });
         },
         onClose() {
             this.$emit('close');
@@ -92,54 +92,58 @@ export default {
     },
 }
 </script>
-<style scoped>
+<style lang="scss">
 .preview-file-container {
     padding: 16px;
     display: flex;
     flex-direction: column;
     height: 100%;
-}
 
-.preview-file-container .pf-actions-container {
-    margin-bottom: 8px;
-    display: flex;
-    width: 100%;
-    border-bottom: 1px solid var(--color-border-subtle);
-    padding-bottom: 8px;
-    place-items: center;
-}
+    .pf-actions-container {
+        margin-bottom: 8px;
+        display: flex;
+        width: 100%;
+        border-bottom: 1px solid var(--color-border-subtle);
+        padding-bottom: 8px;
+        place-items: center;
 
-.preview-file-container .pf-actions-container .pf-download-btn {
-    align-self: end;
-}
+        .pf-download-btn {
+            align-self: end;
+        }
 
-.preview-file-container .pf-actions-container .pf-file-name {
-    flex-grow: 1;
-    text-align: center;
-    font-weight: 700;
-}
+        .pf-file-name {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: 700;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            padding-left: 8px;
+        }
+    }
 
-.preview-file-container .pf-file-preview {
-    flex-grow: 1;
-    display: flex;
-    place-content: center;
-    place-items: center;
-    position: relative;
-}
+    .pf-file-preview {
+        flex-grow: 1;
+        display: flex;
+        place-content: center;
+        place-items: center;
+        position: relative;
 
-.preview-file-container .pf-loader {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    place-content: center;
-    place-items: center;
-    background: #fff;
-}
+        .pf-embed {
+            max-height: 90vh;
+            max-width: 100%;
+            object-fit: scale-down;
+        }
 
-.pf-embed {
-    max-height: 90vh;
-    max-width: 100%;
-    object-fit: scale-down;
+        .pf-loader {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            place-content: center;
+            place-items: center;
+            background: #fff;
+        }
+    }
 }
 </style>

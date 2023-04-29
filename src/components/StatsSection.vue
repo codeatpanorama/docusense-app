@@ -45,39 +45,51 @@ export default {
     },
 }
 </script>
-<style>
+<style lang="scss">
+@import '../assets/media.scss';
 
-.stats-section-wrapper {
-    width: 100%;
-}
+.stats-wrapper {
 
-.sw-card-holder {
-    display: flex;
-    width: 100%;
-    place-content: center;
-    place-items: flex-start;
-    flex-direction: column;
-}
+    .sw-card-holder {
+        display: flex;
+        width: 100%;
+        place-content: center;
+        place-items: flex-start;
+        flex-direction: column;
+    }
 
-.sw-card-row {
-    display: flex;
-}
+    .sw-card-row {
+        display: flex;
 
-.sw-card-row .v-card {
-    width: 360px;
-    height: 240px;
-    padding: 8px;
-    margin: 20px;
-    border-radius: 8px;
-    border-left: 8px solid var(--color-border-gradient-start);
-}
+        @include for-phone-only {
+            flex-direction: column;
+            width: 100%;
+        }
 
-.sw-card-row .v-card .v-card-title {
-    font-size: 24px;
-}
+        .v-card {
+            width: 360px;
+            height: 240px;
+            padding: 8px;
+            margin: 20px;
+            border-radius: 8px;
+            border-left: 8px solid var(--color-border-gradient-start);
 
-.sw-card-row .v-card .v-card-text {
-    font-size: 80px;
-    line-height: normal;
+            @include for-phone-only {
+                width: 100%;
+                height: auto;
+    margin: 0;
+    margin-bottom: 12px;
+            }
+
+            .v-card-title {
+                font-size: 24px;
+            }
+
+            .v-card-text {
+                font-size: 80px;
+                line-height: normal;
+            }
+        }
+    }
 }
 </style>

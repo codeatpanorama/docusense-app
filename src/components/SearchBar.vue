@@ -8,7 +8,7 @@
                     @keyup.enter="onSearch"></v-text-field>
             </div>
             <div class="sb-translate-section">
-                <v-menu open-on-hover>
+                <v-menu :open-on-hover="!isMobile">
                     <template v-slot:activator="{ props }">
                         <v-btn icon="mdi-translate" size="x-small" v-bind="props"></v-btn>
                     </template>
@@ -29,7 +29,7 @@
 </template>
   
 <script>
-import { addWordToLocalStorage } from '../common/helpers';
+import { addWordToLocalStorage, isMobile } from '../common/helpers';
 import RecentSearches from './RecentSearches.vue';
 import { api } from '../common/apis';
 export default {
@@ -44,7 +44,8 @@ export default {
         }
     },
     data: () => ({
-        searchText: ""
+        searchText: "",
+        isMobile: isMobile
     }),
     mounted() {
         this.searchText = this.defaultVal;
@@ -84,27 +85,29 @@ export default {
     components: { RecentSearches }
 }
 </script>
-<style scoped>
+<style lang="scss">
 .search-bar-holder {
     padding-bottom: 24px;
+
+    .search-section {
+        width: 100%;
+        display: flex;
+
+        .search-bar {
+            flex-grow: 1;
+            margin-right: 8px;
+        }
+    }
 }
 
-.search-section {
-    width: 100%;
-    display: flex;
-}
+.v-list-item-title {
+    &.translate-lang {
+        padding: 8px;
+        cursor: pointer;
 
-.search-section .search-bar {
-    flex-grow: 1;
-    margin-right: 8px;
-}
-
-.translate-lang {
-    padding: 8px;
-    cursor: pointer;
-}
-
-.translate-lang:hover {
-    background: rgba(0, 0, 0, 0.12);
+        &:hover {
+            background: rgba(0, 0, 0, 0.12);
+        }
+    }
 }
 </style>
