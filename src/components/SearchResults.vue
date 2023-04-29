@@ -215,9 +215,20 @@ export default {
     @include for-phone-only {
         max-width: calc(100vw - 24px);
     }
+
     .sr-no-data-wrapper {
         .sr-no-data-content {
             padding: 8px;
+
+            @include for-phone-only {
+                padding: 0;
+            }
+
+            @include for-phone-only {
+                .lottie-animation-container {
+                    max-width: calc(100vw - 24px);
+                }
+            }
 
             .sr-no-records-text {
                 width: 100%;
@@ -277,6 +288,10 @@ export default {
     justify-content: flex-end;
     border-top: 1px solid var(--color-border-subtle);
 
+    @include for-phone-only {
+        justify-content: center;
+    }
+
     .sr-footer-page-items {
         padding-inline-end: 24px;
         display: flex;
@@ -316,4 +331,5 @@ export default {
             }
         }
     }
-}</style>
+}
+</style>
