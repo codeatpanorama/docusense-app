@@ -113,9 +113,11 @@ export default {
     @include for-phone-only {
         max-width: calc(100vw - 24px);
     }
+
     .ds-chip {
         font-weight: bold;
     }
+
     .v-table {
         border-radius: 8px;
 
@@ -134,6 +136,11 @@ export default {
             }
         }
 
+        @include for-phone-only {
+            .v-data-table-footer {
+                justify-content: center;
+            }
+        }
 
     }
 
