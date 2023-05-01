@@ -69,27 +69,12 @@ export default {
             if (!this.processing && this.username && this.password) {
                 this.processing = true;
                 // Perform login success
-                const authDetails = new AuthenticationDetails({
-                    Username: this.username,
-                    Password: this.password
-                });
-                const userPool = new CognitoUserPool({
-                    UserPoolId: AWS_DATA.USER_POOL_ID,
-                    ClientId: AWS_DATA.CLIENT_ID,
-                });
-                const cognitoUser = new CognitoUser({
-                    Username: this.username,
-                    Pool: userPool
-                })
+                const authDetails = this.getAuthDetails(this.username, this.password)
+                const userPool = this.getUserPool();
+                const cognitoUser = this.getCognitoUser(this.username, userPool);
                 cognitoUser.authenticateUser(authDetails, {
                     onSuccess: (result) => {
-                        userStore.authenticate();
-                        const accessToken = result.getAccessToken().getJwtToken();
-                        const refreshToken = result.getRefreshToken().getToken();
-                        this.processing = false;
-                        this.response = RESPONSES.SUCCESS();
-                        this.$cookies.set('accessToken', accessToken);
-                        this.$cookies.set('refreshToken', refreshToken);
+                        this.onLoginSuccess(result);
                         setTimeout(() => {
                             this.response = null;
                             this.afterLogin();
@@ -107,9 +92,36 @@ export default {
                 });
             }
         },
+        getAuthDetails(name, pwd) {
+            return new AuthenticationDetails({
+                Username: name,
+                Password: pwd
+            });
+        },
+        getUserPool() {
+            return new CognitoUserPool({
+                UserPoolId: AWS_DATA.USER_POOL_ID,
+                ClientId: AWS_DATA.CLIENT_ID,
+            });
+        },
+        getCognitoUser(name, userPool) {
+            return new CognitoUser({
+                Username: name,
+                Pool: userPool
+            })
+        },
+        onLoginSuccess(result) {
+            userStore.authenticate();
+            const accessToken = result.getAccessToken().getJwtToken();
+            const refreshToken = result.getRefreshToken().getToken();
+            this.processing = false;
+            this.response = RESPONSES.SUCCESS();
+            this.$cookies.set('accessToken', accessToken);
+            this.$cookies.set('refreshToken', refreshToken);
+        },
         afterLogin() {
             this.$router.push(`/`);
-        }
+        },
     },
 }
 </script>
@@ -121,7 +133,7 @@ export default {
     border-radius: 8px;
     width: 400px;
     overflow: hidden;
-    
+
     @include for-phone-only {
         width: 96%;
     }
@@ -150,4 +162,5 @@ export default {
             margin-top: 8px;
         }
     }
-}</style>
+}
+</style>
