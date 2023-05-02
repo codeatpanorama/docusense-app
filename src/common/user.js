@@ -1,8 +1,6 @@
 import { userStore } from "../store/user";
 import { AWS_DATA } from '../common/constants';
 import {
-    CognitoUserPool,
-    CognitoUserAttribute,
     CognitoUser,
     AuthenticationDetails
 } from 'amazon-cognito-identity-js';
@@ -23,18 +21,19 @@ export const POOL_DATA = {
 };
 
 export const getUserPool = () => {
-    return new CognitoUserPool(POOL_DATA);
+    return userStore.getState().userPool;
 };
 
 export const getCognitoUser = (name, userPool) => {
-    return new CognitoUser({
+    return getUserPool().getCurrentUser() || new CognitoUser({
         Username: name,
         Pool: userPool
     })
 };
 
-export const authenticateUser = (result) => {
+export const authenticateUser = (result, user) => {
     userStore.authenticate();
+    updateLoggedInUser();
     const accessToken = result.getAccessToken().getJwtToken();
     const refreshToken = result.getRefreshToken().getToken();
     cookies.set('accessToken', accessToken);
@@ -43,9 +42,7 @@ export const authenticateUser = (result) => {
 
 export const isSessionValid = async () => {
     return new Promise((resolve, reject) => {
-        const poolData = POOL_DATA;
-        const userPool = new CognitoUserPool(poolData);
-        const cognitoUser = userPool.getCurrentUser();
+        const cognitoUser = getCognitoUser();
         if (cognitoUser != null) {
             cognitoUser.getSession((err, session) => {
                 if (err) {
@@ -58,13 +55,11 @@ export const isSessionValid = async () => {
 }
 
 export const updateLoggedInUser = async () => {
-    const poolData = POOL_DATA;
-    const userPool = new CognitoUserPool(poolData);
-    const cognitoUser = userPool.getCurrentUser();
+    const cognitoUser = getCognitoUser();
+    userStore.setUser(cognitoUser);
     try {
         const validSession = await isSessionValid();
         if (validSession) {
-            userStore.setUser(cognitoUser);
             // NOTE: getSession must be called to authenticate user before calling getUserAttributes
             cognitoUser.getUserAttributes((err, attributes) => {
                 if (err) {

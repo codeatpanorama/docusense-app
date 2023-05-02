@@ -1,6 +1,8 @@
 import { Store } from "./base";
 import { isSessionValid } from '../common/user';
 import { useCookies } from "vue3-cookies";
+import { POOL_DATA } from "../common/user";
+import { CognitoUserPool } from "amazon-cognito-identity-js";
 
 const { cookies } = useCookies();
 
@@ -11,7 +13,12 @@ class UserStore extends Store {
       isAuthenticated: null,
       user: null,
       userInfo: null,
+      userPool: null,
     }
+  }
+
+  setup(data) {
+    data.userPool = new CognitoUserPool(POOL_DATA);
   }
 
   authenticate() {

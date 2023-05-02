@@ -46,7 +46,7 @@ export default {
 </script>
 <style lang="scss">
 .logout-trigger {
-    padding: 0 20px;
+    padding: 8px 20px;
     cursor: pointer;
     &:hover {
         background: rgba(0,0,0,0.12);

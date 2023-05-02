@@ -26,6 +26,7 @@
 </template>
 <script>
 import { getAuthDetails, getCognitoUser, getUserPool, authenticateUser } from '../common/user';
+import { userStore } from '../store/user';
 
 const RESPONSES = {
     SUCCESS: () => ({
@@ -53,7 +54,7 @@ export default {
         }
     }),
     mounted() {
-        if (this.$cookies.get("accessToken")) {
+        if (userStore.getState().isAuthenticated) {
             this.afterLogin();
         }
     },
