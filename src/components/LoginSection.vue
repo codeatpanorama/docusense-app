@@ -25,14 +25,7 @@
     </div>
 </template>
 <script>
-import { AWS_DATA } from '../common/constants';
-import {
-    CognitoUserPool,
-    CognitoUserAttribute,
-    CognitoUser,
-    AuthenticationDetails
-} from 'amazon-cognito-identity-js';
-import { userStore } from '../store/user';
+import { getAuthDetails, getCognitoUser, getUserPool, authenticateUser } from '../common/user';
 
 const RESPONSES = {
     SUCCESS: () => ({
@@ -69,12 +62,14 @@ export default {
             if (!this.processing && this.username && this.password) {
                 this.processing = true;
                 // Perform login success
-                const authDetails = this.getAuthDetails(this.username, this.password)
-                const userPool = this.getUserPool();
-                const cognitoUser = this.getCognitoUser(this.username, userPool);
+                const authDetails = getAuthDetails(this.username, this.password)
+                const userPool = getUserPool();
+                const cognitoUser = getCognitoUser(this.username, userPool);
                 cognitoUser.authenticateUser(authDetails, {
                     onSuccess: (result) => {
-                        this.onLoginSuccess(result);
+                        authenticateUser(result);
+                        this.processing = false;
+                        this.response = RESPONSES.SUCCESS();
                         setTimeout(() => {
                             this.response = null;
                             this.afterLogin();
@@ -91,33 +86,6 @@ export default {
                     },
                 });
             }
-        },
-        getAuthDetails(name, pwd) {
-            return new AuthenticationDetails({
-                Username: name,
-                Password: pwd
-            });
-        },
-        getUserPool() {
-            return new CognitoUserPool({
-                UserPoolId: AWS_DATA.USER_POOL_ID,
-                ClientId: AWS_DATA.CLIENT_ID,
-            });
-        },
-        getCognitoUser(name, userPool) {
-            return new CognitoUser({
-                Username: name,
-                Pool: userPool
-            })
-        },
-        onLoginSuccess(result) {
-            userStore.authenticate();
-            const accessToken = result.getAccessToken().getJwtToken();
-            const refreshToken = result.getRefreshToken().getToken();
-            this.processing = false;
-            this.response = RESPONSES.SUCCESS();
-            this.$cookies.set('accessToken', accessToken);
-            this.$cookies.set('refreshToken', refreshToken);
         },
         afterLogin() {
             this.$router.push(`/`);

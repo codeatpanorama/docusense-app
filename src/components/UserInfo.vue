@@ -17,6 +17,8 @@ import LogoutDialog from './LogoutDialog.vue';
 </template>
 <script>
 import { isMobile } from '../common/helpers';
+import { userStore } from '../store/user';
+import { updateLoggedInUser } from '../common/user';
 
 export default {
     props: {
@@ -28,6 +30,9 @@ export default {
 
     }),
     mounted() {
+        if (userStore.getState().isAuthenticated) {
+            updateLoggedInUser();
+        }
     },
     methods: {
 
