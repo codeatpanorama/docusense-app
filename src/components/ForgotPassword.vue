@@ -5,11 +5,12 @@
         </div>
         <div class="fp-content">
             <div class="fp-username">
-                <v-text-field label="Username" v-model="username" type="email" :rules="[rules.required]"
-                    prepend-icon="mdi-account"></v-text-field>
+                <v-text-field label="Username" v-model="username" type="email" :rules="[rules.required, rules.email]"
+                    prepend-icon="mdi-account" @change="resetCodeDelivery"></v-text-field>
             </div>
             <div class="fp-code-section">
-                <div class="fp-code-feedback" v-if="codeSent">Verification Code sent to Email</div>
+                <div class="fp-code-feedback" :class="`feedback-${codeDelivery.type}`" v-if="codeDelivery">{{
+                    codeDelivery.text }}</div>
                 <div class="fp-btn fp-code-btn">
                     <v-btn :disabled="!username" density="default" @click="onGetCodeClick">
                         GET CODE
@@ -43,15 +44,27 @@
 </template>
 <script>
 import { getCognitoUser } from '../common/user';
+import { VALIDATION_RULES } from '../common/helpers';
 
 const RESPONSES = {
     SUCCESS: () => ({
         type: "success",
-        text: `Password updated successfully`
+        text: "Password updated successfully"
     }),
     FAILURE: (err) => ({
         type: "error",
-        text: err || `Please try again`
+        text: err || "Please try again"
+    })
+}
+
+const CODE_RESPONSES = {
+    SUCCESS: () => ({
+        type: "success",
+        text: "Verification Code sent to Email"
+    }),
+    FAILURE: (err) => ({
+        type: "error",
+        text: err || "Please try again"
     })
 }
 
@@ -65,24 +78,26 @@ export default {
         code: '',
         newPassword: '',
         showNewPwd: false,
-        codeSent: false,
-        response: '',
+        codeDelivery: null,
+        response: null,
         cognitoUser: null,
         rules: {
-            required: value => !!value || 'Required.'
+            required: VALIDATION_RULES.REQUIRED,
+            email: VALIDATION_RULES.EMAIL
         }
     }),
     methods: {
         onGetCodeClick() {
-            this.codeSent = false;
+            this.codeDelivery = null;
             this.cognitoUser = getCognitoUser(this.username);
             this.cognitoUser.forgotPassword({
                 onSuccess: (data) => {
                     // successfully initiated reset password request
-                    this.codeSent = true;
+                    this.codeDelivery = CODE_RESPONSES.SUCCESS();
                 },
                 onFailure: (err) => {
-                    console.log(err.message || JSON.stringify(err));
+                    const errMsg = (err.message || JSON.stringify(err));
+                    this.codeDelivery = CODE_RESPONSES.FAILURE(errMsg);
                 },
             });
         },
@@ -91,6 +106,9 @@ export default {
                 this.processing = true;
                 this.resetPassword();
             }
+        },
+        resetCodeDelivery() {
+            this.codeDelivery = null;
         },
         resetPassword() {
             this.cognitoUser.confirmPassword(this.code, this.newPassword, {

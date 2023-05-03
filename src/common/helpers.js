@@ -61,3 +61,8 @@ export const isMobile = (screen.width <= 760);
 export const formatUTCDate = (date) => {
     return dayjs(date).utc(true).format('DD-MM-YYYY');
 }
+
+export const VALIDATION_RULES = {
+    REQUIRED: value => !!value || 'Required.',
+    EMAIL: value => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value) || 'Please enter a valid email'
+}

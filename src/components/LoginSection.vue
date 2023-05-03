@@ -5,7 +5,7 @@
         </div>
         <div class="lo-content">
             <div class="lo-username">
-                <v-text-field label="Username" v-model="username" type="email" :rules="[rules.required]"
+                <v-text-field label="Username" v-model="username" type="email" :rules="[rules.required, rules.email]"
                     prepend-icon="mdi-account"></v-text-field>
             </div>
             <div class="lo-password">
@@ -32,6 +32,7 @@
 <script>
 import { getAuthDetails, getCognitoUser, getUserPool, authenticateUser } from '../common/user';
 import { userStore } from '../store/user';
+import { VALIDATION_RULES } from '../common/helpers';
 
 const RESPONSES = {
     SUCCESS: () => ({
@@ -55,7 +56,8 @@ export default {
         showPwd: false,
         response: '',
         rules: {
-            required: value => !!value || 'Required.'
+            required: VALIDATION_RULES.REQUIRED,
+            email: VALIDATION_RULES.EMAIL
         }
     }),
     mounted() {
