@@ -36,25 +36,29 @@ const TABLE_HEADERS = [
 const STATUS_COLORS = {
     "Pending": "red",
     "In Progress": "orange",
-    "Extracted": "green"
+    "Extracted": "green",
+    "Cancelled": "red"
 }
 
 const STATUS_ICONS = {
     "Pending": "mdi-progress-upload",
     "In Progress": "mdi-timer-sand",
-    "Extracted": "mdi-check-circle"
+    "Extracted": "mdi-check-circle",
+    "Cancelled": "mdi-close-circle"
 }
 
 const STATUS_TEXT = {
     "Pending": "Pending",
     "In Progress": "In Progress",
-    "Extracted": "Completed"
+    "Extracted": "Completed",
+    "Cancelled": "Cancelled"
 }
 
 const DOC_STATUS = {
     NOT_STARTED: "Pending",
     STARTED: "In Progress",
-    COMPLETED: "Extracted"
+    COMPLETED: "Extracted",
+    CANCELLED: "Cancelled"
 }
 
 export default {
@@ -93,8 +97,12 @@ export default {
                     return DOC_STATUS.COMPLETED;
                 }
                 const process = doc.tasks.find((task) => task.type == "PROCESS");
-                if (process && process.status != "NOT_STARTED") {
-                    return DOC_STATUS.STARTED;
+                if (process) {
+                    if (process.status == "CANCELLED") {
+                        return DOC_STATUS.CANCELLED;
+                    } else if (process.status != "NOT_STARTED") {
+                        return DOC_STATUS.STARTED;
+                    }
                 }
             }
             return DOC_STATUS.NOT_STARTED;
