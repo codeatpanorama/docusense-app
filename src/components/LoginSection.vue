@@ -5,7 +5,7 @@
         </div>
         <div class="lo-content">
             <div class="lo-username">
-                <v-text-field label="Username" v-model="username" :rules="[rules.required]"
+                <v-text-field label="Username" v-model="username" type="email" :rules="[rules.required]"
                     prepend-icon="mdi-account"></v-text-field>
             </div>
             <div class="lo-password">
@@ -13,10 +13,15 @@
                     :rules="[rules.required]" :type="showPwd ? 'text' : 'password'" name="input-10-1" label="Password"
                     @click:append="showPwd = !showPwd"></v-text-field>
             </div>
-            <div class="lo-btn">
-                <v-btn :disabled="!(username && password)" density="default" @click="onLogin">
-                    Login
-                </v-btn>
+            <div class="lo-footer">
+                <div class="lo-forgot">
+                    <RouterLink to="/forgot-password/">Forgot Password?</RouterLink>
+                </div>
+                <div class="lo-btn">
+                    <v-btn :disabled="!(username && password)" density="default" @click="onLogin">
+                        Login
+                    </v-btn>
+                </div>
             </div>
             <div class="lo-response" v-if="response">
                 <v-alert :text="response.text" :type="response.type" closable></v-alert>
@@ -123,8 +128,14 @@ export default {
         padding: 12px;
         color: #000;
 
-        .lo-btn {
-            text-align: right;
+        .lo-footer {
+            display: flex;
+            place-content: space-between;
+            place-items: flex-end;
+
+            .lo-btn {
+                text-align: right;
+            }
         }
 
         .lo-response {

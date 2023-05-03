@@ -77,7 +77,6 @@ export default {
                         return;
                     }
                     this.response = RESPONSES.SUCCESS();
-                    console.log('call result: ' + result);
                     setTimeout(() => {
                         this.response = null;
                         this.afterPasswordChange();

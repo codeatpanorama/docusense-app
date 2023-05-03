@@ -37,6 +37,11 @@ const router = createRouter({
       path: '/change-password',
       name: 'change-password',
       component: () => import('../views/ChangePasswordView.vue')
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: () => import('../views/ForgotPasswordView.vue')
     }
   ]
 })
@@ -46,13 +51,13 @@ router.beforeEach(async (to, from) => {
     // make sure the user is authenticated
     !userStore.getState().isAuthenticated &&
     // ❗️ Avoid an infinite redirect
-    to.name !== 'login'
+    (to.name !== 'login' && to.name !== 'forgot-password')
   ) {
     // redirect the user to the login page
     return { name: 'login' }
   } else if (
     userStore.getState().isAuthenticated &&
-    to.name === 'login'
+    (to.name === 'login' || to.name === 'forgot-password')
   ) {
     return { name: 'home' }
   }

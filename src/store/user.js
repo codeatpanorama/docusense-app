@@ -38,6 +38,7 @@ class UserStore extends Store {
   }
 
   logout() {
+    this.state.user.signOut();
     this.state.isAuthenticated = false;
     this.state.user = null;
     this.state.userInfo = null;

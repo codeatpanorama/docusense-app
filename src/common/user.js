@@ -24,11 +24,18 @@ export const getUserPool = () => {
     return userStore.getState().userPool;
 };
 
-export const getCognitoUser = (name, userPool) => {
-    return getUserPool().getCurrentUser() || new CognitoUser({
-        Username: name,
-        Pool: userPool
-    })
+export const getCognitoUser = (name) => {
+    let user = getUserPool().getCurrentUser();
+    if (user) {
+        return user;
+    }
+    if (name) {
+        return new CognitoUser({
+            Username: name,
+            Pool: getUserPool()
+        })
+    }
+    return null;
 };
 
 export const authenticateUser = (result, user) => {
@@ -50,6 +57,8 @@ export const isSessionValid = async () => {
                 }
                 resolve(session.isValid());
             });
+        } else {
+            resolve(false);
         }
     })
 }
