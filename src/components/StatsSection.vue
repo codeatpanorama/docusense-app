@@ -1,13 +1,40 @@
+<script setup>
+import CountUp from 'vue-countup-v3'
+</script>
 <template>
     <div class="stats-wrapper">
         <div class="sw-card-holder">
             <div class="sw-card-row">
-                <v-card :text="pad(searched)" title="SEARCHES"></v-card>
-                <v-card :text="pad(uploaded)" title="UPLOADS"></v-card>
+                <v-card title="SEARCHES">
+                    <v-card-text>
+                        <CountUp :end-val="searched">
+                            <template #prefix v-if="searched < 10">0</template>
+                        </CountUp>
+                    </v-card-text>
+                </v-card>
+                <v-card title="UPLOADS">
+                    <v-card-text>
+                        <CountUp :end-val="uploaded">
+                            <template #prefix v-if="uploaded < 10">0</template>
+                        </CountUp>
+                    </v-card-text>
+                </v-card>
             </div>
             <div class="sw-card-row">
-                <v-card :text="pad(downloaded)" title="DOWNLOADS"></v-card>
-                <v-card :text="pad(previewed)" title="PREVIEWS"></v-card>
+                <v-card title="DOWNLOADS">
+                    <v-card-text>
+                        <CountUp :end-val="downloaded">
+                            <template #prefix v-if="downloaded < 10">0</template>
+                        </CountUp>
+                    </v-card-text>
+                </v-card>
+                <v-card title="PREVIEWS">
+                    <v-card-text>
+                        <CountUp :end-val="previewed">
+                            <template #prefix v-if="previewed < 10">0</template>
+                        </CountUp>
+                    </v-card-text>
+                </v-card>
             </div>
         </div>
     </div>
@@ -37,6 +64,7 @@ export default {
     },
     methods: {
         pad(num) {
+            console.log("HERE");
             if (num < 10) {
                 return `0${num}`;
             }
