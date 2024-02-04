@@ -1,7 +1,7 @@
 <template>
     <div class="recent-searches">
         <span class="rs-text">Recent Searches:</span>
-        <div v-for="word in words" class="rs-words" @click="() => onWordClick(word)">{{ word }}</div>
+        <div v-for="word in words" class="rs-words" @click="() => onWordClick(word)">{{ displayText(word) }}</div>
     </div>
 </template>
 <script>
@@ -14,11 +14,17 @@ export default {
         words: []
     }),
     mounted() {
-        this.words = getWordsFromLocalStorage();
+        const words = getWordsFromLocalStorage();
+        if (words) {
+            this.words = words.map(JSON.parse);
+        }
     },
     methods: {
-        onWordClick(word) {
-            this.$emit('search', word);
+        onWordClick(wordData) {
+            this.$emit('search', wordData);
+        },
+        displayText(wordData) {
+            return wordData.map(w => w.text).join(" ");
         }
     },
 }

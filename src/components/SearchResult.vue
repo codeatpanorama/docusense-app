@@ -8,7 +8,7 @@ import PreviewFile from './PreviewFile.vue';
                 <template v-if="searching">
                     <Vue3Lottie :animationData="searchAnim" :height="500" :width="500" />
                 </template>
-                <template v-else-if="!searchText">
+                <template v-else-if="!searchData?.length">
                     <Vue3Lottie :animationData="searchDefaultAnim" :height="500" :width="715" />
                 </template>
                 <template v-else>
@@ -115,9 +115,9 @@ const TABLE_HEADERS = [
 
 export default {
     props: {
-        searchText: {
-            type: String,
-            default: ""
+        searchData: {
+            type: Array,
+            default: []
         },
         documents: {
             type: Array,
@@ -144,7 +144,7 @@ export default {
         }
     },
     watch: {
-        searchText() {
+        searchData() {
             this.activePage = 1;
         }
     },

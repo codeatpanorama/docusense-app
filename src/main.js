@@ -10,7 +10,6 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
-import { VDataTable } from 'vuetify/labs/VDataTable'
 import Vue3Lottie from 'vue3-lottie'
 import VueCookies from 'vue3-cookies'
 import dayjs from 'dayjs';
@@ -21,13 +20,8 @@ dayjs.extend(utc);
 const vuetify = createVuetify({
   components: {
     ...components,
-    VDataTable,
   },
   defaults: {
-    VDataTable: {
-      fixedHeader: true,
-      noDataText: 'Results not found',
-    },
   },
   directives,
   icons: {
