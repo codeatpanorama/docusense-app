@@ -10,6 +10,7 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import { VDataTable } from 'vuetify/lib/components/VDataTable'
 import Vue3Lottie from 'vue3-lottie'
 import VueCookies from 'vue3-cookies'
 import dayjs from 'dayjs';

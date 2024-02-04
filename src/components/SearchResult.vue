@@ -20,7 +20,7 @@ import PreviewFile from './PreviewFile.vue';
         <v-data-table v-else v-model:items-per-page="itemsPerPage" :headers="headers" :items="documents" :page="activePage"
             item-value="name" class="elevation-1" @click:row="onRowClick" hide-default-footer>
             <template v-slot:item.keywords="{ item }">
-                <template v-for="keyword in item.raw.keywords">
+                <template v-for="keyword in item.keywords">
                     <v-chip color="purple">{{ keyword }}</v-chip>
                 </template>
             </template>

@@ -46,11 +46,11 @@ export default {
       return results.map((doc) => {
         return {
           id: doc.id,
-          keywords: [doc.lexeme.toLowerCase()],
+          keywords: doc.filteredWords.map(word => word.value.toLowerCase()),
           date: 'NA',
           documentName: doc.documentName,
-          page: doc.pageNumber,
-          pageId: doc.pageId,
+          page: doc.number,
+          pageId: doc.id,
           rect: {
             x: doc.x,
             y: doc.y,
@@ -58,7 +58,7 @@ export default {
             width: doc.width
           },
           sourceFilePath: doc.documentPath,
-          resultFilePath: doc.imagePath
+          resultFilePath: doc.path
         }
       })
     },
