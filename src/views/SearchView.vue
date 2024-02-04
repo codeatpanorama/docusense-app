@@ -51,12 +51,12 @@ export default {
           documentName: doc.documentName,
           page: doc.number,
           pageId: doc.id,
-          rect: {
-            x: doc.x,
-            y: doc.y,
-            height: doc.height,
-            width: doc.width
-          },
+          rects: doc.filteredWords.map(word => ({
+            x: word.x,
+            y: word.y,
+            height: word.height,
+            width: word.width
+          })),
           sourceFilePath: doc.documentPath,
           resultFilePath: doc.path
         }
@@ -77,8 +77,8 @@ export default {
       this.response = null;
       axios.get(APIS.SEARCH, {
         params: {
-          required: searchData.filter(d => d.required).map(d => d.text),
-          optional: searchData.filter(d => !d.required).map(d => d.text),
+          q2: searchData.filter(d => d.required).map(d => d.text).join(','),
+          q1: searchData.filter(d => !d.required).map(d => d.text).join(','),
           tags: ''
         }
       }).then((resp) => {

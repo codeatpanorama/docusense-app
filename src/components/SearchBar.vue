@@ -10,7 +10,7 @@
                         <div v-for="(chip, index) in chips" :key="index">
                             <v-tooltip :text="chip.required ? 'Required' : 'Optional'" location="top">
                                 <template v-slot:activator="{ props }">
-                                    <v-chip v-bind="props" class="ma-1" :class="chip.required ? '' : 'optional'" closable
+                                    <v-chip v-bind="props" class="ma-1" :class="chip.required ? 'required-chip' : 'optional-chip'"  closable
                                         @click="toggleRequired(index)" @click:close="removeChip(index)">{{ chip.text
                                         }}</v-chip>
                                 </template>
@@ -131,15 +131,21 @@ export default {
             margin-right: 8px;
 
             .v-input {
-
                 .v-chip {
-
                     &.optional {
                         opacity: 0.7;
                     }
                 }
             }
         }
+    }
+
+    .required-chip {
+        background-color: rgb(237, 112, 112); /* Change to the color you want for required chips */
+    }
+
+    .optional-chip {
+        background-color: rgb(78, 147, 78); /* Change to the color you want for optional chips */
     }
 }
 

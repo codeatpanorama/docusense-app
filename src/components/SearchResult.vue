@@ -27,14 +27,14 @@ import PreviewFile from './PreviewFile.vue';
             <template v-slot:item.actions="{ item }">
                 <v-tooltip text="Preview" location="top">
                     <template v-slot:activator="{ props }">
-                        <v-icon v-bind="props" size="small" class="sr-tb-action" @click.stop="onPreviewClick(item.raw)">
+                        <v-icon v-bind="props" size="small" class="sr-tb-action" @click.stop="onPreviewClick(item)">
                             mdi-file-eye-outline
                         </v-icon>
                     </template>
                 </v-tooltip>
                 <v-tooltip text="Download" location="top">
                     <template v-slot:activator="{ props }">
-                        <v-icon v-bind="props" size="small" class="sr-tb-action" @click.stop="downloadDocument(item.raw)">
+                        <v-icon v-bind="props" size="small" class="sr-tb-action" @click.stop="downloadDocument(item)">
                             mdi-download
                         </v-icon>
                     </template>
@@ -186,7 +186,7 @@ export default {
                 });
         },
         onRowClick(evt, row) {
-            const doc = row.item.value;
+            const doc = row.item;
             this.previewDoc(doc);
         },
         onPreviewClick(item) {
@@ -195,9 +195,9 @@ export default {
         previewDoc(doc) {
             this.fileData = {
                 url: doc.resultFilePath,
-                data: doc.rect
+                data: doc.rects
             };
-            this.downloadFileURL = doc.sourceFilePath;
+            this.downloadFileURL = doc.documentPath;
             this.fileName = doc.documentName;
             this.drawer = true;
         },
