@@ -72,3 +72,7 @@ body {
   background-color: var(--color-button-bg);
   color: var(--color-button-text);
 }
+
+.v-overlay-container .v-overlay__scrim {
+  opacity: 0.6;
+}
