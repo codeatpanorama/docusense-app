@@ -4,6 +4,7 @@ export const APIS = {
   UPLOAD: `${API_BASE_URL}/api/upload`,
   DOC_NAMES: `${API_BASE_URL}/api/listDocuments`,
   DOWNLOAD: `${API_BASE_URL}/api/download`,
+  REPORT: `${API_BASE_URL}/api/report`,
   ALL_DOCS: `${API_BASE_URL}/api/documents`,
   GET_DOC: `${API_BASE_URL}/api/document`,
   SEARCH: `${API_BASE_URL}/api/search`,
