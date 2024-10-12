@@ -19,9 +19,10 @@
   </div>
 </template>
 <script>
+import { ca } from 'vuetify/locale';
 import { api } from '../common/apis'
 import { APIS } from '../common/constants'
-import { formatUTCDate } from '../common/helpers'
+import { formatUTCDate, downloadBlob } from '../common/helpers'
 
 const TABLE_HEADERS = [
   {
@@ -29,6 +30,12 @@ const TABLE_HEADERS = [
     align: 'start',
     sortable: true,
     key: 'name'
+  },
+  {
+    title: 'Category',
+    align: 'start',
+    sortable: true,
+    key: 'category'
   },
   {
     title: 'Upload Date',
@@ -83,6 +90,7 @@ export default {
         return {
           id: doc.id,
           name: doc.name,
+          category: doc.category.toUpperCase(),
           date: formatUTCDate(doc.createdAt),
           path: doc.path,
           reportReady: this.checkReportStatus(doc)
@@ -90,7 +98,7 @@ export default {
       })
     },
     checkReportStatus(doc) {
-      if (doc.category === 'Electoral') {
+      if (doc.category === 'electoral') {
         const tasks = doc.tasks ?? []
         const reportTasks = tasks.filter(
           (task) => task.type === 'REPORT' && task.status === 'COMPLETED'
