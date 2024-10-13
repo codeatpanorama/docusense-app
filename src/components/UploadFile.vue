@@ -142,6 +142,7 @@ export default {
     .up-content {
         padding: 12px;
         color: #000;
+        background: #fff;
         .up-tag-view {
             max-width: 400px;
         }

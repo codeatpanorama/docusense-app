@@ -1,6 +1,6 @@
 <script setup>
 import SearchBar from '../components/SearchBar.vue';
-import SearchResults from '../components/SearchResults.vue';
+import SearchResults from '../components/SearchResult.vue';
 import MainNav from '../components/MainNav.vue';
 </script>
 
@@ -9,10 +9,10 @@ import MainNav from '../components/MainNav.vue';
     <MainNav />
     <div class="view-wrapper-start">
       <div class="sr-bar-wrapper">
-        <SearchBar :navigate="false" @search="onSearch" :default-val="searchText" />
+        <SearchBar :navigate="false" @search="onSearch" :default-data="searchData" />
       </div>
       <div class="sr-results-wrapper">
-        <SearchResults :search-text="searchText" :documents="searchResult" :searching="searching" />
+        <SearchResults :search-data="searchData" :documents="searchResult" :searching="searching" />
       </div>
     </div>
   </div>
@@ -20,18 +20,25 @@ import MainNav from '../components/MainNav.vue';
 
 <script>
 import { APIS } from '../common/constants';
+import { encodeBase64, decodeBase64 } from '../common/helpers'
 import axios from "axios";
 
 export default {
   data: () => ({
-    searchText: "",
     searching: false,
-    searchResult: null
+    searchResult: null,
+    searchData: [],
   }),
   created() {
-    this.searchText = this.$route.query.text ? this.$route.query.text : "";
-    if (this.searchText?.trim()) {
-      this.performSearch(this.searchText.trim().split(/\s+/));
+    const searchString = this.$route.query.data;
+    if (searchString) {
+      try {
+        const data = decodeBase64(searchString);
+        this.searchData = JSON.parse(data);
+        this.performSearch(this.searchData);
+      } catch (e) {
+        this.searchData = [];
+      }
     }
   },
   methods: {
@@ -39,40 +46,39 @@ export default {
       return results.map((doc) => {
         return {
           id: doc.id,
-          keywords: [doc.lexeme.toLowerCase()],
+          keywords: doc.filteredWords.map(word => word.value.toLowerCase()),
           date: 'NA',
           documentName: doc.documentName,
-          page: doc.pageNumber,
-          pageId: doc.pageId,
-          rect: {
-            x: doc.x,
-            y: doc.y,
-            height: doc.height,
-            width: doc.width
-          },
+          page: doc.number,
+          pageId: doc.id,
+          rects: doc.filteredWords.map(word => ({
+            x: word.x,
+            y: word.y,
+            height: word.height,
+            width: word.width
+          })),
           sourceFilePath: doc.documentPath,
-          resultFilePath: doc.imagePath
+          resultFilePath: doc.path
         }
       })
     },
-    onSearch(text) {
-      this.searchText = text;
-      if (this.searchText?.trim()) {
-        this.$router.replace({
-          path: this.$route.path, 
-          query: {
-            text: this.searchText
-          }
-        });
-        this.performSearch(this.searchText.trim().split(/\s+/));
-      }
+    onSearch(searchData) {
+      this.$router.replace({
+        path: this.$route.path,
+        query: {
+          data: encodeBase64(JSON.stringify(searchData))
+        }
+      });
+      this.searchData = searchData;
+      this.performSearch(this.searchData);
     },
-    performSearch(searchWords) {
+    performSearch(searchData) {
       this.searching = true;
       this.response = null;
       axios.get(APIS.SEARCH, {
         params: {
-          keywords: searchWords.join(','),
+          q2: searchData.filter(d => d.required).map(d => d.text).join(','),
+          q1: searchData.filter(d => !d.required).map(d => d.text).join(','),
           tags: ''
         }
       }).then((resp) => {
@@ -88,5 +94,4 @@ export default {
 
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -8,7 +8,7 @@ import PreviewFile from './PreviewFile.vue';
                 <template v-if="searching">
                     <Vue3Lottie :animationData="searchAnim" :height="500" :width="500" />
                 </template>
-                <template v-else-if="!searchText">
+                <template v-else-if="!searchData?.length">
                     <Vue3Lottie :animationData="searchDefaultAnim" :height="500" :width="715" />
                 </template>
                 <template v-else>
@@ -20,21 +20,21 @@ import PreviewFile from './PreviewFile.vue';
         <v-data-table v-else v-model:items-per-page="itemsPerPage" :headers="headers" :items="documents" :page="activePage"
             item-value="name" class="elevation-1" @click:row="onRowClick" hide-default-footer>
             <template v-slot:item.keywords="{ item }">
-                <template v-for="keyword in item.raw.keywords">
+                <template v-for="keyword in item.keywords">
                     <v-chip color="purple">{{ keyword }}</v-chip>
                 </template>
             </template>
             <template v-slot:item.actions="{ item }">
                 <v-tooltip text="Preview" location="top">
                     <template v-slot:activator="{ props }">
-                        <v-icon v-bind="props" size="small" class="sr-tb-action" @click.stop="onPreviewClick(item.raw)">
+                        <v-icon v-bind="props" size="small" class="sr-tb-action" @click.stop="onPreviewClick(item)">
                             mdi-file-eye-outline
                         </v-icon>
                     </template>
                 </v-tooltip>
                 <v-tooltip text="Download" location="top">
                     <template v-slot:activator="{ props }">
-                        <v-icon v-bind="props" size="small" class="sr-tb-action" @click.stop="downloadDocument(item.raw)">
+                        <v-icon v-bind="props" size="small" class="sr-tb-action" @click.stop="downloadDocument(item)">
                             mdi-download
                         </v-icon>
                     </template>
@@ -115,9 +115,9 @@ const TABLE_HEADERS = [
 
 export default {
     props: {
-        searchText: {
-            type: String,
-            default: ""
+        searchData: {
+            type: Array,
+            default: []
         },
         documents: {
             type: Array,
@@ -144,7 +144,7 @@ export default {
         }
     },
     watch: {
-        searchText() {
+        searchData() {
             this.activePage = 1;
         }
     },
@@ -186,7 +186,7 @@ export default {
                 });
         },
         onRowClick(evt, row) {
-            const doc = row.item.value;
+            const doc = row.item;
             this.previewDoc(doc);
         },
         onPreviewClick(item) {
@@ -195,9 +195,9 @@ export default {
         previewDoc(doc) {
             this.fileData = {
                 url: doc.resultFilePath,
-                data: doc.rect
+                data: doc.rects
             };
-            this.downloadFileURL = doc.sourceFilePath;
+            this.downloadFileURL = doc.documentPath;
             this.fileName = doc.documentName;
             this.drawer = true;
         },

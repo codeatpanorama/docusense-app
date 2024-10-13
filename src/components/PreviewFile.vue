@@ -64,7 +64,7 @@ export default {
             this.loading = true;
             api.post(APIS.PREVIEW, {
                 path: this.fileData.url,
-                coordinates: [this.fileData.data]
+                coordinates: this.fileData.data
             })
                 .then((resp) => {
                     return resp.blob()
