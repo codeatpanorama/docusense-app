@@ -24,6 +24,11 @@ const router = createRouter({
       component: () => import('../views/UploadView.vue')
     },
     {
+      path: '/bulk-upload',
+      name: 'bulk-upload',
+      component: () => import('../views/BulkUploadView.vue')
+    },
+    {
       path: '/doc-status',
       name: 'doc-status',
       component: () => import('../views/DocStatusView.vue')

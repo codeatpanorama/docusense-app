@@ -42,6 +42,11 @@ export const MENU_ITEMS = [
     icon: 'mdi-file-upload'
   },
   {
+    text: 'Bulk Upload',
+    link: '/bulk-upload/',
+    icon: 'mdi-folder-upload'
+  },
+  {
     text: 'Document Status',
     link: '/doc-status/',
     icon: 'mdi-list-status'
