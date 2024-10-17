@@ -55,10 +55,15 @@ docker network create document
 
 ### Create Image
 ```dockerfile
-docker build -t docusense-app .
+docker build -t madhavpandey33/docusense-app:latest .
 ```
 
 ### Run Container
 ```dockerfile
-docker run --name docusense_fe --network document-network -it -d -p 80:80 docusense-app
+docker run --name docusense_app --network document-network -it -d -p 80:80 madhavpandey33/docusense-app:latest
+```
+
+# AMD
+```
+docker buildx build --platform linux/amd64 -t madhavpandey33/madhavpandey33/docusense-app:10_15_amd .
 ```
