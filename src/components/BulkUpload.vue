@@ -79,7 +79,7 @@ export default {
     updateFileNames(files) {
       if (files.length) {
         for (const file of files) {
-          let nameArr = files[0].name.split('.')
+          let nameArr = file.name.split('.')
           this.extensions.push(nameArr.pop())
           this.names.push(nameArr.join('.'))
         }
