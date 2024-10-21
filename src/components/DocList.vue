@@ -189,8 +189,7 @@ export default {
     },
     onRetry(taskId) {
       api
-        .post(APIS.TASK, {
-          taskId,
+        .put(`${APIS.TASK}/${taskId}`, {
           status: 'NOT_STARTED'
         })
         .then(() => {
