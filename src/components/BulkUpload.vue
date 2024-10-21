@@ -115,7 +115,17 @@ export default {
     category: '',
     categories: DOC_CATEGORIES,
     selectedZone: '',
-    electoralZones: [],
+    electoralZones: [
+      {
+        state: 'Maharashtra',
+        districts: [
+          {
+            name: 'Pune',
+            assemblies: ['197 - Khed Alandi', '198 - Shirur', '199 - Daund']
+          }
+        ]
+      }
+    ],
     state: '',
     states: [],
     district: '',
@@ -133,7 +143,9 @@ export default {
         return resp.json()
       })
       .then((data) => {
-        this.electoralZones = data
+        if (data?.length) {
+          this.electoralZones = data
+        }
       })
   },
   methods: {

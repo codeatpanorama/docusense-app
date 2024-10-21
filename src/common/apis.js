@@ -1,3 +1,7 @@
+import { useCookies } from 'vue3-cookies'
+
+const { cookies } = useCookies()
+
 export const api = {
   get,
   post,
@@ -7,9 +11,10 @@ export const api = {
 
 function get(url, params) {
   const requestOptions = {
-    method: 'GET'
-    // Add auth-token here
-    // headers: {}
+    method: 'GET',
+    headers: {
+      'Auth-Token': cookies.get('idToken')
+    }
   }
   if (params) {
     url += `?${new URLSearchParams(params)}`
@@ -21,8 +26,8 @@ function post(url, body) {
   const requestOptions = {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
-      // Add auth-token here
+      'Content-Type': 'application/json',
+      'Auth-Token': cookies.get('idToken')
     },
     body: JSON.stringify(body)
   }
@@ -33,8 +38,8 @@ function put(url, body) {
   const requestOptions = {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
-      // Add auth-token here
+      'Content-Type': 'application/json',
+      'Auth-Token': cookies.get('idToken')
     },
     body: JSON.stringify(body)
   }
@@ -44,9 +49,10 @@ function put(url, body) {
 // prefixed with underscored because delete is a reserved word in javascript
 function _delete(url) {
   const requestOptions = {
-    method: 'DELETE'
-    // Add auth-token here
-    // headers: {}
+    method: 'DELETE',
+    headers: {
+      'Auth-Token': cookies.get('idToken')
+    }
   }
   return fetch(url, requestOptions)
 }

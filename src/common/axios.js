@@ -6,8 +6,8 @@ export async function axiosWrapper(method, url, data, headers, params) {
     url,
     data,
     headers: {
-      ...headers
-      //Add auth-token here
+      ...headers,
+      'Auth-Token': cookies.get('idToken')
     },
     ...params
   })
