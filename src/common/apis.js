@@ -6,6 +6,7 @@ export const api = {
   get,
   post,
   put,
+  patch,
   delete: _delete
 }
 
@@ -37,6 +38,18 @@ function post(url, body) {
 function put(url, body) {
   const requestOptions = {
     method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Auth-Token': cookies.get('idToken')
+    },
+    body: JSON.stringify(body)
+  }
+  return fetch(url, requestOptions)
+}
+
+function patch(url, body) {
+  const requestOptions = {
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
       'Auth-Token': cookies.get('idToken')

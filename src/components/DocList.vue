@@ -151,7 +151,7 @@ export default {
         const tasks = doc.tasks ?? []
         const reportTasks = tasks.filter(
           (task) =>
-            task.type === 'REPORT' && (task.status === 'CANCELLED' || task.status === 'FAILED')
+            task.type === 'REPORT' && (task.status === 'CANCELLED' || task.status === 'NOT_STARTED')
         )
         return { retryStatus: reportTasks.length > 0, retryTaskId: reportTasks?.[0]?.id }
       }
@@ -189,7 +189,7 @@ export default {
     },
     onRetry(taskId) {
       api
-        .put(`${APIS.TASK}/${taskId}`, {
+        .patch(`${APIS.TASK}/${taskId}`, {
           status: 'NOT_STARTED'
         })
         .then(() => {
