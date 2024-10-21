@@ -4,6 +4,51 @@
       <div class="bulk-up-header-text">Bulk Upload</div>
     </div>
     <div class="bulk-up-content">
+      <div class="bulk-up-category">
+        <v-combobox
+          label="Document Category"
+          :items="categories"
+          v-model="category"
+          prepend-icon="mdi-format-list-bulleted-type"
+          :rules="[rules.required]"
+          validate-on="blur"
+          @update:modelValue="updateStates"
+        ></v-combobox>
+      </div>
+      <div class="bulk-up-electoral-state" v-if="category === 'Electoral'">
+        <v-combobox
+          label="Electoral State"
+          :items="states"
+          v-model="state"
+          prepend-icon="mdi-city"
+          :rules="[rules.required]"
+          validate-on="blur"
+          @update:modelValue="updateDistricts"
+          :disabled="!state"
+        ></v-combobox>
+      </div>
+      <div class="bulk-up-electoral-zones" v-if="category === 'Electoral'">
+        <v-combobox
+          label="Electoral District"
+          :items="districts"
+          v-model="district"
+          prepend-icon="mdi-home-city"
+          :rules="[rules.required]"
+          validate-on="blur"
+          @update:modelValue="updateAssemblies"
+          :disabled="!district"
+        ></v-combobox>
+      </div>
+      <div class="bulk-up-electoral-zones" v-if="category === 'Electoral'">
+        <v-combobox
+          label="Electoral District"
+          :items="assemblies"
+          v-model="assembly"
+          prepend-icon="mdi-home"
+          :rules="[rules.required]"
+          validate-on="blur"
+        ></v-combobox>
+      </div>
       <div class="bulk-up-upload">
         <v-file-input
           accept=".pdf,.doc,.docx"
@@ -15,21 +60,19 @@
           @update:modelValue="updateFileNames"
         ></v-file-input>
       </div>
-      <div class="bulk-up-category">
-        <v-combobox
-          label="Document Category"
-          :items="categories"
-          v-model="category"
-          prepend-icon="mdi-format-list-bulleted-type"
-          :rules="[rules.required]"
-          validate-on="blur"
-        ></v-combobox>
-      </div>
       <div class="bulk-up-btn">
         <v-btn
           density="default"
           @click="onUpload"
-          :disabled="!(files?.length && names.length && category)"
+          :disabled="
+            !(
+              files?.length &&
+              names.length &&
+              category &&
+              (category !== 'Electoral' ||
+                (category === 'Electoral' && state && district && assembly))
+            )
+          "
         >
           Upload
           <v-progress-circular
@@ -48,6 +91,7 @@
 </template>
 <script>
 import { APIS, DOC_CATEGORIES } from '../common/constants'
+import { api } from '../common/apis'
 import axios from 'axios'
 
 const RESPONSE_MESSAGE = (successCount, failedCount) => {
@@ -70,12 +114,62 @@ export default {
     extensions: [],
     category: '',
     categories: DOC_CATEGORIES,
+    selectedZone: '',
+    electoralZones: [],
+    state: '',
+    states: [],
+    district: '',
+    districts: [],
+    assembly: '',
+    assemblies: [],
     rules: {
       required: (value) => !!value || 'Required.'
     }
   }),
-
+  mounted() {
+    api
+      .get(APIS.ELECTORAL_ZONES)
+      .then((resp) => {
+        return resp.json()
+      })
+      .then((data) => {
+        this.electoralZones = data
+      })
+  },
   methods: {
+    updateStates() {
+      if (this.category !== 'Electoral' || !this.electoralZones?.length) {
+        this.states = []
+        this.state = ''
+        this.districts = []
+        this.district = ''
+        this.assemblies = []
+        this.assembly = ''
+      } else {
+        this.states = this.electoralZones.map(({ state }) => state)
+      }
+    },
+    updateDistricts() {
+      if (!this.state) {
+        this.districts = []
+        this.district = ''
+        this.assemblies = []
+        this.assembly = ''
+      } else {
+        const stateInfo = this.electoralZones.find(({ state }) => state === this.state)
+        this.districts = stateInfo.districts.map(({ name }) => name)
+      }
+    },
+    updateAssemblies() {
+      if (!this.district) {
+        this.assemblies = []
+        this.assembly = ''
+      } else {
+        const stateInfo = this.electoralZones.find(({ state }) => state === this.state)
+        const districtInfo = stateInfo.districts.find(({ name }) => name === this.district)
+        this.assemblies = districtInfo.assemblies
+      }
+    },
     updateFileNames(files) {
       if (files.length) {
         for (const file of files) {
@@ -88,13 +182,16 @@ export default {
         this.extensions = []
       }
     },
-    async uploadFile(file, name, category) {
+    async uploadFile({ file, name, category, state, district, assembly }) {
       return await axios.post(
         APIS.UPLOAD,
         {
           file,
           name,
-          category
+          category,
+          state,
+          district,
+          assembly
         },
         {
           headers: {
@@ -112,7 +209,14 @@ export default {
         this.response = null
 
         for (const idx in this.files) {
-          const response = await this.uploadFile(this.files[idx], this.names[idx], this.category)
+          const response = await this.uploadFile({
+            file: this.files[idx],
+            name: this.names[idx],
+            category: this.category,
+            state: this.state,
+            district: this.district,
+            assembly: this.assembly
+          })
           if (response.status === 200) {
             filesUploaded++
           } else {
@@ -123,6 +227,12 @@ export default {
             this.files = null
             this.names.length = 0
             this.category = ''
+            this.state = ''
+            this.states = []
+            this.district = ''
+            this.districts = []
+            this.assembly = ''
+            this.assemblies = []
             this.response = RESPONSE_MESSAGE(filesUploaded, failedUploads)
             setTimeout(() => {
               this.response = null
