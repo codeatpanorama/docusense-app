@@ -29,11 +29,6 @@ const router = createRouter({
       component: () => import('../views/BulkUploadView.vue')
     },
     {
-      path: '/doc-status',
-      name: 'doc-status',
-      component: () => import('../views/DocStatusView.vue')
-    },
-    {
       path: '/documents',
       name: 'documents',
       component: () => import('../views/DocumentsListView.vue')
