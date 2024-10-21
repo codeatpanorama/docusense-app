@@ -12,6 +12,7 @@ export const APIS = {
   STATS: `${API_BASE_URL}/api/stats`,
   ELECTORAL_ZONES: `${API_BASE_URL}/api/stats`,
   TASK: `${API_BASE_URL}/api/task`,
+  ENTITLEMENTS: `${API_BASE_URL}/api/stats`,
   LOGIN: `${API_BASE_URL}/api/hello`,
   HELLO: `${API_BASE_URL}/api/hello`
 }
@@ -41,12 +42,14 @@ export const MENU_ITEMS = [
   {
     text: 'File Upload',
     link: '/upload/',
-    icon: 'mdi-file-upload'
+    icon: 'mdi-file-upload',
+    restricted: true
   },
   {
     text: 'Bulk Upload',
     link: '/bulk-upload/',
-    icon: 'mdi-folder-upload'
+    icon: 'mdi-folder-upload',
+    restricted: true
   },
   {
     text: 'Search',

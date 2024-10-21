@@ -22,7 +22,7 @@
         <v-btn v-if="item.reportReady" density="default" @click="() => onDownloadReport(item)"
           ><v-icon class="mr-2" size="small" icon="mdi-download"></v-icon> Report</v-btn
         >
-        <v-btn v-if="item.retryStatus" density="default" @click="() => onRetry(item.retryTaskId)"
+        <v-btn v-if="isAdmin && item.retryStatus" density="default" @click="() => onRetry(item.retryTaskId)"
           ><v-icon class="mr-2" size="small" icon="mdi-reload"></v-icon> Retry</v-btn
         >
       </template>
@@ -34,6 +34,7 @@ import { ca } from 'vuetify/locale'
 import { api } from '../common/apis'
 import { APIS } from '../common/constants'
 import { formatUTCDate, downloadBlob } from '../common/helpers'
+import { userStore } from '../store/user'
 
 const TABLE_HEADERS = [
   {
@@ -102,6 +103,7 @@ const DOC_STATUS = {
 export default {
   props: {},
   data: () => ({
+    isAdmin: false,
     documents: [],
     headers: TABLE_HEADERS,
     chipColors: STATUS_COLORS,
@@ -109,6 +111,8 @@ export default {
     chipText: STATUS_TEXT
   }),
   mounted() {
+    const entitlements = userStore.getState().entitlements ?? []
+    this.isAdmin = entitlements.includes('ADMIN')
     this.fetchDocuments()
   },
   methods: {
@@ -151,7 +155,7 @@ export default {
         const tasks = doc.tasks ?? []
         const reportTasks = tasks.filter(
           (task) =>
-            task.type === 'REPORT' && (task.status === 'CANCELLED' || task.status === 'NOT_STARTED')
+            task.type === 'REPORT' && (task.status === 'CANCELLED' || task.status === 'FAILED')
         )
         return { retryStatus: reportTasks.length > 0, retryTaskId: reportTasks?.[0]?.id }
       }

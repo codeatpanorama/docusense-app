@@ -1,7 +1,8 @@
 import { userStore } from '../store/user'
-import { AWS_DATA } from '../common/constants'
+import { APIS, AWS_DATA } from '../common/constants'
 import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js'
 import { useCookies } from 'vue3-cookies'
+import { axiosWrapper } from './axios'
 
 const { cookies } = useCookies()
 
@@ -35,7 +36,7 @@ export const getCognitoUser = (name) => {
   return null
 }
 
-export const authenticateUser = (result, user) => {
+export const authenticateUser = async (result, user) => {
   userStore.authenticate()
   updateLoggedInUser()
   const accessToken = result.getAccessToken().getJwtToken()
@@ -44,6 +45,7 @@ export const authenticateUser = (result, user) => {
   cookies.set('accessToken', accessToken)
   cookies.set('refreshToken', refreshToken)
   cookies.set('idToken', idToken)
+  await getEntitlements()
 }
 
 export const isSessionValid = async () => {
@@ -82,6 +84,12 @@ export const updateLoggedInUser = async () => {
   } catch {
     userStore.logout()
   }
+}
+
+export const getEntitlements = async () => {
+  return await axiosWrapper('get', APIS.ENTITLEMENTS).then((roles) =>
+    userStore.setUserEntitlements(roles)
+  )
 }
 
 const getAttrObj = (attrs) => {
