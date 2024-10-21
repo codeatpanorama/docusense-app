@@ -98,7 +98,7 @@
 <script>
 import { APIS, DOC_CATEGORIES } from '../common/constants'
 import { api } from '../common/apis'
-import axios from 'axios'
+import { axiosWrapper } from '../common/axios'
 
 const RESPONSES = {
   SUCCESS: (name) => ({
@@ -192,23 +192,21 @@ export default {
       if (!this.uploading && this.file) {
         this.uploading = true
         this.response = null
-        axios
-          .post(
-            APIS.UPLOAD,
-            {
-              file: this.file[0],
-              name: this.name,
-              category: this.category.toLowerCase(),
-              state: this.state,
-              district: this.district,
-              assembly: this.assembly
-            },
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            }
-          )
+        axiosWrapper(
+          'post',
+          APIS.UPLOAD,
+          {
+            file: this.file[0],
+            name: this.name,
+            category: this.category.toLowerCase(),
+            state: this.state,
+            district: this.district,
+            assembly: this.assembly
+          },
+          {
+            'Content-Type': 'multipart/form-data'
+          }
+        )
           .then((resp) => {
             this.uploading = false
             this.file = null

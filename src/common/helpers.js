@@ -1,9 +1,8 @@
-import axios from 'axios'
 import dayjs from 'dayjs'
+import { axiosWrapper } from './axios'
 
 export const downloadItem = ({ url, label, type = 'application/pdf' }) => {
-  axios
-    .get(url, { responseType: 'blob' })
+  axiosWrapper('get', url, {}, {}, { responseType: 'blob' })
     .then((response) => {
       const blob = new Blob([response.data], { type })
       downloadBlob(blob, label)

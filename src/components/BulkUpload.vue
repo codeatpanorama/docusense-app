@@ -92,7 +92,7 @@
 <script>
 import { APIS, DOC_CATEGORIES } from '../common/constants'
 import { api } from '../common/apis'
-import axios from 'axios'
+import { axiosWrapper } from '../common/axios'
 
 const RESPONSE_MESSAGE = (successCount, failedCount) => {
   const successMessage = `${successCount} document(s) uploaded successfully.`
@@ -183,7 +183,8 @@ export default {
       }
     },
     async uploadFile({ file, name, category, state, district, assembly }) {
-      return await axios.post(
+      return await axiosWrapper(
+        'post',
         APIS.UPLOAD,
         {
           file,
@@ -194,9 +195,7 @@ export default {
           assembly
         },
         {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+          'Content-Type': 'multipart/form-data'
         }
       )
     },
@@ -222,7 +221,7 @@ export default {
           } else {
             failedUploads++
           }
-          if (filesUploaded + failedUploads === this.files.length) {
+          if (filesUploaded + failedUploads === totalFiles) {
             this.uploading = false
             this.files = null
             this.names.length = 0
