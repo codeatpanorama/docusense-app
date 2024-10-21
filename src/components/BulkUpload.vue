@@ -202,9 +202,11 @@ export default {
           file,
           name,
           category,
-          state,
-          district,
-          assembly
+          folder: {
+            path1: this.state,
+            path2: this.district,
+            path3: this.assembly
+          }
         },
         {
           'Content-Type': 'multipart/form-data'

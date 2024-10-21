@@ -11,6 +11,7 @@ export const APIS = {
   PREVIEW: `${API_BASE_URL}/api/resultPreview`,
   STATS: `${API_BASE_URL}/api/stats`,
   ELECTORAL_ZONES: `${API_BASE_URL}/api/stats`,
+  TASK: `${API_BASE_URL}/api/task`,
   LOGIN: `${API_BASE_URL}/api/hello`,
   HELLO: `${API_BASE_URL}/api/hello`
 }

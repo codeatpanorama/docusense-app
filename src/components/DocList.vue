@@ -22,6 +22,9 @@
         <v-btn v-if="item.reportReady" density="default" @click="() => onDownloadReport(item)"
           ><v-icon class="mr-2" size="small" icon="mdi-download"></v-icon> Report</v-btn
         >
+        <v-btn v-if="item.retryStatus" density="default" @click="() => onRetry(item.retryTaskId)"
+          ><v-icon class="mr-2" size="small" icon="mdi-reload"></v-icon> Retry</v-btn
+        >
       </template>
     </v-data-table>
   </div>
@@ -106,16 +109,19 @@ export default {
     chipText: STATUS_TEXT
   }),
   mounted() {
-    api
-      .get(APIS.ALL_DOCS)
-      .then((resp) => {
-        return resp.json()
-      })
-      .then((data) => {
-        this.documents = this.parseDocData(data)
-      })
+    this.fetchDocuments()
   },
   methods: {
+    fetchDocuments() {
+      api
+        .get(APIS.ALL_DOCS)
+        .then((resp) => {
+          return resp.json()
+        })
+        .then((data) => {
+          this.documents = this.parseDocData(data)
+        })
+    },
     parseDocData(docs) {
       return docs.map((doc) => {
         return {
@@ -125,7 +131,8 @@ export default {
           date: formatUTCDate(doc.createdAt),
           path: doc.path,
           reportReady: this.checkReportStatus(doc),
-          status: this.getDocStatus(doc)
+          status: this.getDocStatus(doc),
+          ...this.getRetryInfo(doc)
         }
       })
     },
@@ -136,6 +143,17 @@ export default {
           (task) => task.type === 'REPORT' && task.status === 'COMPLETED'
         )
         return reportTasks.length > 0
+      }
+      return false
+    },
+    getRetryInfo(doc) {
+      if (doc.category === 'electoral') {
+        const tasks = doc.tasks ?? []
+        const reportTasks = tasks.filter(
+          (task) =>
+            task.type === 'REPORT' && (task.status === 'CANCELLED' || task.status === 'FAILED')
+        )
+        return { retryStatus: reportTasks.length > 0, retryTaskId: reportTasks?.[0]?.id }
       }
       return false
     },
@@ -167,6 +185,16 @@ export default {
         })
         .catch((err) => {
           console.log('Failed to download the report')
+        })
+    },
+    onRetry(taskId) {
+      api
+        .post(APIS.TASK, {
+          taskId,
+          status: 'NOT_STARTED'
+        })
+        .then(() => {
+          this.fetchDocuments()
         })
     },
     getDocStatus(doc) {
