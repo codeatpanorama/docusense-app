@@ -263,8 +263,9 @@ export default {
 .bulk-upload-wrapper {
   border: 2px solid var(--color-border-subtle);
   border-radius: 8px;
-  width: 400px;
-  overflow: hidden;
+  width: 600px;
+  overflow-y: auto;
+  position: relative;
   @include for-phone-only {
     width: 96%;
   }
@@ -273,6 +274,9 @@ export default {
     color: var(--color-title-text);
     padding: 12px;
     border-bottom: 2px solid var(--color-border-subtle);
+    position: sticky;
+    top: 0;
+    z-index: 1;
     .bulk-up-header-text {
       font-size: 16px;
       font-weight: bold;
