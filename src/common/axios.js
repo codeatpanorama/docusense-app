@@ -1,4 +1,7 @@
 import axios from 'axios'
+import { useCookies } from 'vue3-cookies'
+
+const { cookies } = useCookies()
 
 export async function axiosWrapper(method, url, data, headers, params) {
   return axios({
