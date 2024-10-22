@@ -12,7 +12,7 @@ export const APIS = {
   STATS: `${API_BASE_URL}/api/stats`,
   ELECTORAL_ZONES: `${API_BASE_URL}/api/stats`,
   TASK: `${API_BASE_URL}/api/task`,
-  ENTITLEMENTS: `${API_BASE_URL}/api/stats`,
+  ENTITLEMENTS: `${API_BASE_URL}/api/entitlement`,
   LOGIN: `${API_BASE_URL}/api/hello`,
   HELLO: `${API_BASE_URL}/api/hello`
 }
