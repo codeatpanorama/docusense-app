@@ -87,8 +87,8 @@ export const updateLoggedInUser = async () => {
 }
 
 export const getEntitlements = async () => {
-  return await axiosWrapper('get', APIS.ENTITLEMENTS).then(({ values }) =>
-    userStore.setUserEntitlements(values)
+  return await axiosWrapper('get', APIS.ENTITLEMENTS).then(({ data }) =>
+    userStore.setUserEntitlements(data.values)
   )
 }
 
