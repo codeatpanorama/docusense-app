@@ -1,11 +1,7 @@
 import { Store } from "./base";
 import { isSessionValid } from '../common/user';
-import { useCookies } from "vue3-cookies";
 import { POOL_DATA } from "../common/user";
 import { CognitoUserPool } from "amazon-cognito-identity-js";
-
-const { cookies } = useCookies();
-
 
 class UserStore extends Store {
   data() {
@@ -14,6 +10,7 @@ class UserStore extends Store {
       user: null,
       userInfo: null,
       userPool: null,
+      entitlements: null,
     }
   }
 
@@ -33,6 +30,10 @@ class UserStore extends Store {
     this.state.userInfo = userInfo;
   }
 
+  setUserEntitlements(entitlements) {
+    this.state.entitlements = entitlements;
+  }
+
   async checkSessionValidity() {
     this.state.isAuthenticated = await isSessionValid();
   }
@@ -42,6 +43,7 @@ class UserStore extends Store {
     this.state.isAuthenticated = false;
     this.state.user = null;
     this.state.userInfo = null;
+    this.state.entitlements = null;
   }
 }
 
