@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import { userStore } from "../store/user";
+import { userStore } from '../store/user'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,11 +29,6 @@ const router = createRouter({
       component: () => import('../views/BulkUploadView.vue')
     },
     {
-      path: '/doc-status',
-      name: 'doc-status',
-      component: () => import('../views/DocStatusView.vue')
-    },
-    {
       path: '/documents',
       name: 'documents',
       component: () => import('../views/DocumentsListView.vue')
@@ -42,6 +37,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: () => import('../views/SignUpView.vue')
     },
     {
       path: '/change-password',
@@ -57,19 +57,26 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
+  const entitlements = userStore.getState().entitlements ?? []
+  const isAdmin = entitlements.includes('ADMIN')
+  const isAuthenticated = userStore.getState().isAuthenticated
   if (
     // make sure the user is authenticated
-    !userStore.getState().isAuthenticated &&
+    !isAuthenticated &&
     // ❗️ Avoid an infinite redirect
-    (to.name !== 'login' && to.name !== 'forgot-password')
+    to.name !== 'login' &&
+    to.name !== 'signup' &&
+    to.name !== 'forgot-password'
   ) {
     // redirect the user to the login page
     return { name: 'login' }
-  } else if (
-    userStore.getState().isAuthenticated &&
-    (to.name === 'login' || to.name === 'forgot-password')
-  ) {
-    return { name: 'home' }
+  } else if (isAuthenticated) {
+    if (to.name === 'login' || to.name === 'forgot-password' || to.name === 'signup') {
+      return { name: 'home' }
+    }
+    if (!isAdmin && (to.name === 'upload' || to.name === 'bulk-upload')) {
+      return { name: 'home' }
+    }
   }
 })
 
