@@ -1,20 +1,28 @@
 <template>
-  <div class="login-wrapper">
-    <div class="lo-header">
-      <div class="lo-header-text">User Login</div>
+  <div class="signup-wrapper">
+    <div class="signup-header">
+      <div class="signup-header-text">New User Registration</div>
     </div>
-    <div class="lo-content">
-      <div class="lo-user-info" v-if="!unconfirmedUser">
-        <div class="lo-username">
+    <div class="signup-content">
+      <div class="signup-step-1" v-if="!step1Complete">
+        <div class="signup-full-name">
+          <v-text-field
+            label="Name"
+            v-model="userName"
+            :rules="[rules.required]"
+            prepend-icon="mdi-account"
+          ></v-text-field>
+        </div>
+        <div class="signup-username">
           <v-text-field
             label="Email ID"
-            v-model="username"
+            v-model="userEmail"
             type="email"
             :rules="[rules.required, rules.email]"
             prepend-icon="mdi-at"
           ></v-text-field>
         </div>
-        <div class="lo-password">
+        <div class="signup-password">
           <v-text-field
             v-model="password"
             :append-icon="showPwd ? 'mdi-eye' : 'mdi-eye-off'"
@@ -26,28 +34,29 @@
             @click:append="showPwd = !showPwd"
           ></v-text-field>
         </div>
-        <div class="lo-footer">
-          <div class="lo-signup">
-            <RouterLink to="/signup/">New User</RouterLink>
+        <div class="signup-footer">
+          <div class="signup-login">
+            <RouterLink to="/login/">Existing User Login</RouterLink>
           </div>
-          <div class="lo-forgot">
-            <RouterLink to="/forgot-password/">Forgot Password?</RouterLink>
-          </div>
-          <div class="lo-btn">
-            <v-btn :disabled="!(username && password)" density="default" @click="onLogin">
-              Login
+          <div class="signup-btn">
+            <v-btn
+              :disabled="!(userName && userEmail && password)"
+              density="default"
+              @click="onSignUp"
+            >
+              Sign Up
             </v-btn>
           </div>
         </div>
       </div>
-      <div class="lo-unconfirmed-user" v-if="unconfirmedUser">
-        <div class="lo-email-icon">
+      <div class="signup-step-2" v-if="step1Complete">
+        <div class="signup-email-icon">
           <v-icon size="xxx-large" icon="mdi-email-open"></v-icon>
         </div>
-        <div class="lo-code-message mb-2">
-          Please enter the verification code that was sent to {{ username }}
+        <div class="signup-code-message mb-2">
+          Please enter the verification code that was sent to {{ userEmail }}
         </div>
-        <div class="lo-code mb-2">
+        <div class="signup-code mb-2">
           <v-otp-input
             label="Confirmation Code"
             v-model="otp"
@@ -55,30 +64,30 @@
             prepend-icon="mdi-form-text-password"
           ></v-otp-input>
         </div>
-        <div class="lo-footer lo-confirm">
-          <div class="lo-btn">
+        <div class="signup-footer signup-confirm">
+          <div class="signup-btn">
             <v-btn density="default" @click="resendOTP"> Resend OTP </v-btn>
           </div>
-          <div class="lo-btn ml-2">
+          <div class="signup-btn ml-2">
             <v-btn :disabled="!otp" density="default" @click="confirmOTP"> Confirm OTP </v-btn>
           </div>
         </div>
       </div>
-      <div class="lo-response" v-if="response">
+      <div class="signup-response" v-if="response">
         <v-alert :text="response.text" :type="response.type" closable></v-alert>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { getAuthDetails, getCognitoUser, getUserPool, authenticateUser } from '../common/user'
+import { getUserPool } from '../common/user'
 import { userStore } from '../store/user'
 import { VALIDATION_RULES } from '../common/helpers'
 
 const RESPONSES = {
   SUCCESS: () => ({
     type: 'success',
-    text: `Logged in successfully`
+    text: `Signed up successfully`
   }),
   OTP_SUCCESS: () => ({
     type: 'success',
@@ -90,7 +99,7 @@ const RESPONSES = {
   }),
   FAILURE: (err) => ({
     type: 'error',
-    text: err || `Invalid credentials`
+    text: err || `Invalid input`
   })
 }
 
@@ -101,12 +110,13 @@ export default {
   data: () => ({
     processing: false,
     cognitoUser: null,
-    username: '',
+    userName: '',
+    userEmail: '',
     password: '',
     showPwd: false,
     otp: '',
-    unconfirmedUser: false,
     response: '',
+    step1Complete: false,
     rules: {
       required: VALIDATION_RULES.REQUIRED,
       email: VALIDATION_RULES.EMAIL
@@ -114,41 +124,34 @@ export default {
   }),
   mounted() {
     if (userStore.getState().isAuthenticated) {
-      this.afterLogin()
+      this.alreadySignedUp()
     }
   },
   methods: {
-    onLogin() {
-      if (!this.processing && this.username && this.password) {
+    onSignUp() {
+      if (!this.processing && this.userName && this.userEmail && this.password) {
         this.processing = true
         // Perform login success
-        const authDetails = getAuthDetails(this.username, this.password)
+        const attributeList = []
+        const dataName = {
+          Name: 'name',
+          Value: this.userName
+        }
+        // attributeList.push(dataName)
         const userPool = getUserPool()
-        this.cognitoUser = getCognitoUser(this.username, userPool)
-        this.cognitoUser.authenticateUser(authDetails, {
-          onSuccess: (result) => {
-            authenticateUser(result)
-            this.processing = false
-            this.response = RESPONSES.SUCCESS()
-            setTimeout(() => {
-              this.response = null
-              this.afterLogin()
-            }, SUCCESS_TIMER)
-          },
-
-          onFailure: (err) => {
-            this.processing = false
-            if (err.code === 'UserNotConfirmedException') {
-              this.unconfirmedUser = true
-              this.resendOTP()
-              return
-            }
-            this.response = RESPONSES.FAILURE()
-            console.log(err)
+        userPool.signUp(this.userEmail, this.password, attributeList, null, (err, result) => {
+          this.processing = false
+          if (err) {
+            const errMsg = err.message || JSON.stringify(err)
+            console.log(errMsg)
+            this.response = RESPONSES.FAILURE(errMsg)
             setTimeout(() => {
               this.response = null
             }, FAIL_TIMER)
+            return
           }
+          this.cognitoUser = result.user
+          this.step1Complete = true
         })
       }
     },
@@ -166,7 +169,7 @@ export default {
         this.response = RESPONSES.OTP_SUCCESS()
         setTimeout(() => {
           this.response = null
-          this.unconfirmedUser = false
+          this.$router.push(`/login/`)
         }, SUCCESS_TIMER)
       })
     },
@@ -188,7 +191,7 @@ export default {
         }, SUCCESS_TIMER)
       })
     },
-    afterLogin() {
+    alreadySignedUp() {
       this.$router.push(`/`)
     }
   }
@@ -197,7 +200,7 @@ export default {
 <style lang="scss">
 @import '../assets/media.scss';
 
-.login-wrapper {
+.signup-wrapper {
   border: 2px solid var(--color-border-subtle);
   border-radius: 8px;
   width: 400px;
@@ -207,39 +210,38 @@ export default {
     width: 96%;
   }
 
-  .lo-header {
+  .signup-header {
     background: var(--color-title-bg);
     color: var(--color-title-text);
     padding: 12px;
     border-bottom: 2px solid var(--color-border-subtle);
 
-    .lo-header-text {
+    .signup-header-text {
       font-size: 16px;
       font-weight: bold;
     }
   }
 
-  .lo-content {
+  .signup-content {
     padding: 12px;
     color: #000;
 
-    .lo-footer {
+    .signup-footer {
       display: flex;
       place-content: space-between;
       place-items: flex-end;
-      &.lo-confirm {
+      &.signup-confirm {
         place-content: flex-end;
       }
-
-      .lo-btn {
+      .signup-btn {
         text-align: right;
       }
     }
-    .lo-email-icon {
+    .signup-email-icon {
       text-align: center;
     }
 
-    .lo-response {
+    .signup-response {
       margin-top: 8px;
     }
   }

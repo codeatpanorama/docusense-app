@@ -39,6 +39,11 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue')
     },
     {
+      path: '/signup',
+      name: 'signup',
+      component: () => import('../views/SignUpView.vue')
+    },
+    {
       path: '/change-password',
       name: 'change-password',
       component: () => import('../views/ChangePasswordView.vue')
@@ -60,12 +65,13 @@ router.beforeEach(async (to, from) => {
     !isAuthenticated &&
     // ❗️ Avoid an infinite redirect
     to.name !== 'login' &&
+    to.name !== 'signup' &&
     to.name !== 'forgot-password'
   ) {
     // redirect the user to the login page
     return { name: 'login' }
   } else if (isAuthenticated) {
-    if (to.name === 'login' || to.name === 'forgot-password') {
+    if (to.name === 'login' || to.name === 'forgot-password' || to.name === 'signup') {
       return { name: 'home' }
     }
     if (!isAdmin && (to.name === 'upload' || to.name === 'bulk-upload')) {
