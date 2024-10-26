@@ -123,17 +123,7 @@ export default {
     category: '',
     categories: DOC_CATEGORIES,
     selectedZone: '',
-    electoralZones: [
-      {
-        state: 'Maharashtra',
-        districts: [
-          {
-            name: 'Pune',
-            assemblies: ['197 - Khed Alandi', '198 - Shirur', '199 - Daund']
-          }
-        ]
-      }
-    ],
+    electoralZones: [],
     state: '',
     states: [],
     district: '',
