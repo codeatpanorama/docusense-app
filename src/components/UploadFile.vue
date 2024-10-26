@@ -5,7 +5,7 @@
     </div>
     <div class="up-content">
       <div class="up-category">
-        <v-combobox
+        <v-autocomplete
           label="Document Category"
           :items="categories"
           v-model="category"
@@ -13,10 +13,10 @@
           :rules="[rules.required]"
           validate-on="blur"
           @update:modelValue="updateStates"
-        ></v-combobox>
+        ></v-autocomplete>
       </div>
       <div class="up-electoral-state" v-if="category === 'Electoral'">
-        <v-combobox
+        <v-autocomplete
           label="Electoral State"
           :items="states"
           v-model="state"
@@ -24,10 +24,10 @@
           :rules="[rules.required]"
           validate-on="blur"
           @update:modelValue="updateDistricts"
-        ></v-combobox>
+        ></v-autocomplete>
       </div>
       <div class="up-electoral-zones" v-if="category === 'Electoral'">
-        <v-combobox
+        <v-autocomplete
           label="Electoral District"
           :items="districts"
           v-model="district"
@@ -36,10 +36,10 @@
           validate-on="blur"
           @update:modelValue="updateAssemblies"
           :disabled="!state"
-        ></v-combobox>
+        ></v-autocomplete>
       </div>
       <div class="up-electoral-zones" v-if="category === 'Electoral'">
-        <v-combobox
+        <v-autocomplete
           label="Electoral District"
           :items="assemblies"
           v-model="assembly"
@@ -47,7 +47,7 @@
           :rules="[rules.required]"
           validate-on="blur"
           :disabled="!district"
-        ></v-combobox>
+        ></v-autocomplete>
       </div>
       <div class="up-upload">
         <v-file-input
@@ -151,8 +151,8 @@ export default {
         return resp.json()
       })
       .then((data) => {
-        if (data?.length) {
-          this.electoralZones = data
+        if (data?.states) {
+          this.electoralZones = data.states
         }
       })
   },
@@ -160,35 +160,35 @@ export default {
     updateStates() {
       if (this.category !== 'Electoral' || !this.electoralZones?.length) {
         this.states = []
-        this.state = ''
         this.districts = []
-        this.district = ''
         this.assemblies = []
-        this.assembly = ''
       } else {
-        this.states = this.electoralZones.map(({ state }) => state)
+        this.states = this.electoralZones.map(({ name }) => name)
       }
+      this.state = ''
+      this.district = ''
+      this.assembly = ''
     },
     updateDistricts() {
       if (!this.state) {
         this.districts = []
-        this.district = ''
         this.assemblies = []
-        this.assembly = ''
       } else {
-        const stateInfo = this.electoralZones.find(({ state }) => state === this.state)
-        this.districts = stateInfo.districts.map(({ name }) => name)
+        const stateInfo = this.electoralZones.find(({ name }) => name === this.state)
+        this.districts = stateInfo.districts.map(({ name }) => name) ?? []
       }
+      this.district = ''
+      this.assembly = ''
     },
     updateAssemblies() {
       if (!this.district) {
         this.assemblies = []
-        this.assembly = ''
       } else {
-        const stateInfo = this.electoralZones.find(({ state }) => state === this.state)
+        const stateInfo = this.electoralZones.find(({ name }) => name === this.state)
         const districtInfo = stateInfo.districts.find(({ name }) => name === this.district)
-        this.assemblies = districtInfo.assemblies
+        this.assemblies = districtInfo?.assemblies ?? []
       }
+      this.assembly = ''
     },
     updateFileName(files) {
       if (files.length) {

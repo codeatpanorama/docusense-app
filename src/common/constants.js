@@ -10,7 +10,7 @@ export const APIS = {
   SEARCH: `${API_BASE_URL}/api/search`,
   PREVIEW: `${API_BASE_URL}/api/resultPreview`,
   STATS: `${API_BASE_URL}/api/stats`,
-  ELECTORAL_ZONES: `${API_BASE_URL}/api/stats`,
+  ELECTORAL_ZONES: `${API_BASE_URL}/api/acs`,
   TASK: `${API_BASE_URL}/api/task`,
   ENTITLEMENTS: `${API_BASE_URL}/api/entitlement`,
   LOGIN: `${API_BASE_URL}/api/hello`,
@@ -18,13 +18,13 @@ export const APIS = {
 }
 
 export const DOC_CATEGORIES = [
+  'Electoral',
   'Receipt',
   'Contract',
   'Tender',
   'Agreement',
   'Notary',
   'General',
-  'Electoral',
   'Test Document'
 ]
 

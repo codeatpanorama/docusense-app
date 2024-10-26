@@ -1,5 +1,5 @@
 import { Store } from "./base";
-import { isSessionValid } from '../common/user';
+import { getEntitlements, isSessionValid } from '../common/user';
 import { POOL_DATA } from "../common/user";
 import { CognitoUserPool } from "amazon-cognito-identity-js";
 
@@ -48,4 +48,7 @@ class UserStore extends Store {
 }
 
 export const userStore = new UserStore()
-userStore.checkSessionValidity();
+await userStore.checkSessionValidity();
+if (userStore.getState().isAuthenticated) {
+  await getEntitlements()
+}
