@@ -60,5 +60,10 @@ export const MENU_ITEMS = [
     text: 'Documents',
     link: '/documents/',
     icon: 'mdi-view-list'
+  },
+  {
+    text: 'Store',
+    link: '/store/',
+    icon: 'mdi-store'
   }
 ]
