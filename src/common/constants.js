@@ -10,18 +10,21 @@ export const APIS = {
   SEARCH: `${API_BASE_URL}/api/search`,
   PREVIEW: `${API_BASE_URL}/api/resultPreview`,
   STATS: `${API_BASE_URL}/api/stats`,
+  ELECTORAL_ZONES: `${API_BASE_URL}/api/acs`,
+  TASK: `${API_BASE_URL}/api/task`,
+  ENTITLEMENTS: `${API_BASE_URL}/api/entitlement`,
   LOGIN: `${API_BASE_URL}/api/hello`,
   HELLO: `${API_BASE_URL}/api/hello`
 }
 
 export const DOC_CATEGORIES = [
+  'Electoral',
   'Receipt',
   'Contract',
   'Tender',
   'Agreement',
   'Notary',
   'General',
-  'Electoral',
   'Test Document'
 ]
 
@@ -39,17 +42,14 @@ export const MENU_ITEMS = [
   {
     text: 'File Upload',
     link: '/upload/',
-    icon: 'mdi-file-upload'
+    icon: 'mdi-file-upload',
+    restricted: true
   },
   {
     text: 'Bulk Upload',
     link: '/bulk-upload/',
-    icon: 'mdi-folder-upload'
-  },
-  {
-    text: 'Document Status',
-    link: '/doc-status/',
-    icon: 'mdi-list-status'
+    icon: 'mdi-folder-upload',
+    restricted: true
   },
   {
     text: 'Search',
