@@ -192,11 +192,9 @@ export default {
           file,
           name,
           category,
-          folder: {
-            path1: state,
-            path2: district,
-            path3: assembly
-          }
+          path1: state,
+          path2: district,
+          path3: assembly
         },
         {
           'Content-Type': 'multipart/form-data'

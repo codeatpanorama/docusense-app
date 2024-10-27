@@ -201,11 +201,9 @@ export default {
             file: this.file[0],
             name: this.name,
             category: this.category.toLowerCase(),
-            folder: {
-              path1: this.state,
-              path2: this.district,
-              path3: this.assembly
-            }
+            path1: this.state,
+            path2: this.district,
+            path3: this.assembly
           },
           {
             'Content-Type': 'multipart/form-data'
