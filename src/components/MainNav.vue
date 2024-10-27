@@ -36,7 +36,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '../assets/media.scss';
+@use '../assets/media.scss';
 
 .header {
   height: 100vh;
@@ -46,7 +46,7 @@ export default {
   top: 0;
   background: var(--color-header-bg);
 
-  @include for-phone-only {
+  @include media.for-phone-only {
     display: none;
   }
 

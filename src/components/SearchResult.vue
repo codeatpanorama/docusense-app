@@ -222,10 +222,10 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/media.scss';
+@use '../assets/media.scss';
 
 .sr-results-container {
-    @include for-phone-only {
+    @include media.for-phone-only {
         max-width: calc(100vw - 24px);
     }
 
@@ -233,11 +233,11 @@ export default {
         .sr-no-data-content {
             padding: 8px;
 
-            @include for-phone-only {
+            @include media.for-phone-only {
                 padding: 0;
             }
 
-            @include for-phone-only {
+            @include media.for-phone-only {
                 .lottie-animation-container {
                     max-width: calc(100vw - 24px);
                 }
@@ -307,7 +307,7 @@ export default {
     justify-content: flex-end;
     border-top: 1px solid var(--color-border-subtle);
 
-    @include for-phone-only {
+    @include media.for-phone-only {
         justify-content: center;
     }
 

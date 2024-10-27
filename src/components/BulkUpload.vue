@@ -258,7 +258,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '../assets/media.scss';
+@use '../assets/media.scss';
 
 .bulk-upload-wrapper {
   border: 2px solid var(--color-border-subtle);
@@ -266,7 +266,7 @@ export default {
   width: 600px;
   overflow-y: auto;
   position: relative;
-  @include for-phone-only {
+  @include media.for-phone-only {
     width: 96%;
   }
   .bulk-up-header {

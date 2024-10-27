@@ -30,14 +30,14 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '../assets/media.scss';
+@use '../assets/media.scss';
 
 .recent-searches {
     margin-top: 8px;
     padding: 0 8px;
     color: #000;
 
-    @include for-phone-only {
+    @include media.for-phone-only {
         .rs-text {
             display: block;
         }
@@ -50,7 +50,7 @@ export default {
         text-decoration: underline;
 
         &:first-of-type {
-            @include for-phone-only {
+            @include media.for-phone-only {
                 padding-left: 0;
             }
         }

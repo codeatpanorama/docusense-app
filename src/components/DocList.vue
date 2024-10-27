@@ -239,10 +239,10 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '../assets/media.scss';
+@use '../assets/media.scss';
 
 .doc-list {
-  @include for-phone-only {
+  @include media.for-phone-only {
     max-width: calc(100vw - 24px);
   }
 
@@ -268,7 +268,7 @@ export default {
       }
     }
 
-    @include for-phone-only {
+    @include media.for-phone-only {
       .v-data-table-footer {
         justify-content: center;
       }

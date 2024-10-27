@@ -42,7 +42,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '../assets/media.scss';
+@use '../assets/media.scss';
 
 .logo-header {
     height: 56px;
@@ -60,7 +60,7 @@ export default {
     place-items: center;
     place-content: center;
     
-    @include for-phone-only {
+    @include media.for-phone-only {
         width: 100%;
     }
 
