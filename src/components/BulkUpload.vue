@@ -24,7 +24,6 @@
           :rules="[rules.required]"
           validate-on="blur"
           @update:modelValue="updateDistricts"
-          :disabled="!state"
         ></v-autocomplete>
       </div>
       <div class="bulk-up-electoral-zones" v-if="category === 'Electoral'">
@@ -36,7 +35,7 @@
           :rules="[rules.required]"
           validate-on="blur"
           @update:modelValue="updateAssemblies"
-          :disabled="!district"
+          :disabled="!state"
         ></v-autocomplete>
       </div>
       <div class="bulk-up-electoral-zones" v-if="category === 'Electoral'">
@@ -47,6 +46,7 @@
           prepend-icon="mdi-home"
           :rules="[rules.required]"
           validate-on="blur"
+          :disabled="!district"
         ></v-autocomplete>
       </div>
       <div class="bulk-up-upload">
@@ -115,17 +115,7 @@ export default {
     category: '',
     categories: DOC_CATEGORIES,
     selectedZone: '',
-    electoralZones: [
-      {
-        state: 'Maharashtra',
-        districts: [
-          {
-            name: 'Pune',
-            assemblies: ['197 - Khed Alandi', '198 - Shirur', '199 - Daund']
-          }
-        ]
-      }
-    ],
+    electoralZones: [],
     state: '',
     states: [],
     district: '',
@@ -202,11 +192,9 @@ export default {
           file,
           name,
           category,
-          folder: {
-            path1: state,
-            path2: district,
-            path3: assembly
-          }
+          path1: state,
+          path2: district,
+          path3: assembly
         },
         {
           'Content-Type': 'multipart/form-data'

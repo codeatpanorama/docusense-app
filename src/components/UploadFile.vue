@@ -123,17 +123,7 @@ export default {
     category: '',
     categories: DOC_CATEGORIES,
     selectedZone: '',
-    electoralZones: [
-      {
-        state: 'Maharashtra',
-        districts: [
-          {
-            name: 'Pune',
-            assemblies: ['197 - Khed Alandi', '198 - Shirur', '199 - Daund']
-          }
-        ]
-      }
-    ],
+    electoralZones: [],
     state: '',
     states: [],
     district: '',
@@ -211,11 +201,9 @@ export default {
             file: this.file[0],
             name: this.name,
             category: this.category.toLowerCase(),
-            folder: {
-              path1: this.state,
-              path2: this.district,
-              path3: this.assembly
-            }
+            path1: this.state,
+            path2: this.district,
+            path3: this.assembly
           },
           {
             'Content-Type': 'multipart/form-data'
