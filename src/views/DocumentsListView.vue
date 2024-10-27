@@ -2,6 +2,7 @@
 import DocList from '../components/DocList.vue'
 import MainNav from '../components/MainNav.vue'
 import UploadFile from '../components/UploadFile.vue'
+import { userStore } from '../store/user'
 </script>
 
 <template>
@@ -10,7 +11,7 @@ import UploadFile from '../components/UploadFile.vue'
     <div class="view-wrapper-start">
       <div class="ds-header-wrapper">
         <div class="ds-header">Documents</div>
-        <div class="ds-header-action-buttons">
+        <div class="ds-header-action-buttons" v-if="isAdmin">
           <v-btn density="default" @click="onUploadClick">Upload</v-btn>
         </div>
       </div>
@@ -19,15 +20,20 @@ import UploadFile from '../components/UploadFile.vue'
       </div>
     </div>
     <v-dialog v-model="showUploadModal" width="auto">
-        <UploadFile />
+      <UploadFile />
     </v-dialog>
   </div>
 </template>
 <script>
 export default {
   data: () => ({
-    showUploadModal: false
+    showUploadModal: false,
+    isAdmin: false
   }),
+  mounted() {
+    const entitlements = userStore.getState().entitlements ?? []
+    this.isAdmin = entitlements.includes('ADMIN')
+  },
   methods: {
     onUploadClick() {
       this.showUploadModal = true

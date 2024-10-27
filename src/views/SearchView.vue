@@ -1,7 +1,7 @@
 <script setup>
-import SearchBar from '../components/SearchBar.vue';
-import SearchResults from '../components/SearchResult.vue';
-import MainNav from '../components/MainNav.vue';
+import SearchBar from '../components/SearchBar.vue'
+import SearchResults from '../components/SearchResult.vue'
+import MainNav from '../components/MainNav.vue'
 </script>
 
 <template>
@@ -19,25 +19,27 @@ import MainNav from '../components/MainNav.vue';
 </template>
 
 <script>
-import { APIS } from '../common/constants';
+import { APIS } from '../common/constants'
 import { encodeBase64, decodeBase64 } from '../common/helpers'
-import axios from "axios";
+import { api } from '../common/apis'
+import axios from 'axios'
+import { axiosWrapper } from '../common/axios'
 
 export default {
   data: () => ({
     searching: false,
     searchResult: null,
-    searchData: [],
+    searchData: []
   }),
   created() {
-    const searchString = this.$route.query.data;
+    const searchString = this.$route.query.data
     if (searchString) {
       try {
-        const data = decodeBase64(searchString);
-        this.searchData = JSON.parse(data);
-        this.performSearch(this.searchData);
+        const data = decodeBase64(searchString)
+        this.searchData = JSON.parse(data)
+        this.performSearch(this.searchData)
       } catch (e) {
-        this.searchData = [];
+        this.searchData = []
       }
     }
   },
@@ -46,12 +48,12 @@ export default {
       return results.map((doc) => {
         return {
           id: doc.id,
-          keywords: doc.filteredWords.map(word => word.value.toLowerCase()),
+          keywords: doc.filteredWords.map((word) => word.value.toLowerCase()),
           date: 'NA',
           documentName: doc.documentName,
           page: doc.number,
           pageId: doc.id,
-          rects: doc.filteredWords.map(word => ({
+          rects: doc.filteredWords.map((word) => ({
             x: word.x,
             y: word.y,
             height: word.height,
@@ -68,30 +70,37 @@ export default {
         query: {
           data: encodeBase64(JSON.stringify(searchData))
         }
-      });
-      this.searchData = searchData;
-      this.performSearch(this.searchData);
+      })
+      this.searchData = searchData
+      this.performSearch(this.searchData)
     },
     performSearch(searchData) {
-      this.searching = true;
-      this.response = null;
-      axios.get(APIS.SEARCH, {
+      this.searching = true
+      this.response = null
+      axiosWrapper('get', APIS.SEARCH, {
         params: {
-          q2: searchData.filter(d => d.required).map(d => d.text).join(','),
-          q1: searchData.filter(d => !d.required).map(d => d.text).join(','),
+          q2: searchData
+            .filter((d) => d.required)
+            .map((d) => d.text)
+            .join(','),
+          q1: searchData
+            .filter((d) => !d.required)
+            .map((d) => d.text)
+            .join(','),
           tags: ''
         }
-      }).then((resp) => {
-        this.searching = false;
-        this.searchResult = this.translateDocData(resp.data);
-      }).catch((err) => {
-        this.searching = false;
-        console.log("Failed to load search results")
-      });
+      })
+        .then((resp) => {
+          this.searching = false
+          this.searchResult = this.translateDocData(resp.data)
+        })
+        .catch((err) => {
+          this.searching = false
+          console.log('Failed to load search results')
+        })
     }
   }
 }
-
 </script>
 
 <style scoped></style>
