@@ -155,7 +155,7 @@ export default {
         const tasks = doc.tasks ?? []
         const reportTasks = tasks.filter(
           (task) =>
-            task.type === 'REPORT' && (task.status === 'CANCELLED' || task.status === 'FAILED')
+            ( task.type === 'REPORT' || task.type === 'VALIDATE') && (task.status === 'CANCELLED' || task.status === 'FAILED')
         )
         return { retryStatus: reportTasks.length > 0, retryTaskId: reportTasks?.[0]?.id }
       }
@@ -202,7 +202,7 @@ export default {
     },
     getDocStatus(doc) {
       if (doc.tasks) {
-        const report = doc.tasks.find((task) => task.type == 'REPORT')
+        const report = doc.tasks.find((task) => ( task.type == 'REPORT' ))
         if (report) {
           switch (report.status) {
             case 'CANCELLED':

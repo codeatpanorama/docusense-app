@@ -68,7 +68,7 @@ export const decodeBase64 = (str) => {
 export const isMobile = screen.width <= 760
 
 export const formatUTCDate = (date) => {
-  return dayjs(date).utc(true).format('DD-MM-YYYY')
+  return dayjs(date).utc(true).format('DD-MM-YYYY HH:mm:ss')
 }
 
 export const VALIDATION_RULES = {
