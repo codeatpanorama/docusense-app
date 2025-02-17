@@ -113,21 +113,6 @@ export default {
       .then((data) => {
         this.constituencyStats = this.transformConstituencyStats(data || {})
       })
-      .catch((err) => {
-        console.error('Failed to fetch constituency stats', err)
-        this.constituencyStats = this.transformConstituencyStats({
-          '289-Temprory': {
-            stats: {
-              processed: 3,
-              uploaded: 5
-            },
-            metadata: {
-              district: 'TemproryDistrict',
-              state: 'TemproryState'
-            }
-          }
-        })
-      })
   },
   methods: {
     pad(num) {
