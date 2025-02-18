@@ -91,7 +91,6 @@ export const getEntitlements = async () => {
     userStore.setUserEntitlements(data.values)
   ).catch(() => {
     // Handle error
-    userStore.setUserEntitlements([])
     userStore.clearUserInfo()
   })
 }
