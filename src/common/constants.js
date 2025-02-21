@@ -10,6 +10,7 @@ export const APIS = {
   SEARCH: `${API_BASE_URL}/api/search`,
   PREVIEW: `${API_BASE_URL}/api/resultPreview`,
   STATS: `${API_BASE_URL}/api/stats`,
+  CONSTITUENCY_STATS: `${API_BASE_URL}/api/constituency-stats`,
   ELECTORAL_ZONES: `${API_BASE_URL}/api/acs`,
   TASK: `${API_BASE_URL}/api/task`,
   ENTITLEMENTS: `${API_BASE_URL}/api/entitlement`,

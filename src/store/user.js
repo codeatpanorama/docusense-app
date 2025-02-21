@@ -22,6 +22,13 @@ class UserStore extends Store {
     this.state.isAuthenticated = true;
   }
 
+  clearUserInfo() {
+    this.state.isAuthenticated = false;
+    this.state.user = null;
+    this.state.userInfo = null;
+    this.state.entitlements = null;
+  }
+
   setUser(user) {
     this.state.user = user;
   }
@@ -40,10 +47,7 @@ class UserStore extends Store {
 
   logout() {
     this.state.user.signOut();
-    this.state.isAuthenticated = false;
-    this.state.user = null;
-    this.state.userInfo = null;
-    this.state.entitlements = null;
+    this.clearUserInfo();
   }
 }
 
