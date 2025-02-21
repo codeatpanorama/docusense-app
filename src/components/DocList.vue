@@ -16,15 +16,47 @@
         >
       </template>
       <template v-slot:item.action="{ item }">
-        <v-btn class="mr-4" density="default" @click="() => onDownloadDocument(item)"
-          ><v-icon class="mr-2" size="small" icon="mdi-download"></v-icon> Document</v-btn
-        >
-        <v-btn v-if="item.reportReady" density="default" @click="() => onDownloadReport(item)"
-          ><v-icon class="mr-2" size="small" icon="mdi-download"></v-icon> Report</v-btn
-        >
-        <v-btn v-if="isAdmin && item.retryStatus" density="default" @click="() => onRetry(item.retryTaskId)"
-          ><v-icon class="mr-2" size="small" icon="mdi-reload"></v-icon> Retry</v-btn
-        >
+        <v-menu>
+          <template v-slot:activator="{ props }">
+            <v-btn
+              icon
+              v-bind="props"
+              variant="plain"
+              color="default"
+            >
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item @click="() => onDownloadDocument(item)">
+              <template v-slot:prepend>
+                <v-icon>mdi-download</v-icon>
+              </template>
+              <v-list-item-title>Download Document</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item 
+              v-if="item.reportReady" 
+              @click="() => onDownloadReport(item)"
+            >
+              <template v-slot:prepend>
+                <v-icon>mdi-download</v-icon>
+              </template>
+              <v-list-item-title>Download Report</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item 
+              v-if="isAdmin && item.retryStatus" 
+              @click="() => onRetry(item.retryTaskId)"
+            >
+              <template v-slot:prepend>
+                <v-icon>mdi-reload</v-icon>
+              </template>
+              <v-list-item-title>Retry</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </template>
     </v-data-table>
   </div>
@@ -48,6 +80,24 @@ const TABLE_HEADERS = [
     align: 'start',
     sortable: true,
     key: 'category'
+  },
+  {
+    title: 'State',
+    align: 'start',
+    sortable: true,
+    key: 'state'
+  },
+  {
+    title: 'District',
+    align: 'start',
+    sortable: true,
+    key: 'district'
+  },
+  {
+    title: 'Constituency',
+    align: 'start',
+    sortable: true,
+    key: 'constituency'
   },
   {
     title: 'Upload Date',
@@ -132,6 +182,9 @@ export default {
           id: doc.id,
           name: doc.name,
           category: doc.category.toUpperCase(),
+          state: doc.state.toUpperCase(),
+          district: doc.district.toUpperCase(),
+          constituency: doc.constituency.toUpperCase(),
           date: formatUTCDate(doc.createdAt),
           path: doc.path,
           reportReady: this.checkReportStatus(doc),
