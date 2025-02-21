@@ -76,7 +76,7 @@ import CountUp from 'vue-countup-v3'
                   rounded
                 >
                   <template v-slot:default="{ value }">
-                    <strong class="constituency-progress-text">{{ value }}%</strong>
+                    <strong class="constituency-progress-text">{{ truncateToTwoDecimals(value) }}%</strong>
                   </template>
                 </v-progress-linear>
               </div>
@@ -138,6 +138,9 @@ export default {
         }
       }
       return transformed
+    },
+    truncateToTwoDecimals(value) {
+      return Math.floor(value * 100) / 100
     }
   },
   computed: {
