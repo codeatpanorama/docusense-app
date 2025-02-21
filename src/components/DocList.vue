@@ -9,12 +9,43 @@
     >
       <template v-slot:item.status="{ item }">
         <v-chip
+          v-if="item.category !== 'ELECTORAL'"
           class="ds-chip"
           :prepend-icon="chipIcons[item.status]"
           :color="chipColors[item.status]"
-          >{{ chipText[item.status] }}</v-chip
         >
+          {{ item.status }}
+        </v-chip>
+
+        <div v-else class="status-indicators">
+          <v-tooltip location="top">
+            <template v-slot:activator="{ props }">
+              <div 
+                class="status-circle" 
+                :class="chipColors[item.validationStatus]"
+                v-bind="props"
+              >
+                V
+              </div>
+            </template>
+            <span>Validation: {{ item.validationStatus }}</span>
+          </v-tooltip>
+
+          <v-tooltip location="top">
+            <template v-slot:activator="{ props }">
+              <div 
+                class="status-circle" 
+                :class="chipColors[item.reportStatus]"
+                v-bind="props"
+              >
+                R
+              </div>
+            </template>
+            <span>Report: {{ item.reportStatus }}</span>
+          </v-tooltip>
+        </div>
       </template>
+
       <template v-slot:item.action="{ item }">
         <v-menu>
           <template v-slot:activator="{ props }">
@@ -118,36 +149,44 @@ const TABLE_HEADERS = [
   }
 ]
 
+const DOC_STATUS = {
+  NOT_STARTED: 'Not Started',
+  IN_PROGRESS: 'In Progress',
+  COMPLETED: 'Completed',
+  FAILED: 'Failed',
+  CANCELLED: 'Cancelled',
+  DUPLICATE: 'Duplicate',
+  PENDING: 'Pending'
+}
+
 const STATUS_COLORS = {
-  Pending: 'red',
+  'Not Started': 'grey',
   'In Progress': 'orange',
-  Extracted: 'green',
-  Cancelled: 'red',
-  Failed: 'red'
+  'Completed': 'green',
+  'Failed': 'red',
+  'Cancelled': 'red',
+  'Duplicate': 'purple',
+  'Pending': 'blue'
 }
 
 const STATUS_ICONS = {
-  Pending: 'mdi-progress-upload',
+  'Not Started': 'mdi-clock-outline',
   'In Progress': 'mdi-timer-sand',
-  Extracted: 'mdi-check-circle',
-  Cancelled: 'mdi-close-circle',
-  Failed: 'mdi-close-circle'
+  'Completed': 'mdi-check-circle',
+  'Failed': 'mdi-close-circle',
+  'Cancelled': 'mdi-close-circle',
+  'Duplicate': 'mdi-content-copy',
+  'Pending': 'mdi-progress-clock'
 }
 
 const STATUS_TEXT = {
-  Pending: 'Pending',
+  'Not Started': 'Not Started',
   'In Progress': 'In Progress',
-  Extracted: 'Completed',
-  Cancelled: 'Cancelled',
-  Failed: 'Failed'
-}
-
-const DOC_STATUS = {
-  NOT_STARTED: 'Pending',
-  STARTED: 'In Progress',
-  COMPLETED: 'Extracted',
-  CANCELLED: 'Cancelled',
-  FAILED: 'Failed'
+  'Completed': 'Completed',
+  'Failed': 'Failed',
+  'Cancelled': 'Cancelled',
+  'Duplicate': 'Duplicate',
+  'Pending': 'Pending'
 }
 
 export default {
@@ -178,7 +217,7 @@ export default {
     },
     parseDocData(docs) {
       return docs.map((doc) => {
-        return {
+        const baseData = {
           id: doc.id,
           name: doc.name,
           category: doc.category.toUpperCase(),
@@ -187,11 +226,44 @@ export default {
           constituency: doc.constituency.toUpperCase(),
           date: formatUTCDate(doc.createdAt),
           path: doc.path,
-          reportReady: this.checkReportStatus(doc),
+        }
+
+        if (doc.category === 'electoral') {
+          const tasks = doc.tasks ?? []
+          const validateTask = tasks.find(task => task.type === 'VALIDATE')
+          const reportTask = tasks.find(task => task.type === 'REPORT')
+
+          return {
+            ...baseData,
+            validationStatus: this.getTaskStatus(validateTask),
+            reportStatus: this.getTaskStatus(reportTask),
+            reportReady: reportTask?.status === 'COMPLETED',
+            retryStatus: (validateTask?.status === 'FAILED' || reportTask?.status === 'FAILED'),
+            retryTaskId: validateTask?.status === 'FAILED' ? validateTask.id : reportTask?.id
+          }
+        }
+
+        return {
+          ...baseData,
           status: this.getDocStatus(doc),
+          reportReady: this.checkReportStatus(doc),
           ...this.getRetryInfo(doc)
         }
       })
+    },
+    getTaskStatus(task) {
+      if (!task) return DOC_STATUS.NOT_STARTED
+      
+      switch (task.status) {
+        case 'NOT_STARTED': return DOC_STATUS.NOT_STARTED
+        case 'IN_PROGRESS': return DOC_STATUS.IN_PROGRESS
+        case 'COMPLETED': return DOC_STATUS.COMPLETED
+        case 'FAILED': return DOC_STATUS.FAILED
+        case 'CANCELLED': return DOC_STATUS.CANCELLED
+        case 'DUPLICATE': return DOC_STATUS.DUPLICATE
+        case 'PENDING': return DOC_STATUS.PENDING
+        default: return DOC_STATUS.NOT_STARTED
+      }
     },
     checkReportStatus(doc) {
       if (doc.category === 'electoral') {
@@ -326,6 +398,31 @@ export default {
         justify-content: center;
       }
     }
+  }
+
+  .status-indicators {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .status-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+
+    &.grey { background-color: grey; }
+    &.orange { background-color: orange; }
+    &.green { background-color: #4CAF50; }
+    &.red { background-color: #FF5252; }
+    &.purple { background-color: #9C27B0; }
+    &.blue { background-color: #2196F3; }
   }
 }
 </style>
