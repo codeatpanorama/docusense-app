@@ -43,8 +43,13 @@ import CountUp from 'vue-countup-v3'
         <hr class="divider-line" />
       </div>
 
-      <div class="constituency-card-row" v-for="(row, index) in constituencyRows" :key="index">
-        <v-card v-for="(stat, name) in row" :key="name" :title="name">
+      <div class="constituency-card-row">
+        <v-card 
+          v-for="(stat, name) in constituencyStats" 
+          :key="name" 
+          :title="name"
+          class="constituency-card"
+        >
           <v-card-subtitle>{{ stat.district }}, {{ stat.state }}</v-card-subtitle>
           <v-card-text>
             <div class="constituency-stat">
@@ -79,6 +84,7 @@ import CountUp from 'vue-countup-v3'
           </v-card-text>
         </v-card>
       </div>
+      
     </template>
   </div>
 </template>
@@ -135,18 +141,6 @@ export default {
     }
   },
   computed: {
-    constituencyRows() {
-      const rows = []
-      const itemsPerRow = 2
-      const entries = Object.entries(this.constituencyStats)
-
-      for (let i = 0; i < entries.length; i += itemsPerRow) {
-        const row = Object.fromEntries(entries.slice(i, i + itemsPerRow))
-        rows.push(row)
-      }
-
-      return rows
-    },
     hasConstituencyStats() {
       return Object.keys(this.constituencyStats).length > 0
     }
@@ -206,8 +200,15 @@ export default {
   }
 
   .constituency-card-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    width: 100%;
+
     .v-card {
-      width: 240px;
+      width: 100%;
+      margin: 0;
+      
       .v-card-text {
         display: flex;
         flex-direction: column;
@@ -216,44 +217,6 @@ export default {
         .constituency-stat {
           font-size: 24px;
           line-height: 1.2;
-        }
-      }
-    }
-    .constituency-stat {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-
-      .constituency-stat-row {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-
-        .constituency-stat-item {
-          text-align: center;
-
-          .constituency-stat-label {
-            font-size: 16px;
-            color: var(--v-medium-emphasis);
-            display: block;
-            margin-bottom: 8px;
-          }
-        }
-      }
-
-      .constituency-progress-section {
-        position: relative;
-        margin-top: 8px;
-
-        .constituency-progress-bar {
-          margin-bottom: 4px;
-        }
-
-        .constituency-progress-text {
-          font-size: 14px;
-          color: var(--v-medium-emphasis);
-          text-align: right;
-          display: block;
         }
       }
     }
