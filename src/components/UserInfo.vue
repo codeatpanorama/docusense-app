@@ -31,6 +31,9 @@ export default {
         items: [{
             text: 'Change Password',
             link: '/change-password/'
+        }, {
+            text: 'User Management',
+            link: '/user-management/'
         }],
         isMobile: isMobile
 

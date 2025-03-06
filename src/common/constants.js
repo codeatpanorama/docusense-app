@@ -15,7 +15,8 @@ export const APIS = {
   TASK: `${API_BASE_URL}/api/task`,
   ENTITLEMENTS: `${API_BASE_URL}/api/entitlement`,
   LOGIN: `${API_BASE_URL}/api/hello`,
-  HELLO: `${API_BASE_URL}/api/hello`
+  HELLO: `${API_BASE_URL}/api/hello`,
+  USER: `${API_BASE_URL}/api/user`
 }
 
 export const DOC_CATEGORIES = [
