@@ -138,7 +138,7 @@ const TABLE_HEADERS = [
   {
     title: 'Status',
     align: 'start',
-    sortable: true,
+    sortable: false,
     key: 'status'
   },
   {
