@@ -52,6 +52,11 @@ const router = createRouter({
       path: '/forgot-password',
       name: 'forgot-password',
       component: () => import('../views/ForgotPasswordView.vue')
+    },
+    {
+      path: '/user-management',
+      name: 'user-management',
+      component: () => import('../views/UserManagementView.vue')
     }
   ]
 })
@@ -74,7 +79,7 @@ router.beforeEach(async (to, from) => {
     if (to.name === 'login' || to.name === 'forgot-password' || to.name === 'signup') {
       return { name: 'home' }
     }
-    if (!isAdmin && (to.name === 'upload' || to.name === 'bulk-upload')) {
+    if (!isAdmin && (to.name === 'upload' || to.name === 'bulk-upload' || to.name === 'user-management')) {
       return { name: 'home' }
     }
   }
