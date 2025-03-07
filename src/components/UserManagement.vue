@@ -1,50 +1,101 @@
 <template>
     <div class="user-management-wrapper">
-        <div class="um-header">
-            <div class="um-header-text">User Management</div>
-        </div>
         <div class="um-content">
-            <div class="um-user-id">
-                <v-text-field v-model="userId" 
-                    prepend-icon="mdi-account-key" 
-                    :rules="[rules.required]" 
-                    name="user-id" 
-                    label="User ID"></v-text-field>
+            <!-- User List Table -->
+            <div class="um-table-wrapper">
+                <v-data-table
+                    :headers="headers"
+                    :items="users"
+                    :loading="loadingUsers"
+                    class="elevation-1"
+                >
+                    <template v-slot:item.roles="{ item }">
+                        <v-chip
+                            v-for="role in item.roles"
+                            :key="role"
+                            class="ma-1"
+                            size="small"
+                        >
+                            {{ role.toLowerCase() }}
+                        </v-chip>
+                    </template>
+                    
+                    <template v-slot:item.electoralEntitlements="{ item }">
+                        <v-chip
+                            v-for="entitlement in item.electoralEntitlements"
+                            :key="entitlement"
+                            class="ma-1"
+                            size="small"
+                        >
+                            {{ entitlement }}
+                        </v-chip>
+                    </template>
+                    
+                    <template v-slot:item.actions="{ item }">
+                        <v-btn
+                            icon="mdi-pencil"
+                            size="small"
+                            @click="editUser(item)"
+                            color="primary"
+                        ></v-btn>
+                    </template>
+                </v-data-table>
             </div>
-            <div class="um-roles">
-                <v-select
-                    v-model="selectedRoles"
-                    :items="availableRoles"
-                    prepend-icon="mdi-account-multiple-check"
-                    :rules="[rules.required]"
-                    name="roles"
-                    label="Roles"
-                    multiple
-                    chips
-                ></v-select>
-            </div>
-            <div class="um-entitlements">
-                <v-select
-                    v-model="selectedEntitlement"
-                    :items="entitlementOptions"
-                    prepend-icon="mdi-shield-account"
-                    name="electoral-entitlements"
-                    label="Electoral Entitlement"
-                    :loading="loadingEntitlements"
-                    :disabled="loadingEntitlements"
-                    item-title="displayValue"
-                    item-value="value"
-                    return-object
-                ></v-select>
-            </div>
-            <div class="um-btn">
-                <v-btn :disabled="!(userId && selectedRoles.length > 0)" density="default" @click="onAddUserClick" :loading="processing">
-                    ADD USER
-                </v-btn>
-            </div>
+
             <div class="um-response" v-if="response">
                 <v-alert :text="response.text" :type="response.type" closable></v-alert>
             </div>
+
+            <!-- Edit User Dialog -->
+            <v-dialog v-model="editDialog" max-width="600px">
+                <v-card>
+                    <v-card-title>
+                        <span class="text-h5">Edit User</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-container>
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-text-field
+                                        v-model="editedUser.email"
+                                        label="Email"
+                                        disabled
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-select
+                                        v-model="editedUser.roles"
+                                        :items="availableRoles"
+                                        label="Roles"
+                                        multiple
+                                        chips
+                                    ></v-select>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-select
+                                        v-model="editedUser.selectedEntitlement"
+                                        :items="entitlementOptions"
+                                        label="Electoral Entitlement"
+                                        :loading="loadingEntitlements"
+                                        item-title="displayValue"
+                                        item-value="value"
+                                        return-object
+                                    ></v-select>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue-darken-1" variant="text" @click="closeEditDialog">
+                            Cancel
+                        </v-btn>
+                        <v-btn color="blue-darken-1" variant="text" @click="saveUser" :loading="savingUser">
+                            Save
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
         </div>
     </div>
 </template>
@@ -53,13 +104,13 @@ import { api } from '../common/apis';
 import { APIS } from '../common/constants';
 
 const RESPONSES = {
-    SUCCESS: () => ({
+    UPDATE_SUCCESS: () => ({
         type: "success",
-        text: `User added successfully`
+        text: `User updated successfully`
     }),
     FAILURE: (err) => ({
         type: "error",
-        text: err || `Failed to add user. Please try again`
+        text: err || `Failed to perform operation. Please try again`
     })
 }
 
@@ -68,10 +119,8 @@ const FAIL_TIMER = 7000;
 
 export default {
     data: () => ({
-        processing: false,
-        userId: '',
         selectedRoles: [],
-        availableRoles: ['reader'],
+        availableRoles: ['reader', 'admin'],
         selectedEntitlement: null,
         entitlementOptions: [],
         loadingEntitlements: false,
@@ -83,16 +132,35 @@ export default {
                 }
                 return !!value || 'Required.';
             }
-        }
+        },
+        // User list table data
+        headers: [
+            { title: 'Email', key: 'email' },
+            { title: 'Roles', key: 'roles' },
+            { title: 'Electoral Entitlements', key: 'electoralEntitlements' },
+            { title: 'Actions', key: 'actions', sortable: false }
+        ],
+        users: [],
+        loadingUsers: false,
+        // Edit user dialog
+        editDialog: false,
+        editedUser: {
+            id: '',
+            email: '',
+            roles: [],
+            electoralEntitlements: [],
+            selectedEntitlement: null
+        },
+        savingUser: false
     }),
     mounted() {
         this.fetchEntitlements();
+        this.fetchUsers();
     },
     methods: {
         async fetchEntitlements() {
             this.loadingEntitlements = true;
             try {
-                // Replace with your actual API endpoint
                 const response = await api.get(APIS.ELECTORAL_ZONES);
                 
                 if (!response.ok) {
@@ -111,6 +179,27 @@ export default {
                 this.loadingEntitlements = false;
             }
         },
+        async fetchUsers() {
+            this.loadingUsers = true;
+            try {
+                const response = await api.get(APIS.USERS);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load users');
+                }
+                
+                const data = await response.json();
+                this.users = data;
+            } catch (error) {
+                console.error('Error loading users:', error);
+                this.response = RESPONSES.FAILURE('Failed to load users. Please refresh the page.');
+                setTimeout(() => {
+                    this.response = null;
+                }, FAIL_TIMER);
+            } finally {
+                this.loadingUsers = false;
+            }
+        },
         processEntitlements(data) {
             const options = [];
             
@@ -127,6 +216,7 @@ export default {
                                     const assemblyName = assemblyMatch ? assemblyMatch[2] : assembly;
                                     
                                     options.push({
+                                        value: assembly,
                                         assemblyNumber: assemblyNumber,
                                         assemblyName: assemblyName,
                                         displayValue: assembly
@@ -140,42 +230,66 @@ export default {
             
             // Sort options by assembly number
             options.sort((a, b) => {
-                // Finally sort by assembly number
                 return a.assemblyNumber - b.assemblyNumber;
             });
             
             this.entitlementOptions = options;
         },
-        onAddUserClick() {
-            if (!this.processing && this.userId && this.selectedRoles.length > 0) {
-                this.processing = true;
-                this.addUser();
+        editUser(user) {
+            // Find the entitlement object that matches the user's entitlement
+            let selectedEntitlement = null;
+            if (user.electoralEntitlements && user.electoralEntitlements.length > 0) {
+                const entitlementValue = user.electoralEntitlements[0];
+                selectedEntitlement = this.entitlementOptions.find(option => 
+                    option.displayValue === entitlementValue
+                ) || null;
             }
+            
+            this.editedUser = {
+                id: user.id,
+                email: user.email,
+                roles: [...user.roles],
+                electoralEntitlements: [...user.electoralEntitlements],
+                selectedEntitlement: selectedEntitlement
+            };
+            this.editDialog = true;
         },
-        async addUser() {
+        closeEditDialog() {
+            this.editDialog = false;
+            this.editedUser = {
+                id: '',
+                email: '',
+                roles: [],
+                electoralEntitlements: [],
+                selectedEntitlement: null
+            };
+        },
+        async saveUser() {
+            this.savingUser = true;
             try {
                 // Create an array for electoralEntitlements
-                const entitlements = this.selectedEntitlement ? [this.selectedEntitlement.displayValue] : [];
+                const entitlements = this.editedUser.selectedEntitlement 
+                    ? [this.editedUser.selectedEntitlement.displayValue] 
+                    : [];
                 
                 const userData = {
-                    id: this.userId,
-                    roles: this.selectedRoles,
+                    id: this.editedUser.id,
+                    roles: this.editedUser.roles,
                     electoralEntitlements: entitlements
                 };
                 
-                // Replace with your actual API endpoint
-                const response = await api.post(APIS.USER, userData);
+                const response = await api.patch(APIS.USER, userData);
                 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to add user');
+                    throw new Error(errorData.message || 'Failed to update user');
                 }
                 
-                this.response = RESPONSES.SUCCESS();
-                // Reset form after success
-                this.userId = '';
-                this.selectedRoles = [];
-                this.selectedEntitlement = null;
+                this.response = RESPONSES.UPDATE_SUCCESS();
+                
+                // Refresh the user list and close the dialog
+                this.fetchUsers();
+                this.closeEditDialog();
                 
                 setTimeout(() => {
                     this.response = null;
@@ -186,7 +300,7 @@ export default {
                     this.response = null;
                 }, FAIL_TIMER);
             } finally {
-                this.processing = false;
+                this.savingUser = false;
             }
         }
     },
@@ -196,38 +310,22 @@ export default {
 @import '../assets/media.scss';
 
 .user-management-wrapper {
-    border: 2px solid var(--color-border-subtle);
-    border-radius: 8px;
-    width: 500px;
+    width: 100%;
     overflow: hidden;
 
     @include for-phone-only {
-        width: 96%;
-    }
-
-    .um-header {
-        background: var(--color-title-bg);
-        color: var(--color-title-text);
-        padding: 12px;
-        border-bottom: 2px solid var(--color-border-subtle);
-
-        .um-header-text {
-            font-size: 16px;
-            font-weight: bold;
-        }
+        width: 100%;
     }
 
     .um-content {
-        padding: 12px;
         color: #000;
 
-        .um-btn {
-            text-align: right;
+        .um-response {
             margin-top: 16px;
         }
 
-        .um-response {
-            margin-top: 8px;
+        .um-table-wrapper {
+            margin-top: 16px;
         }
     }
 }

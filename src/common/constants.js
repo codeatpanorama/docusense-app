@@ -16,7 +16,9 @@ export const APIS = {
   ENTITLEMENTS: `${API_BASE_URL}/api/entitlement`,
   LOGIN: `${API_BASE_URL}/api/hello`,
   HELLO: `${API_BASE_URL}/api/hello`,
-  USER: `${API_BASE_URL}/api/user`
+  USER: `${API_BASE_URL}/api/user`,
+  USERS: `${API_BASE_URL}/api/users`
+
 }
 
 export const DOC_CATEGORIES = [
@@ -62,5 +64,11 @@ export const MENU_ITEMS = [
     text: 'Documents',
     link: '/documents/',
     icon: 'mdi-view-list'
+  },
+  {
+    text: 'User Management',
+    link: '/user-management/',
+    icon: 'mdi-account-cog',
+    restricted: true
   }
 ]
