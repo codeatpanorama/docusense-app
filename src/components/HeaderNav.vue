@@ -58,7 +58,6 @@ export default {
     text-shadow: 2px 2px black;
     display: flex;
     place-items: center;
-    place-content: center;
     
     @include for-phone-only {
         width: 100%;
@@ -66,7 +65,9 @@ export default {
 
     .lh-logo-holder {
         flex-grow: 1;
-        text-align: center;
+        text-align: left;
+        padding-left: 20px;
+        
         .lh-logo {
             cursor: pointer;
             .logo-mag {
