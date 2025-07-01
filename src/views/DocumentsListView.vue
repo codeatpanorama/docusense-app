@@ -48,9 +48,30 @@ export default {
     margin-bottom: 8px;
     font-size: 24px;
     font-weight: bold;
-    color: #000;
+    color: var(--color-text-primary);
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    
+    .ds-header {
+      color: var(--color-text-primary);
+      text-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+    }
+    
+    .ds-header-action-buttons {
+      .v-btn {
+        background: var(--color-button-bg);
+        color: var(--color-button-text);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        transition: all 0.3s ease;
+        
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+      }
+    }
   }
 }
 </style>
