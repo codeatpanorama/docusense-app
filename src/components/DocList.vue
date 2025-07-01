@@ -120,6 +120,12 @@ const TABLE_HEADERS = [
     key: 'date'
   },
   {
+    title: 'Number of Checks',
+    align: 'start',
+    sortable: true,
+    key: 'checks'
+  },
+  {
     title: 'Status',
     align: 'start',
     sortable: false,
@@ -210,6 +216,7 @@ export default {
           constituency: doc.constituency.toUpperCase(),
           date: formatUTCDate(doc.createdAt),
           path: doc.path,
+          checks: this.getNumberOfChecks(doc),
         }
 
         if (doc.category === 'electoral') {
@@ -269,6 +276,16 @@ export default {
         return { retryStatus: reportTasks.length > 0, retryTaskId: reportTasks?.[0]?.id }
       }
       return false
+    },
+    getNumberOfChecks(doc) {
+      // For now, we'll use a placeholder value
+      // This can be updated based on actual data structure
+      if (doc.category === 'electoral') {
+        const tasks = doc.tasks ?? []
+        return tasks.length
+      }
+      // For non-electoral documents, return a default value
+      return doc.checks || 0
     },
     onDownloadDocument(doc) {
       api

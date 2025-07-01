@@ -22,14 +22,14 @@ export const APIS = {
 }
 
 export const DOC_CATEGORIES = [
-  'Agreement',
+  //'Agreement',
   'Bank Checks',
-  'Contract',
-  'Electoral',
-  'General',
-  'Notary',
-  'Receipt',
-  'Tender',
+  //'Contract',
+  //'Electoral',
+  //'General',
+  //'Notary',
+  //'Receipt',
+  //'Tender',
 ]
 
 export const AWS_DATA = {
