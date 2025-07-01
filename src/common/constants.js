@@ -60,10 +60,5 @@ export const MENU_ITEMS = [
     link: '/documents/',
     icon: 'mdi-view-list'
   },
-  {
-    text: 'User Management',
-    link: '/user-management/',
-    icon: 'mdi-account-cog',
-    restricted: true
-  }
+
 ]

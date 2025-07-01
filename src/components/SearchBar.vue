@@ -19,22 +19,7 @@
                     </template>
                 </v-text-field>
             </div>
-            <div class="sb-translate-section">
-                <v-menu :open-on-hover="!isMobile">
-                    <template v-slot:activator="{ props }">
-                        <v-btn icon="mdi-translate" size="x-small" v-bind="props"></v-btn>
-                    </template>
 
-                    <v-list>
-                        <v-list-item>
-                            <v-list-item-title class="translate-lang"
-                                @click="() => translate('hi')">हिंदी</v-list-item-title>
-                            <v-list-item-title class="translate-lang"
-                                @click="() => translate('mr')">मराठी</v-list-item-title>
-                        </v-list-item>
-                    </v-list>
-                </v-menu>
-            </div>
         </div>
         <RecentSearches @search="onRecentSearch" />
     </div>
@@ -95,24 +80,6 @@ export default {
         },
         toggleRequired(idx) {
             this.chips[idx].required = !this.chips[idx].required;
-        },
-        translate(targetLang) {
-            if (this.chips?.length) {
-                this.chips.forEach((chip, idx) => {
-                    this.translateText(chip.text, targetLang, idx);
-                })
-            }
-        },
-        translateText(text, targetLang, idx) {
-            const sourceLang = 'en';
-
-            const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(text);
-
-            api.get(url).then(resp => resp.json()).then((result) => {
-                if (result && result[0] && result[0][0] && result[0][0][0]) {
-                    this.chips[idx].text = result[0][0][0];
-                }
-            })
         }
     },
     components: { RecentSearches }
@@ -149,14 +116,5 @@ export default {
     }
 }
 
-.v-list-item-title {
-    &.translate-lang {
-        padding: 8px;
-        cursor: pointer;
 
-        &:hover {
-            background: rgba(0, 0, 0, 0.12);
-        }
-    }
-}
 </style>

@@ -8,7 +8,8 @@ import MobileNav from './MobileNav.vue';
             <MobileNav />
         </div>
         <div class="lh-logo-holder">
-            <span class="lh-logo" @click="goHome">PAN<div class="logo-mag-shadow"><div class="logo-mag"></div></div>CR</span>
+            <!-- <span class="lh-logo" @click="goHome">PAN<div class="logo-mag-shadow"><div class="logo-mag"></div></div>CR</span> -->
+            <span @click="goHome">xtractAI</span>
         </div>
         <div class="lh-user-holder" v-if="loggedIn">
             <UserInfo />
