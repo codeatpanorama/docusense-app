@@ -113,24 +113,6 @@ const TABLE_HEADERS = [
     key: 'category'
   },
   {
-    title: 'State',
-    align: 'start',
-    sortable: true,
-    key: 'state'
-  },
-  {
-    title: 'District',
-    align: 'start',
-    sortable: true,
-    key: 'district'
-  },
-  {
-    title: 'Constituency',
-    align: 'start',
-    sortable: true,
-    key: 'constituency'
-  },
-  {
     title: 'Upload Date',
     align: 'start',
     key: 'date'

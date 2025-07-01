@@ -22,14 +22,14 @@ export const APIS = {
 }
 
 export const DOC_CATEGORIES = [
-  'Electoral',
-  'Receipt',
-  'Contract',
-  'Tender',
   'Agreement',
-  'Notary',
+  'Bank Checks',
+  'Contract',
+  'Electoral',
   'General',
-  'Test Document'
+  'Notary',
+  'Receipt',
+  'Tender',
 ]
 
 export const AWS_DATA = {
@@ -49,12 +49,7 @@ export const MENU_ITEMS = [
     icon: 'mdi-file-upload',
     restricted: true
   },
-  {
-    text: 'Bulk Upload',
-    link: '/bulk-upload/',
-    icon: 'mdi-folder-upload',
-    restricted: true
-  },
+
   {
     text: 'Search',
     link: '/search/',

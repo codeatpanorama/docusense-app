@@ -23,11 +23,7 @@ const router = createRouter({
       name: 'upload',
       component: () => import('../views/UploadView.vue')
     },
-    {
-      path: '/bulk-upload',
-      name: 'bulk-upload',
-      component: () => import('../views/BulkUploadView.vue')
-    },
+
     {
       path: '/documents',
       name: 'documents',
@@ -79,7 +75,7 @@ router.beforeEach(async (to, from) => {
     if (to.name === 'login' || to.name === 'forgot-password' || to.name === 'signup') {
       return { name: 'home' }
     }
-    if (!isAdmin && (to.name === 'upload' || to.name === 'bulk-upload' || to.name === 'user-management')) {
+    if (!isAdmin && (to.name === 'upload' || to.name === 'user-management')) {
       return { name: 'home' }
     }
   }

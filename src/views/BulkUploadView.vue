@@ -1,5 +1,4 @@
 <script setup>
-import BulkUpload from '../components/BulkUpload.vue';
 import MainNav from '../components/MainNav.vue';
 </script>
 
@@ -7,7 +6,9 @@ import MainNav from '../components/MainNav.vue';
     <div class="upload-container container">
         <MainNav />
         <div class="view-wrapper-center">
-            <BulkUpload />
+            <div class="disabled-message">
+                <v-alert type="info" text="Bulk upload functionality has been disabled."></v-alert>
+            </div>
         </div>
     </div>
 </template>
@@ -19,5 +20,10 @@ import MainNav from '../components/MainNav.vue';
     place-items: center;
     flex-grow: 1;
     justify-content: center;
+    
+    .disabled-message {
+        max-width: 500px;
+        width: 100%;
+    }
 }
 </style>
