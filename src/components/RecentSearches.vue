@@ -35,7 +35,7 @@ export default {
 .recent-searches {
     margin-top: 8px;
     padding: 0 8px;
-    color: #000;
+    color: var(--color-text-primary);
 
     @include for-phone-only {
         .rs-text {
@@ -45,9 +45,16 @@ export default {
 
     .rs-words {
         display: inline-block;
-        padding: 0 16px;
+        padding: 4px 12px;
+        margin: 2px;
         cursor: pointer;
-        text-decoration: underline;
+        text-decoration: none;
+        color: var(--color-text-secondary);
+        background: var(--color-neural-glow);
+        border: 1px solid var(--color-card-border);
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        font-size: 14px;
 
         &:first-of-type {
             @include for-phone-only {
@@ -56,11 +63,15 @@ export default {
         }
 
         &:hover {
-            color: var(--color-link-hover);
+            color: var(--color-text-primary);
+            background: var(--color-header-icon-hover-bg);
+            border-color: var(--color-border-gradient-start);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
         }
 
         &:not(:last-child) {
-            border-right: 1px solid;
+            margin-right: 8px;
         }
     }
 }

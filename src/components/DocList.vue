@@ -5,6 +5,8 @@
       :items="documents"
       item-value="name"
       class="elevation-1"
+      :items-per-page="25"
+      :items-per-page-options="[25, 50, 100]"
       @click:row="onRowClick"
     >
       <template v-slot:item.status="{ item }">

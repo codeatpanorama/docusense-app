@@ -241,11 +241,14 @@ export default {
 @import '../assets/media.scss';
 
 .upload-wrapper {
-  border: 2px solid var(--color-border-subtle);
-  border-radius: 8px;
+  border: 2px solid var(--color-card-border);
+  border-radius: 16px;
   width: 600px;
   overflow-y: auto;
   position: relative;
+  background: var(--color-card-bg);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   @include for-phone-only {
     width: 96%;
   }
@@ -253,10 +256,11 @@ export default {
     background: var(--color-title-bg);
     color: var(--color-title-text);
     padding: 12px;
-    border-bottom: 2px solid var(--color-border-subtle);
+    border-bottom: 2px solid var(--color-card-border);
     position: sticky;
     top: 0;
     z-index: 1;
+    border-radius: 14px 14px 0 0;
     .up-header-text {
       font-size: 16px;
       font-weight: bold;
@@ -264,8 +268,8 @@ export default {
   }
   .up-content {
     padding: 12px;
-    color: #000;
-    background: #fff;
+    color: var(--color-text-primary);
+    background: var(--color-card-bg);
     .up-tag-view {
       max-width: 400px;
     }

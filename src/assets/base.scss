@@ -28,6 +28,10 @@ body {
   min-height: 100vh;
   color: var(--color-body-text);
   background: var(--color-body-bg);
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
   font-family: Montserrat, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
@@ -43,7 +47,7 @@ body {
   display: flex;
   place-items: center;
   flex-grow: 1;
-  padding-left: 56px;
+  padding-left: 64px;
   padding-top: 56px;
 
   @include media.for-phone-only {
@@ -71,8 +75,295 @@ body {
 .xtractAI .v-btn--elevated {
   background-color: var(--color-button-bg);
   color: var(--color-button-text);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  }
 }
 
 .v-overlay-container .v-overlay__scrim {
-  opacity: 0.6;
+  opacity: 0.8;
+  backdrop-filter: blur(8px);
+}
+
+/* Modern AI Card Styling */
+.v-card {
+  background: var(--color-card-bg) !important;
+  border: 1px solid var(--color-card-border) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  color: var(--color-text-primary) !important;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
+    border-color: var(--color-border-gradient-start) !important;
+  }
+  
+  .v-card-title {
+    color: var(--color-text-primary) !important;
+  }
+  
+  .v-card-subtitle {
+    color: var(--color-text-secondary) !important;
+  }
+  
+  .v-card-text {
+    color: var(--color-text-primary) !important;
+  }
+}
+
+/* AI-themed input fields */
+.v-text-field, .v-select, .v-autocomplete {
+  .v-field {
+    background: var(--color-card-bg) !important;
+    border: 1px solid var(--color-card-border) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(10px);
+    color: var(--color-text-primary) !important;
+    
+    &:hover {
+      border-color: var(--color-border-gradient-start) !important;
+    }
+    
+    &.v-field--focused {
+      border-color: var(--color-border-gradient-start) !important;
+      box-shadow: 0 0 0 3px var(--color-neural-glow);
+    }
+  }
+  
+  .v-field__input {
+    color: var(--color-text-primary) !important;
+  }
+  
+  .v-label {
+    color: var(--color-text-secondary) !important;
+  }
+  
+  .v-field__append-inner {
+    .v-icon {
+      color: var(--color-text-secondary) !important;
+    }
+  }
+}
+
+/* Pagination specific styling */
+.v-data-table-footer__items-per-page {
+  .v-select {
+    .v-field {
+      min-width: 80px;
+    }
+    
+    .v-field__input {
+      color: var(--color-text-primary) !important;
+    }
+  }
+}
+
+/* Pagination buttons */
+.v-pagination {
+  .v-btn {
+    color: var(--color-text-primary) !important;
+    background: var(--color-card-bg) !important;
+    border: 1px solid var(--color-card-border) !important;
+    
+    &:hover {
+      background: var(--color-header-icon-hover-bg) !important;
+      border-color: var(--color-border-gradient-start) !important;
+    }
+    
+    &.v-btn--active {
+      background: var(--color-border-gradient-start) !important;
+      color: white !important;
+    }
+    
+    &.v-btn--disabled {
+      color: var(--color-text-muted) !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+  }
+}
+
+/* Modern data table styling */
+.v-data-table {
+  background: var(--color-card-bg) !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  color: var(--color-text-primary) !important;
+  
+  .v-data-table__wrapper {
+    background: transparent;
+  }
+  
+  .v-data-table__tr {
+    color: var(--color-text-primary) !important;
+    
+    &:hover {
+      background: var(--color-row-bg-hover) !important;
+    }
+  }
+  
+  .v-data-table__th {
+    color: var(--color-text-secondary) !important;
+    background: var(--color-card-bg) !important;
+  }
+  
+  .v-data-table__td {
+    color: var(--color-text-primary) !important;
+  }
+  
+  /* Pagination styling */
+  .v-data-table-footer {
+    background: var(--color-card-bg) !important;
+    color: var(--color-text-primary) !important;
+    border-top: 1px solid var(--color-card-border) !important;
+    
+    .v-data-table-footer__items-per-page {
+      color: var(--color-text-primary) !important;
+      
+      .v-select {
+        .v-field {
+          background: var(--color-card-bg) !important;
+          color: var(--color-text-primary) !important;
+        }
+      }
+    }
+    
+    .v-data-table-footer__info {
+      color: var(--color-text-secondary) !important;
+    }
+    
+    .v-data-table-footer__pagination {
+      .v-btn {
+        color: var(--color-text-primary) !important;
+        
+        &:hover {
+          background: var(--color-header-icon-hover-bg) !important;
+        }
+        
+        &.v-btn--disabled {
+          color: var(--color-text-muted) !important;
+        }
+      }
+    }
+  }
+}
+
+/* AI-themed chips */
+.v-chip {
+  background: var(--color-neural-glow) !important;
+  border: 1px solid var(--color-card-border) !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(10px);
+  
+  &.required-chip {
+    background: linear-gradient(135deg, var(--color-error), #dc2626) !important;
+    color: white !important;
+  }
+  
+  &.optional-chip {
+    background: linear-gradient(135deg, var(--color-success), #059669) !important;
+    color: white !important;
+  }
+}
+
+/* Modern alert styling */
+.v-alert {
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-card-border) !important;
+  color: var(--color-text-primary) !important;
+  
+  &.v-alert--type-success {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border-color: var(--color-success) !important;
+  }
+  
+  &.v-alert--type-warning {
+    background: rgba(245, 158, 11, 0.1) !important;
+    border-color: var(--color-warning) !important;
+  }
+  
+  &.v-alert--type-error {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-color: var(--color-error) !important;
+  }
+  
+  &.v-alert--type-info {
+    background: rgba(59, 130, 246, 0.1) !important;
+    border-color: var(--color-info) !important;
+  }
+}
+
+/* General text color overrides for better visibility */
+.v-list-item-title,
+.v-list-item-subtitle,
+.v-menu__content,
+.v-tooltip__content,
+.v-dialog__content,
+.v-sheet {
+  color: var(--color-text-primary) !important;
+}
+
+/* Action buttons and menu styling */
+.v-btn {
+  &.v-btn--variant-plain {
+    color: var(--color-text-primary) !important;
+    
+    &:hover {
+      background: var(--color-header-icon-hover-bg) !important;
+    }
+  }
+}
+
+.v-menu {
+  .v-list {
+    background: var(--color-card-bg) !important;
+    border: 1px solid var(--color-card-border) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(10px);
+    
+    .v-list-item {
+      color: var(--color-text-primary) !important;
+      
+      &:hover {
+        background: var(--color-row-bg-hover) !important;
+      }
+      
+      .v-list-item-title {
+        color: var(--color-text-primary) !important;
+      }
+      
+      .v-icon {
+        color: var(--color-text-secondary) !important;
+      }
+    }
+  }
+}
+
+/* Tooltip styling */
+.v-tooltip {
+  .v-tooltip__content {
+    background: var(--color-card-bg) !important;
+    color: var(--color-text-primary) !important;
+    border: 1px solid var(--color-card-border) !important;
+    border-radius: 8px !important;
+    backdrop-filter: blur(10px);
+  }
+}
+
+/* Ensure all text in the app is visible */
+* {
+  color: inherit;
+}
+
+/* Override any light text that might be hard to see */
+.v-application {
+  color: var(--color-text-primary) !important;
 }
