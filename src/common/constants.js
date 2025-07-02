@@ -23,7 +23,7 @@ export const APIS = {
 
 export const DOC_CATEGORIES = [
   //'Agreement',
-  'Bank Checks',
+  'Bank_Checks',
   //'Contract',
   //'Electoral',
   //'General',

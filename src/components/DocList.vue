@@ -11,7 +11,7 @@
     >
       <template v-slot:item.status="{ item }">
         <v-chip
-          v-if="item.category !== 'ELECTORAL'"
+          v-if="item.category !== 'ELECTORAL' && item.category !== 'BANK_CHECKS'"
           class="ds-chip"
           :prepend-icon="chipIcons[item.status]"
           :color="chipColors[item.status]"
@@ -219,7 +219,7 @@ export default {
           checks: this.getNumberOfChecks(doc),
         }
 
-        if (doc.category === 'electoral') {
+        if (doc.category === 'electoral' || doc.category === 'bank_checks') {
           const tasks = doc.tasks ?? []
           const validateTask = tasks.find(task => task.type === 'VALIDATE')
           const reportTask = tasks.find(task => task.type === 'REPORT')
@@ -257,7 +257,7 @@ export default {
       }
     },
     checkReportStatus(doc) {
-      if (doc.category === 'electoral') {
+      if (doc.category === 'electoral' || doc.category === 'bank_checks') {
         const tasks = doc.tasks ?? []
         const reportTasks = tasks.filter(
           (task) => task.type === 'REPORT' && task.status === 'COMPLETED'
@@ -267,7 +267,7 @@ export default {
       return false
     },
     getRetryInfo(doc) {
-      if (doc.category === 'electoral') {
+      if (doc.category === 'electoral' || doc.category === 'bank_checks') {
         const tasks = doc.tasks ?? []
         const reportTasks = tasks.filter(
           (task) =>
@@ -280,7 +280,7 @@ export default {
     getNumberOfChecks(doc) {
       // For now, we'll use a placeholder value
       // This can be updated based on actual data structure
-      if (doc.category === 'electoral') {
+      if (doc.category === 'electoral' || doc.category === 'bank_checks') {
         const tasks = doc.tasks ?? []
         return tasks.length
       }
