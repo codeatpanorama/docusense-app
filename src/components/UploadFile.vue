@@ -200,7 +200,7 @@ export default {
           {
             file: this.file[0],
             name: this.name,
-            category: this.category.toLowerCase(),
+            category: this.category.toLowerCase().replace(/\s+/g, '_'),
             path1: this.state,
             path2: this.district,
             path3: this.assembly

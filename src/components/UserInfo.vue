@@ -48,13 +48,14 @@ export default {
 <style lang="scss">
 .user-info-item {
     &:hover {
-        background-color: var(--color-border-subtle);
+        background-color: var(--color-row-bg-hover);
     }
     a.hdr-link-a {
         text-decoration: none;
+        color: var(--color-text-primary);
     }
     .v-list-item-title {
-        color: #000;
+        color: var(--color-text-primary);
     }
 }
 </style>

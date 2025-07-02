@@ -211,9 +211,9 @@ export default {
           id: doc.id,
           name: doc.name,
           category: doc.category.toUpperCase(),
-          state: doc.state.toUpperCase(),
-          district: doc.district.toUpperCase(),
-          constituency: doc.constituency.toUpperCase(),
+          state: doc.state ? doc.state.toUpperCase() : '',
+          district: doc.district ? doc.district.toUpperCase() : '',
+          constituency: doc.constituency ? doc.constituency.toUpperCase() : '',
           date: formatUTCDate(doc.createdAt),
           path: doc.path,
           checks: this.getNumberOfChecks(doc),
@@ -359,7 +359,7 @@ export default {
       return DOC_STATUS.NOT_STARTED
     },
     onRowClick() {
-      console.log('Row clicked')
+      //console.log('Row clicked')
     }
   }
 }

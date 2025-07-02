@@ -1,15 +1,15 @@
 <template>
   <v-dialog v-model="showDialog" width="auto">
     <template v-slot:activator="{ props }">
-      <div class="logout-trigger" color="primary" v-bind="props">Logout</div>
+      <div class="logout-trigger" v-bind="props">Logout</div>
     </template>
     <v-card>
       <v-card-title>LOGOUT</v-card-title>
       <v-divider></v-divider>
       <v-card-text>Are you sure you want to logout?</v-card-text>
       <v-card-actions>
-        <v-btn color="blue-darken-1" variant="text" @click="logout"> YES </v-btn>
-        <v-btn color="blue-darken-1" variant="text" @click="close"> CANCEL </v-btn>
+        <v-btn color="error" variant="elevated" @click="logout"> YES </v-btn>
+        <v-btn color="primary" variant="text" @click="close"> CANCEL </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -41,8 +41,15 @@ export default {
 .logout-trigger {
   padding: 8px 20px;
   cursor: pointer;
+  color: var(--color-text-primary);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  
   &:hover {
-    background: rgba(0, 0, 0, 0.12);
+    background: var(--color-row-bg-hover);
+    color: var(--color-text-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
   }
 }
 </style>
