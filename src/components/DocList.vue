@@ -305,7 +305,8 @@ export default {
     onDownloadReport(doc) {
       api
         .get(APIS.REPORT, {
-          documentId: doc.id
+          documentId: doc.id,
+          documentCategory: doc.category
         })
         .then((resp) => {
           return resp.blob({ type: 'text/csv' })
