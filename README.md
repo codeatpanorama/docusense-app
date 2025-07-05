@@ -70,3 +70,7 @@ docker run --name docusense_app --network document-net -it -d -p 8000:80 madhavp
 docker buildx build --platform linux/amd64 -t madhavpandey33/docusense-app:10_15_amd .
 ```
 
+```
+-e VITE_API_BASE_URL=http://54.196.176.194:8080
+```
+
